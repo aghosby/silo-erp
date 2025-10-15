@@ -1,0 +1,52 @@
+// ----------------------------------------------------------------------------------------------
+// SECTION Variables ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------
+
+$utilities: (
+  "cursor": (
+    property: cursor,
+    class: cursor,
+    responsive: false,
+    values: pointer,
+  )
+);
+
+// NOTE Color system ----------------------------------------------------------------------------
+
+:root {
+  --primary: #248581;
+  --secondary: #1E2355;
+  --tertiary: #F45728;
+  --primary-dark: #0A122F;
+
+  --font-family: 'HR';
+  --font-light: 'HL';
+  --font-regular: 'HR';
+  --font-medium: 'HM';
+  --font-bold: 'HB';
+  --font-black: 'HBL';
+
+  --bkg-1: #f9f8f5;
+
+  --dark-1: #130F26;
+}
+
+$primary: #375F9B;
+$secondary: #8492A6;
+$text-muted: #ACA7AA;
+$info: #375F9B; // #3C78DA;
+$danger: #D0021B;
+$success: #12a366;
+$min-contrast-ratio: 2.5;
+
+
+$btn-close-color: white;
+
+//Responsive Breakpoints
+$xs: 375px;
+$sm: 576px;
+$md: 768px;
+$lg: 992px;
+$xl: 1200px;
+$xxl: 1400px;
+$xxxl: 1600px;

@@ -1,0 +1,99 @@
+@import './mixins.scss';
+
+.loader {
+    width: 1.3rem;
+    height: 1.3rem;
+    border: 3px solid #FFF;
+    border-bottom-color: #FF3D00;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+} 
+
+.cta {
+    font-size: 1rem;
+    font-family: var(--font-medium);
+    letter-spacing: 0.06rem;
+    border-radius: 0.5rem;
+    background: var(--primary);
+    transition: all 0.4s ease;
+    padding: 0.6rem;
+    color: white;
+    outline: none;
+    border: none;
+
+    @include screen-media-min(md) {
+      font-size: 1.2rem;
+      padding: 1rem;
+    }
+
+    // &:hover {
+    //     background: rgba(#00C8AA, 0.8);
+    // }
+
+    &-trans {
+        background: transparent;
+        border: 1px solid var(--primary);
+        color: var(--primary);
+
+        &:hover {
+            background: transparent;
+        }
+    }
+
+    &-wht {
+        background: white;
+        border: 1px solid white;
+        color: var(--primary);
+
+        &:hover {
+            background: white;
+        }
+    }
+
+    &.sm-bd {
+        font-size: 0.785rem;
+        font-weight: 400;
+        border: none;
+        border-radius: 1rem;
+        letter-spacing: 0.05rem;
+        background: transparent;
+        border: 1px solid var(--primary);
+        color: var(--primary);
+        text-decoration: none;
+
+        @include screen-media-min(md) {
+            font-size: 0.8rem;
+            padding: 0.3rem 1rem;
+        }
+    }
+
+    &.sm {
+        font-size: 0.785rem;
+        font-family: var(--font-medium);
+        border: none;
+        letter-spacing: 0.05rem;
+        background: transparent;
+        color: var(--primary);
+        text-decoration: none;
+
+        @include screen-media-min(md) {
+            font-size: 0.9rem;
+            padding: 1rem 0.3rem;
+        }
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+    }
+}

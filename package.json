@@ -1,0 +1,33 @@
+{
+    "name": "silo-project",
+    "private": true,
+    "workspaces": [
+        "silo-web",
+        "silo-mobile"
+    ],
+    "nohoist": [
+        "**/typescript",
+        "**/@angular/**"
+    ],
+    "scripts": {
+        "serve:web": "npm --prefix silo-web start",
+        "build:web": "npm --prefix silo-web run build",
+        "serve:mobile": "npm --prefix silo-mobile start",
+        "build:mobile": "npm --prefix silo-mobile run build",
+        "serve:all": "concurrently \"npm run serve:web\" \"npm run serve:mobile\"",
+        "build:all": "npm run build:web && npm run build:mobile",
+        "sync:mobile": "npm --prefix silo-mobile run cap:sync",
+        "open:ios": "npm --prefix silo-mobile run cap:open:ios",
+        "open:android": "npm --prefix silo-mobile run cap:open:android",
+        "build:mobile:native": "npm --prefix silo-mobile run cap:build"
+    },
+    "devDependencies": {
+        "concurrently": "^8.2.2"
+    },
+    "dependencies": {
+        "@angular/cli": "^18.2.21",
+        "@angular/compiler": "^18.2.14",
+        "@angular/core": "^18.2.14",
+        "@angular/platform-browser": "^18.2.14"
+    }
+}

@@ -1,0 +1,129 @@
+
+<div class="page-wrap">
+    <div class="bkg" style="background-image: url('assets/img/project/home/erp-bkg.jpeg');">
+        <div class="overlay"></div>
+    </div>
+    
+    <div class="page-content">
+        <div class="pg-hdr text-center text-primary mb-4">
+            <img routerLink="/" class="logo" src="assets/img/brand/logo-wht.svg" alt="edo-talent-hunt">
+        </div>
+
+        <div class="pg-body px-lg-0 px-4">
+            <!-- NOTE Login form -->
+            <form class="form-group mx-auto" [formGroup]="authForm">
+
+                <!-- NOTE Email -->
+                <div class="field-group">
+                    <mat-form-field *ngIf="userAction == 'create'" class="field w-100" appearance="fill">
+                        <mat-label>Account Type</mat-label>
+                        <mat-select
+                            class="selectField"
+                            disableOptionCentering
+                            panelClass="matDropdown"
+                            formControlName="accountType"
+                        >
+                            <mat-option *ngFor="let option of accountTypeOptions | keyvalue: keepOrder" [value]="option.key">{{option.value}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formCtrls['accountType'].touched && formCtrls['accountType'].hasError('required')">Account type is required</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field *ngIf="userAction == 'create' && formCtrls['accountType'].value === 'Company'" class="field w-100" appearance="fill">
+                        <mat-label>Company Name</mat-label>
+                        <input matInput formControlName="companyName" id="companyName" name="companyName" placeholder="Enter company name">
+                        <mat-error *ngIf="formCtrls['companyName'].touched && formCtrls['companyName'].hasError('required')">Company name is required</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field *ngIf="userAction == 'create' && formCtrls['accountType'].value === 'Employee'" class="field w-48" appearance="fill">
+                        <mat-label>First Name</mat-label>
+                        <input matInput formControlName="firstName" id="firstName" name="firstName" placeholder="Enter your first name">
+                        <mat-error *ngIf="formCtrls['firstName'].touched && formCtrls['firstName'].hasError('required')">First name is required</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field *ngIf="userAction == 'create' && formCtrls['accountType'].value === 'Employee'" class="field w-48" appearance="fill">
+                        <mat-label>Last Name</mat-label>
+                        <input matInput formControlName="lastName" id="lastName" name="lastName" placeholder="Enter your last name">
+                        <mat-error *ngIf="formCtrls['lastName'].touched && formCtrls['lastName'].hasError('required')">Last name is required</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field *ngIf="userAction != 'verify'" class="field" appearance="fill">
+                        <mat-label>Email Address</mat-label>
+                        <input matInput formControlName="email" id="email" name="email" type="email" placeholder="Enter email address">
+                        <mat-error *ngIf="formCtrls['email'].touched && formCtrls['email'].hasError('required')">Email is required</mat-error>
+                        <mat-error *ngIf="formCtrls['email'].touched && formCtrls['email'].hasError('email')">Please enter a valid email </mat-error>
+                    </mat-form-field>
+
+                    <div *ngIf="userAction == 'verify'" class="field d-flex justify-content-center">
+                        <ng-otp-input formControlName="otp"></ng-otp-input>
+                    </div>
+
+                    <mat-form-field *ngIf="userAction != 'reset' && userAction != 'create' && userAction != 'verify'" class="field" appearance="fill">
+                        <mat-label>Password</mat-label>
+                        <input matInput formControlName="password" [type]="showPassword ? 'text' : 'password'" id="password" name="password" placeholder="Enter your password">
+                        <span class="eyePass">
+                            <i alt="show" class="bi bi-eye-fill" (click)="showPassword = !showPassword" *ngIf="showPassword"></i>
+                            <i alt="hide" class="bi bi-eye-slash-fill" (click)="showPassword = !showPassword" *ngIf="!showPassword"></i>
+                        </span>
+                        
+                        <mat-error *ngIf="!requiredValid" class="g-font">Password is required</mat-error>
+                        <mat-error *ngIf="requiredValid" class="d-inline g-font" [ngClass]="{ 'text-success': minLengthValid, 'text-danger': !minLengthValid }">Min-length 8,</mat-error>
+                        <mat-error *ngIf="requiredValid" class="d-inline g-font" [ngClass]="{ 'text-success': requiresDigitValid, 'text-danger': !requiresDigitValid }"> Digit,</mat-error>
+                        <mat-error *ngIf="requiredValid" class="d-inline g-font" [ngClass]="{ 'text-success': requiresUppercaseValid, 'text-danger': !requiresUppercaseValid }"> Uppercase,</mat-error>
+                        <mat-error *ngIf="requiredValid" class="d-inline g-font" [ngClass]="{ 'text-success': requiresLowercaseValid, 'text-danger': !requiresLowercaseValid }"> Lowercase,</mat-error>
+                        <mat-error *ngIf="requiredValid" class="d-inline g-font" [ngClass]="{ 'text-success': requiresSpecialCharsValid, 'text-danger': !requiresSpecialCharsValid }"> Special character</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field *ngIf="userAction == 'change'" class="field" appearance="fill">
+                        <mat-label>Confirm Password</mat-label>
+                        <input matInput formControlName="confirmPassword" [type]="showConfirmPassword ? 'text' : 'password'" id="confirmPassword" name="confirmPassword" placeholder="Enter password">
+                        <span class="eyePass">
+                            <i alt="show" class="bi bi-eye-fill" (click)="showConfirmPassword = !showConfirmPassword" *ngIf="showConfirmPassword"></i>
+                            <i alt="hide" class="bi bi-eye-slash-fill" (click)="showConfirmPassword = !showConfirmPassword" *ngIf="!showConfirmPassword"></i>
+                        </span>
+                        <mat-error *ngIf="formCtrls['confirmPassword'].touched && formCtrls['confirmPassword'].hasError('required')">Password is required</mat-error>
+                        <mat-error *ngIf="formCtrls['confirmPassword'].touched && !matchValid">Password does not match</mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div *ngIf="userAction == 'login'" class="text-end mb-3">
+                    <span (click)="changeState('reset')" class="cta sm" role="button">Forgot Password?</span>
+                </div>
+
+                <div class="text-center">
+                    <button *ngIf="userAction == 'create'" (click)="createAccount()" type="submit" class="w-100 cta cta-primary my-3 px-5" role="button">
+                        <span *ngIf="isLoading" class="loader spinner-border text-white"></span> Create Account
+                    </button>
+                    <button *ngIf="userAction == 'verify'" (click)="verifyOtp()" type="submit" class="w-100 cta cta-primary my-4 px-5" role="button">
+                    <span *ngIf="resendingOtp" class="loader spinner-border text-primary"></span> Submit OTP
+                    </button>
+                    <button [disabled]="timeLeft != 30" (click)="resendOtp()" *ngIf="userAction == 'verify'" class="w-100 cta cta-wht mb-4">
+                        <span *ngIf="resendingOtp" class="loader spinner-border text-primary"></span> 
+                        <span *ngIf="timeLeft != 30">Resend in {{timeLeft}}s</span>
+                        <span *ngIf="timeLeft == 30">Resend OTP</span>
+                    </button>
+                    <button *ngIf="userAction == 'login'" (click)="login()" type="submit" class="w-100 cta cta-primary mb-3 px-5 d-flex align-items-center justify-content-center gap-2" role="button">
+                        Login <span *ngIf="isLoading" class="loader"></span> 
+                    </button>
+                    <button *ngIf="userAction == 'reset'" (click)="resendOtp()" type="submit" class="w-100 cta cta-primary my-3 px-5" role="button">
+                    <span *ngIf="isLoading" class="loader spinner-border text-white"></span> Reset Password
+                    </button>
+                    <button *ngIf="userAction == 'change'" (click)="setPassword()" type="submit" class="w-100 cta cta-primary my-3 px-5" role="button">
+                    <span *ngIf="isLoading" class="loader spinner-border text-white"></span> Set Password
+                    </button>
+                </div>
+
+                <div class="auth-actions text-center">
+                    <div *ngIf="userAction != 'login'" class="info">Already have an account ? <button class="cta sm" (click)="this.changeState('login')">Log In</button></div>
+                    <div *ngIf="userAction == 'login'" class="info">Don't have an account ? <button class="cta sm" (click)="changeState('create')">Create Account</button></div>
+                </div>
+
+                <div class="disclaimer"><i class="bi bi-check-circle-fill"></i> By creating an account and signing in, it means you agree to our <a href="#">Terms and Condition</a> and <a href="#">Privacy Policy</a></div>
+
+            </form>
+        </div>
+
+        <div class="pg-footer">
+
+        </div>
+    </div>
+</div>

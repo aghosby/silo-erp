@@ -1,0 +1,51 @@
+// ----------------------------------------------------------------------------------------------
+// NOTE Variables -------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------
+@use '@angular/material' as mat;
+@import 'typography.scss';
+@import 'variables.scss';
+@import 'buttons.scss';
+@import 'mixins.scss';
+
+// ----------------------------------------------------------------------------------------------
+// NOTE Bootstrap -------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------
+
+// NOTE Complete bootstrap
+@import "bootstrap/scss/bootstrap";
+@import 'project.scss';
+
+// ----------------------------------------------------------------------------------------------
+// NOTE Overwrite styles ------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------
+
+// @import 'modules/_bootstrap.scss';
+
+html, body { 
+    height: 100%; 
+}
+body { 
+    margin: 0; 
+    font-family: var(--font-family), Roboto; 
+}
+
+@include mat.form-field-density(-1);
+
+.mat-mdc-text-field-wrapper .mat-mdc-form-field-flex .mat-mdc-floating-label {
+    font-size: 0.85rem;
+    font-family: var(--font-family);
+
+    @include screen-media-min(md) {
+        font-size: 0.9rem;          
+    }
+}
+
+.mat-mdc-input-element,
+.mat-mdc-input-element::placeholder {
+    font-size: 0.85rem;   
+    font-family: var(--font-family);
+}
+
+.otp-input {
+    outline: none;
+}

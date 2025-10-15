@@ -1,0 +1,63 @@
+# ========================
+# Node.js
+# ========================
+/node_modules
+npm-debug.log
+yarn-error.log
+
+# ========================
+# Angular / Ionic build outputs
+# ========================
+/dist
+/tmp
+/out-tsc
+/bazel-out
+/.angular
+/.angular/cache
+/.versions
+/coverage
+/.sourcemaps
+/www                # Ionic mobile build output
+/platforms          # Capacitor generated
+/plugins
+/libpeerconnection.log
+/connect.lock
+/testem.log
+
+# ========================
+# IDEs and Editors
+# ========================
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# ========================
+# OS / System files
+# ========================
+.DS_Store
+Thumbs.db
+*~
+*.sw[mnpcod]
+.tmp
+*.tmp
+*.tmp.*
+
+# ========================
+# Misc
+# ========================
+UserInterfaceState.xcuserstate   # Xcode
+/.sass-cache
+/typings
