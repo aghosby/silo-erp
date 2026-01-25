@@ -10,7 +10,7 @@ COPY silo-web/package*.json ./silo-web/
 
 # Clean npm cache and install Angular CLI globally
 RUN npm cache clean --force
-RUN npm install -g @angular/cli@18.2.21
+RUN npm install -g @angular/cli@18.2.0
 
 # Install root dependencies
 RUN npm install --legacy-peer-deps
@@ -18,9 +18,6 @@ RUN npm install --legacy-peer-deps
 # Install silo-web dependencies
 WORKDIR /app/silo-web
 RUN npm install --legacy-peer-deps
-
-# Install compiler-cli explicitly
-RUN npm install --save-dev @angular/compiler-cli@18.2.21 --legacy-peer-deps
 
 # Copy all source code
 WORKDIR /app
