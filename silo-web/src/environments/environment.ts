@@ -10,8 +10,8 @@ import packageInfo from '../../package.json';
 
 const scheme = 'http://';
 const host   = 'localhost';
-const port   = ':5000';
-const path   = '/api/';
+const port   = ':8080';
+const path   = '/api/v1';
 
 // const baseUrl = scheme + host + port + path;
 const baseUrl = "https://erp-bk-766078353087.us-central1.run.app/api/v1"
