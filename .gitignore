@@ -61,3 +61,6 @@ Thumbs.db
 UserInterfaceState.xcuserstate   # Xcode
 /.sass-cache
 /typings
+
+# Snyk Security Extension - AI Rules (auto-generated)
+.github/instructions/snyk_rules.instructions.md
