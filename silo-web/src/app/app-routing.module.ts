@@ -2,6 +2,7 @@
 import { NgModule } from '@angular/core';
 import { Routes } from '@angular/router';
 import { RouterModule } from '@angular/router';
+import { AuthGuard } from '@guards/auth.guard';
 
 // Components
 import { NotFoundComponent } from './static/not-found/not-found.component';
@@ -26,6 +27,15 @@ const routes : Routes = [
   {
     path: 'reset-password',
     loadComponent: () => import('./modules/auth/login/login.component').then(m => m.LoginComponent),
+  },
+  {
+    path: 'onboarding',
+    loadComponent: () => import('./modules/auth/login/login.component').then(m => m.LoginComponent),
+  },
+  {
+    path: 'app',
+    loadChildren: () => import('./modules/features/features.module').then(m => m.FeaturesModule),
+    canActivate: [ AuthGuard ]
   },
   { path : '',   redirectTo : '/login', pathMatch : 'full' },
   { path : '**', component : NotFoundComponent }

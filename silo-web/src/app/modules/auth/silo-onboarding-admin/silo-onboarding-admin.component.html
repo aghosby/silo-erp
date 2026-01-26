@@ -1,0 +1,120 @@
+<div class="pg-hld" @authPageStagger>
+    <div class="pg-hdr d-flex flex-column anim-item text-center text-primary">
+        <img routerLink="/" class="logo anim-item" src="assets/img/brand/silo-logo.svg" alt="silo">
+        <div *ngIf="currentStep == 1" class="step-info mb-4">
+            <h3 class="anim-item"> Welcome, {{'Serat Technologies'}} <img class="pb-lg-2" src="https://silo-inc.com/wp-content/themes/wp-silo/dist/img/waving_hand.gif" alt=""></h3>
+            <p class="anim-item">Let’s set up your company workspace. You’ll be up and running in a bit.</p>
+        </div>
+        <div *ngIf="currentStep == 2" class="step-info mb-3" @authPageStagger>
+            <h3 class="anim-item"> Choose your modules</h3>
+            <p class="anim-item">Select the modules you want. You can always change this later.</p>
+        </div>
+        <div *ngIf="currentStep == 3" class="step-info mb-3" @authPageStagger>
+            <h3 class="anim-item">Invite Employees</h3>
+            <p class="anim-item">Add employees to your workspace. You can skip this and invite people later.</p>
+        </div>
+    </div>
+
+    <div class="pg-body">
+        <form class="form-group mx-auto" [formGroup]="form">
+            <div *ngIf="currentStep == 1" class="field-group">
+                <mat-form-field class="field w-100 anim-item" appearance="outline">
+                    <mat-label>Company Name</mat-label>
+                    <input matInput readonly formControlName="companyName" id="companyName" name="companyName" placeholder="Enter company name">
+                    <mat-error *ngIf="formCtrls['companyName'].touched && formCtrls['companyName'].hasError('required')">Company name is required</mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="field w-48 anim-item" appearance="outline">
+                    <mat-label>Industry</mat-label>
+                    <mat-select
+                        class="selectField"
+                        disableOptionCentering
+                        panelClass="matDropdown"
+                        formControlName="industry"
+                    >
+                        <mat-option *ngFor="let option of industryOptions | keyvalue: keepOrder" [value]="option.key">{{option.value}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="formCtrls['industry'].touched && formCtrls['industry'].hasError('required')">Industry is required</mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="field w-48 anim-item" appearance="outline">
+                    <mat-label>Company Size</mat-label>
+                    <mat-select
+                        class="selectField"
+                        disableOptionCentering
+                        panelClass="matDropdown"
+                        formControlName="companySize"
+                    >
+                        <mat-option *ngFor="let option of companySizeOptions | keyvalue: keepOrder" [value]="option.key">{{option.value}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="formCtrls['companySize'].touched && formCtrls['companySize'].hasError('required')">Company size is required</mat-error>
+                </mat-form-field>
+            </div>
+
+            <div *ngIf="currentStep == 1" class="actions anim-item text-center">
+                <button (click)="goToNextStep()" type="submit" class="w-100 cta cta-primary anim-item my-4 px-5" role="button"><span *ngIf="isLoading" class="loader spinner-border text-white"></span> Save & Continue</button>
+            </div>
+
+            <div *ngIf="currentStep == 2" class="field-group" @authPageStagger>
+                <div class="modules-grid">
+                    <div
+                        class="module-hld anim-item"
+                        *ngFor="let module of siloModules"
+                        [class.selected]="isModuleSelected(module.moduleName)"
+                        (click)="toggleModule(module.moduleName)"
+                    >
+                        <!-- Selected indicator -->
+                        <div class="select-indicator">
+                            <i class="bi bi-check"></i>
+                        </div>
+
+                        <!-- Header -->
+                        <div class="module-header">
+                            <div class="icon">
+                                <i class="bi" [ngClass]="module.icon"></i>
+                            </div>
+                            <span class="module-name">{{ module.moduleName }}</span>
+                        </div>
+
+                        <!-- Features -->
+                        <div class="module-features">
+                            <span class="feature-chip" *ngFor="let feature of module.moduleFeatures">
+                                {{ feature }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <mat-error class="text-danger" style="font-size: 0.8rem;" *ngIf="formCtrls['modules'].touched && formCtrls['modules'].hasError('required')">Please select a module</mat-error>
+            </div>
+
+            <div *ngIf="currentStep == 2" class="actions d-flex gap-5 anim-item text-center mt-4">
+                <button (click)="goToPrevStep()" type="submit" class="w-100 cta cta-trans my-4 px-5" role="button"><span *ngIf="isLoading" class="loader spinner-border text-white"></span> Back</button>
+                <button (click)="goToNextStep()" type="submit" class="w-100 cta cta-primary my-4 px-5" role="button"><span *ngIf="isLoading" class="loader spinner-border text-white"></span> Save & Continue</button>
+            </div>
+
+            <div *ngIf="currentStep == 3" class="field-group employees-grid" formArrayName="employees">
+                <div class="employee-row d-flex w-100 anim-item align-items-center gap-2" *ngFor="let ctrl of employeesCtrl.controls; let i = index">
+                    <!-- delete icon -->
+                    <span>
+                        <i class="bi bi-trash delete-icon" (click)="removeEmployee(i)"></i>
+                    </span>
+
+                    <mat-form-field class="field flex-1" appearance="outline">
+                        <mat-label>Employee Email</mat-label>
+                        <input matInput type="email" [formControlName]="i" placeholder="Enter email address"/>
+                        <mat-error *ngIf="ctrl.touched && ctrl.hasError('email')">Please enter a valid email</mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="actions d-flex justify-content-end gap-2 anim-item text-center">
+                    <button (click)="goToNextStep()" type="submit" class="cta cta-wht" role="button">Skip for now</button>
+                    <button (click)="addEmployee()" type="submit" class="cta sm-bd cta-primary" role="button">Add Employee</button>
+                </div>
+            </div>
+
+            <div *ngIf="currentStep == 3" class="actions d-flex gap-5 anim-item text-center mt-5">
+                <button (click)="goToPrevStep()" type="submit" class="w-100 cta cta-trans my-4 px-5" role="button"><span *ngIf="isLoading" class="loader spinner-border text-white"></span> Back</button>
+                <button (click)="goToNextStep()" type="submit" class="w-100 cta cta-primary my-4 px-5" role="button"><span *ngIf="isLoading" class="loader spinner-border text-white"></span> Send Invites</button>
+            </div>
+        </form>
+    </div>
+</div>

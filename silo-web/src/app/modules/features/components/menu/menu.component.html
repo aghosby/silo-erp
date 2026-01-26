@@ -1,0 +1,64 @@
+<div class="menu-nav" [class.collapsed]="collapsed">
+    <div *hasRole="['superAdmin']" class="super-nav">
+        <div class="menu-trigger-close flex-center">
+            <span (click)="collapsed = !collapsed" *ngIf="!collapsed"><i class="bi bi-list"></i></span>
+            <span *ngIf="collapsed" class="outward" (click)="collapsed = !collapsed"><i class="bi bi-chevron-right" style="font-size: 0.75rem; font-weight: 700;"></i></span>
+        </div>
+
+        <ul class="menu-items">
+            <ng-container *ngFor="let item of navMenuInfo">
+                <li *ngIf="item.permission">
+                    <a 
+                        (click)="currentLink = item.label" 
+                        [routerLink]="[item.routeLink]" 
+                        [class.active]="currentLink === item.label"
+                    >
+                        <i class="{{item.icon}}"></i>
+                        
+                    </a>
+                    <span class="module-name only-mobile">{{item.mobileLabel}}</span>
+                </li>
+            </ng-container>
+            
+
+            <li>
+                <a (click)="logOut()" class="admin-logout">
+                    <i class="bi bi-box-arrow-left"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="sub-nav">
+        <div class="logo-container flex-center">
+            <img src="assets/img/brand/silo-logo.svg" alt="silo-logo">
+        </div>
+
+        <div class="sub-nav-list">
+            <div *ngFor="let item of navMenuInfo" class="list-items">
+                <ng-container *ngIf="currentLink == item.label">
+                    <div class="list-header">{{item.label}}</div>
+                    <ul class="list">
+                        <ng-container *ngFor="let link of item.subMenu">
+                            <li *ngIf="link.permission">
+                                <a [routerLink]="[link.routeLink]" routerLinkActive="active">
+                                    <i class="{{link.icon}}"></i>
+                                    <span>{{link.label}}</span>
+                                </a>
+                            </li>
+                        </ng-container>
+
+                        <li (click)="logOut()" class="logout">
+                            <span>
+                                <i class="bi bi-box-arrow-left"></i>
+                            </span>   
+                            <span>Logout</span>
+                        </li>
+
+                    </ul>
+                </ng-container>
+            </div>
+        </div> 
+    </div>
+
+</div>

@@ -1,0 +1,25 @@
+<div class="header only-desktop">
+    <div class="search-bar">
+        <span class="icon"><i class="bi bi-search"></i></span>
+        <input type="text" placeholder="Search for an employee by name, department or position">
+    </div>
+
+    <div class="user-actions">
+        <span><i class="bi bi-question-circle"></i></span>
+        <span><i class="bi bi-bell"></i></span>
+        <span><i class="bi bi-calendar2-week"></i></span>
+        <div class="user">
+            <div class="info">
+                <span>{{userName}}</span>
+                <span class="text">{{userRole}}</span>
+            </div>
+            <div [matMenuTriggerFor]="accountOptions" *ngIf="profilePhoto" class="photo bkg-standard" style="background-image: url('{{profilePhoto}}');"></div>
+            <div [matMenuTriggerFor]="accountOptions" *ngIf="!profilePhoto" class="initials d-flex flex-center">{{userName[0]}}{{userRole[0]}}</div>
+            <mat-menu #accountOptions="matMenu" class="account-wrap">
+                <div class="items-wrap">
+                    <div (click)="logout()" class="item"><i class="bi bi-box-arrow-left"></i> <span>Logout</span></div>
+                </div>
+            </mat-menu>
+        </div>
+    </div>
+</div>

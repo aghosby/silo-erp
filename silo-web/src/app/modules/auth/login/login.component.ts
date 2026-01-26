@@ -9,16 +9,18 @@ import { ActivatedRoute, Router }       from '@angular/router';
 // Internal modules
 import { environment }  from '@env/environment';
 import { CustomValidators, PasswordValidators } from '@helpers/password-validators';
+import { authPageStagger } from '@animations/auth-page-animations';
 
 // Services
 import { AppService }   from '@services/app.service';
-import { AuthService } from '@services/auth.service';
-import { NotificationService } from '@services/notification.service';
+import { AuthService } from '@services/utils/auth.service';
+import { NotificationService } from '@services/utils/notification.service';
 import { StoreService } from '@services/store.service';
 import { take, timer } from 'rxjs';
 import { AuthRoutingModule } from '../auth-routing.module';
 import { SharedModule } from '@sharedWeb/shared.module';
 import { NgOtpInputModule } from 'ng-otp-input';
+import { AuthModule } from '../auth.module';
 
 @Component({
   selector    : 'app-login',
@@ -26,17 +28,19 @@ import { NgOtpInputModule } from 'ng-otp-input';
   styleUrls   : ['./login.component.scss'],
   imports: [
     CommonModule,
+    AuthModule,
     AuthRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     NgOtpInputModule,
     SharedModule
   ],
+  animations: [authPageStagger],
   standalone: true
 })
 export class LoginComponent implements OnInit {
 
-  userAction: 'email' | 'login' | 'create' | 'change' | 'reset' | 'verify' = 'verify';
+  userAction: 'start' | 'email' | 'login' | 'create' | 'change' | 'reset' | 'verify' | 'onboard' = 'verify';
   showPassword: boolean = false;
   showConfirmPassword: boolean = false;
   isLoading:boolean = false;
@@ -89,6 +93,9 @@ export class LoginComponent implements OnInit {
         case 'set-password':
           this.userAction = 'change';
           this.setUserEmail();
+          break;
+        case 'onboarding':
+          this.userAction = 'onboard';
           break;
         default:
           this.userAction = 'login';
@@ -377,7 +384,7 @@ export class LoginComponent implements OnInit {
             if(res.data.isSuperAdmin) {
               this.isLoading = false
               if(!res.data.activeStatus) this.router.navigate(['app/settings']);
-              else this.router.navigate(['/welcome']);
+              else this.router.navigate(['/app']);
             }
             else if(res.data.email == 'siloerp@silo-inc.com') {
               this.router.navigate(['app/silo']);

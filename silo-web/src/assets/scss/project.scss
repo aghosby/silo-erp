@@ -10,7 +10,23 @@ html,
 body { 
   height: 100%; 
   margin: 0;
+  font-family: var(--font-regular);
   background-color: var(--bkg-1);
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
 }
 
 .g-padx { 
@@ -22,6 +38,37 @@ body {
   font-family: var(--font-family);
   letter-spacing: 0.05rem;
 }
+
+.flex-center {
+  display: flex;
+  align-items: center; 
+  justify-content: center;
+}
+
+.only-mobile {
+  display: block;
+
+  @include screen-media-min(md) {
+    display: none;
+  } 
+}
+
+.only-desktop {
+  display: none;
+
+  @include screen-media-min(md) {
+    display: block;
+  } 
+}
+
+.only-desktop-flex {
+  display: none;
+
+  @include screen-media-min(md) {
+    display: flex;
+  } 
+}
+
 // NOTE Link
 
 // NOTE Scrollbar

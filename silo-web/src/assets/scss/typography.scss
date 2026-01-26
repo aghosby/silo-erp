@@ -1,62 +1,138 @@
-@font-face {
-    font-family: 'HBL';
-    src: url('../fonts/HelveticaNeueBlack.otf') format('opentype');
-    font-weight: 700;
-    font-display: swap;
-}
+// @font-face {
+//     font-family: 'HBL';
+//     src: url('../fonts/HelveticaNeueBlack.otf') format('opentype');
+//     font-weight: 700;
+//     font-display: swap;
+// }
+
+// @font-face {
+//     font-family: 'HB';
+//     src: url('../fonts/HelveticaNeueBold.otf') format('opentype');
+//     font-weight: 600;
+//     font-display: swap;
+// }
+
+// @font-face {
+//     font-family: 'HM';
+//     src: url('../fonts/HelveticaNeueMedium.otf') format('opentype');
+//     font-weight: 500;
+//     font-display: swap;
+// }
+
+// @font-face {
+//     font-family: 'HR';
+//     src: url('../fonts/HelveticaNeueRegular.otf') format('opentype');
+//     font-weight: 400;
+//     font-display: swap;
+// }
+
+// @font-face {
+//     font-family: 'HL';
+//     src: url('../fonts/HelveticaNeueLight.otf') format('opentype');
+//     font-weight: 300;
+//     font-display: swap;
+// }
+
+// @font-face {
+//     font-family: 'AB';
+//     src: url('../fonts/Archivo-Bold.ttf') format('truetype');
+//     font-weight: 500;
+//     font-display: swap;
+// }
+
+// @font-face {
+//     font-family: 'AS';
+//     src: url('../fonts/Archivo-SemiBold.ttf') format('truetype');
+//     font-weight: 500;
+//     font-display: swap;
+// }
+
+// @font-face {
+//     font-family: 'AM';
+//     src: url('../fonts/Archivo-Medium.ttf') format('truetype');
+//     font-weight: 500;
+//     font-display: swap;
+// }
+
+// @font-face {
+//     font-family: 'AR';
+//     src: url('../fonts/Archivo-Regular.ttf') format('truetype');
+//     font-weight: 400;
+//     font-display: swap;
+// }
+
+// @font-face {
+// 	font-family: 'GR';
+// 	src: url('../fonts/custom/GraphikRegular.otf');
+// 	font-weight: normal;
+// 	font-style: normal;
+// }
+// @font-face {
+// 	font-family: 'GM';
+// 	src: url('../fonts/custom/GraphikMedium.otf');
+// 	font-weight: normal;
+// 	font-style: normal;
+// }
+// @font-face {
+// 	font-family: 'GB';
+// 	src: url('../fonts/custom/GraphikSemibold.otf');
+// 	font-weight: normal;
+// 	font-style: normal;
+// }
 
 @font-face {
-    font-family: 'HB';
-    src: url('../fonts/HelveticaNeueBold.otf') format('opentype');
-    font-weight: 600;
-    font-display: swap;
+	font-family: 'AT';
+	src: url('../fonts/custom/AxiformaThin.otf');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'AR';
+	src: url('../fonts/custom/AxiformaRegular.otf');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'AM';
+	src: url('../fonts/custom/AxiformaMedium.otf');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'AB';
+	src: url('../fonts/custom/AxiformaBold.otf');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'ABL';
+	src: url('../fonts/custom/AxiformaBlack.otf');
+	font-weight: normal;
+	font-style: normal;
 }
 
-@font-face {
-    font-family: 'HM';
-    src: url('../fonts/HelveticaNeueMedium.otf') format('opentype');
-    font-weight: 500;
-    font-display: swap;
-}
 
 @font-face {
-    font-family: 'HR';
-    src: url('../fonts/HelveticaNeueRegular.otf') format('opentype');
-    font-weight: 400;
-    font-display: swap;
+	font-family: 'PL';
+	src: url('../fonts/custom/ProximaNovaLight.ttf');
+	font-weight: normal;
+	font-style: normal;
 }
-
 @font-face {
-    font-family: 'HL';
-    src: url('../fonts/HelveticaNeueLight.otf') format('opentype');
-    font-weight: 300;
-    font-display: swap;
+	font-family: 'PR';
+	src: url('../fonts/custom/ProximaNovaRegular.ttf');
+	font-weight: normal;
+	font-style: normal;
 }
-
 @font-face {
-    font-family: 'AB';
-    src: url('../fonts/Archivo-Bold.ttf') format('truetype');
-    font-weight: 500;
-    font-display: swap;
+	font-family: 'PS';
+	src: url('../fonts/custom/ProximaNovaSemibold.ttf');
+	font-weight: normal;
+	font-style: normal;
 }
-
 @font-face {
-    font-family: 'AS';
-    src: url('../fonts/Archivo-SemiBold.ttf') format('truetype');
-    font-weight: 500;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'AM';
-    src: url('../fonts/Archivo-Medium.ttf') format('truetype');
-    font-weight: 500;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'AR';
-    src: url('../fonts/Archivo-Regular.ttf') format('truetype');
-    font-weight: 400;
-    font-display: swap;
+	font-family: 'PB';
+	src: url('../fonts/custom/ProximaNovaExtrabold.ttf');
+	font-weight: normal;
+	font-style: normal;
 }

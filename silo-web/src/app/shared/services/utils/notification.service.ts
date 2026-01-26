@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationModalComponent } from '@modals/confirmation-modal/confirmation-modal.component';
-import { ConfirmationDialogData } from '@models/dialog-data';
+import { ConfirmationDialogData } from '@models/general/dialog-data';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 

@@ -105,3 +105,8 @@ $media-types-retina: (
 /*=============================================
 =            Components           =
 =============================================*/
+
+// Converts a CSS variable to an rgba color with custom opacity
+@function color-opacity($variable, $opacity) {
+  	@return rgba(var(#{$variable}), $opacity);
+}

@@ -14,21 +14,69 @@ $utilities: (
 // NOTE Color system ----------------------------------------------------------------------------
 
 :root {
-  --primary: #248581;
+  --primary: rgb(65, 202, 200);
+  --primary-rgb: 65, 202, 200;
   --secondary: #1E2355;
   --tertiary: #F45728;
   --primary-dark: #0A122F;
 
-  --font-family: 'HR';
-  --font-light: 'HL';
-  --font-regular: 'HR';
-  --font-medium: 'HM';
-  --font-bold: 'HB';
-  --font-black: 'HBL';
+  --primary-light: rgba(36, 133, 129, 0.25);
 
-  --bkg-1: #f9f8f5;
+  --font-family: 'PR';
+  --font-light: 'PL';
+  --font-regular: 'PR';
+  --font-medium: 'PS';
+  --font-bold: 'PB';
+  --font-black: 'PB';
+
+  --bkg-1: #ddf4ff;
+  --bkg-2: #F9FAFE;
+  --bkg-3: #f9f8f5;
+  --bkg-4: #f1f5f9;
+
+  --border-1: #D1D3D6;
+  --border-2: #e0e6eb;
 
   --dark-1: #130F26;
+  --dark-2: #252525;
+  --dark-3: #424242;
+  --dark-4: #767676;
+
+  --text-dark: #4c4d56;
+  --text-dark-2: #4c4d56e6;
+  --text-dark-3: #334155;
+
+  --border-black-lightest: rgba(0, 0, 0, 0.1);
+  --border-grey-light: rgba(0, 0, 0, 0.1);
+  --border-grey: #D1D3D6;
+
+  --white: #fff;
+  --white-tint: rgba(255, 255, 255, 0.5);
+  --white-tint-md: rgba(255, 255, 255, 0.7);
+
+  --black-tint: rgba(0, 0, 0, 0.6);
+  --black-tint-md: rgba(0, 0, 0, 0.3);
+  --black-tint-mmd: rgba(0, 0, 0, 0.2);
+  --black-tint-sm: rgba(0, 0, 0, 0.04);
+
+  --hdr-height: 8vh;
+
+  //BORDER RADIUS
+  --radius-xs: 4px;
+  --radius-sm: 5px;
+  --radius-md: 6px;
+  --radius-mmd: 12px;
+  --radius-lg: 15px;
+  --radius-xl: 18px;
+
+  --card-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+
+  //TRANSITIONS
+  --transition-norm: all 0.4s ease;
+
+  //STATUS
+  --success: #12a366;
+  --warning: #eb5757;
 }
 
 $primary: #375F9B;

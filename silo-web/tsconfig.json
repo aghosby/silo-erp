@@ -29,6 +29,12 @@
       "@sharedWeb/*": [
         "src/app/shared/*"
       ],
+      "@hr/*": [
+        "src/app/modules/hr/*"
+      ],
+      "@styles/*": [
+        "src/assets/scss/*"
+      ],
       "@blocks/*": [
         "src/app/shared/components/blocks/*"
       ],
@@ -70,6 +76,9 @@
       ],
       "@services/*": [
         "src/app/shared/services/*"
+      ],
+      "@animations/*": [
+        "src/app/shared/animations/*"
       ],
       "@env/*": [
         "src/environments/*"

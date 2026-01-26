@@ -17,6 +17,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatMenuModule } from '@angular/material/menu';
 // Components
 import { ToastComponent }             from './components/blocks/toast/toast.component';
 import { ProgressBarComponent }       from './components/blocks/progress-bar/progress-bar.component';
@@ -36,12 +37,15 @@ import { PageLayoutComponent }       from './components/layouts/page-layout/page
 // Directives
 import { ModalWrapperDirective }     from './directives/modal-wrapper.directive';
 import { LayoutFooterComponent } from './components/layouts/layout-footer/layout-footer.component';
+import { HasPermissionDirective } from './directives/has-permission.directive';
+import { HasRoleDirective } from './directives/has-role.directive';
 
 const SHARED_COMP = [
   MatFormFieldModule,
   MatInputModule,
   MatSelectModule,
   MatDatepickerModule,
+  MatMenuModule,
   MatNativeDateModule,
   MatButtonModule,
   MatDialogModule,
@@ -82,6 +86,9 @@ const SHARED_COMP = [
 
     // Directives
     ModalWrapperDirective,
+    HasPermissionDirective,
+    HasRoleDirective,
+
     LayoutFooterComponent
   ],
   exports: [
@@ -114,7 +121,9 @@ const SHARED_COMP = [
     // Pipes
 
     // Directives
-    ModalWrapperDirective
+    ModalWrapperDirective,
+    HasPermissionDirective,
+    HasRoleDirective
   ],
   providers:[]
 })
