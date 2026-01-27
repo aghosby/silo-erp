@@ -29,7 +29,8 @@ $utilities: (
   --font-bold: 'PB';
   --font-black: 'PB';
 
-  --bkg-1: #ddf4ff;
+  //--bkg-1: #ddf4ff;
+  --bkg-1: #f1faff;
   --bkg-2: #F9FAFE;
   --bkg-3: #f9f8f5;
   --bkg-4: #f1f5f9;
@@ -77,6 +78,7 @@ $utilities: (
   //STATUS
   --success: #12a366;
   --warning: #eb5757;
+  --warning-rgb: rgb(235, 87, 87);
 }
 
 $primary: #375F9B;

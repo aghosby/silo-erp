@@ -18,6 +18,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatMenuModule } from '@angular/material/menu';
+import { LottieComponent, provideLottieOptions } from 'ngx-lottie';
+import player from 'lottie-web';
+
 // Components
 import { ToastComponent }             from './components/blocks/toast/toast.component';
 import { ProgressBarComponent }       from './components/blocks/progress-bar/progress-bar.component';
@@ -39,6 +42,7 @@ import { ModalWrapperDirective }     from './directives/modal-wrapper.directive'
 import { LayoutFooterComponent } from './components/layouts/layout-footer/layout-footer.component';
 import { HasPermissionDirective } from './directives/has-permission.directive';
 import { HasRoleDirective } from './directives/has-role.directive';
+import { LottieAnimationComponent } from './animations/lottie-animation.component';
 
 const SHARED_COMP = [
   MatFormFieldModule,
@@ -57,6 +61,7 @@ const SHARED_COMP = [
   imports: [
     // Angular modules
     ...SHARED_COMP,
+    LottieComponent,
     CommonModule,
     RouterModule,
     FormsModule,
@@ -71,6 +76,7 @@ const SHARED_COMP = [
     // Components
     ToastComponent,
     ProgressBarComponent,
+    LottieAnimationComponent,
 
     // Forms
     FormConfirmComponent,
@@ -98,6 +104,7 @@ const SHARED_COMP = [
     FormsModule,
     ReactiveFormsModule,
     ...SHARED_COMP,
+    LottieAnimationComponent,
 
     // External modules
     TranslateModule,
@@ -125,6 +132,10 @@ const SHARED_COMP = [
     HasPermissionDirective,
     HasRoleDirective
   ],
-  providers:[]
+  providers:[
+    provideLottieOptions({
+      player: () => player
+    }),
+  ]
 })
 export class SharedModule {}

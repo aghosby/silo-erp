@@ -34,19 +34,19 @@ export class AuthService {
   }
 
   public createAccount(payload:any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/auth/register`, payload);
+    return this.http.post<any>(`${this.baseUrl}/signUp`, payload);
   }
 
-  public verifyEmail(payload:any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/auth/forgot-password`, payload);
+  public verifyEmail(email:any): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/forgotPassword?email=${email}`);
   }
 
   public verifyOtp(payload:any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/auth/verify-otp`, payload);
+    return this.http.post<any>(`${this.baseUrl}/verifySignupOtp`, payload);
   }
 
   public setPassword(payload:any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/auth/set-password`, payload);
+    return this.http.post<any>(`${this.baseUrl}/setPassword`, payload);
   }
 
   public login(payload:any): Observable<any> {
@@ -54,7 +54,7 @@ export class AuthService {
       tap((res: any) => {
         this._isLoggedin$.next(true);
         sessionStorage.setItem(this.TOKEN_NAME, res.token);
-        sessionStorage.setItem('loggedInUser', JSON.stringify(res));
+        sessionStorage.setItem('loggedInUser', JSON.stringify(res.data));
         sessionStorage.setItem('userCheckedIn', JSON.stringify(false));
         sessionStorage.setItem('currency', JSON.stringify('$'));
       })

@@ -10,7 +10,6 @@ import { SiloOnboardingAdminComponent } from './silo-onboarding-admin/silo-onboa
 import { SiloOnboardingEmployeeComponent } from './silo-onboarding-employee/silo-onboarding-employee.component';
 
 // Components
-
 @NgModule({
   declarations: [
     SiloOnboardingAdminComponent,
@@ -23,6 +22,7 @@ import { SiloOnboardingEmployeeComponent } from './silo-onboarding-employee/silo
   ],
   exports: [
     SiloOnboardingAdminComponent,
+    SiloOnboardingEmployeeComponent
   ]
 })
 export class AuthModule { }

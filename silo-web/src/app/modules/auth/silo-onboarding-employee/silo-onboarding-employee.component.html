@@ -1,1 +1,200 @@
-<p>silo-onboarding-employee works!</p>
+<div class="pg-hld" @authPageStagger>
+    <div class="pg-hdr d-flex flex-column anim-item text-center text-primary">
+        <img *ngIf="currentStep != 4" routerLink="/" class="logo anim-item" src="assets/img/brand/silo-logo.svg" alt="silo">
+        <div *ngIf="currentStep == 1" class="step-info mb-4">
+            <h3 class="anim-item"> Welcome, {{'Richard'}} <img class="pb-lg-2" src="https://silo-inc.com/wp-content/themes/wp-silo/dist/img/waving_hand.gif" alt=""></h3>
+            <p class="anim-item">Let's set up your personal information so your team can recognize you.</p>
+        </div>
+
+        <div *ngIf="currentStep == 2" class="step-info mb-4">
+            <h3 class="anim-item">Offical Information</h3>
+            <p class="anim-item">Let's set up your details for official purposes.</p>
+        </div>
+
+        <div *ngIf="currentStep == 3" class="step-info mb-4">
+            <h3 class="anim-item">Available Modules</h3>
+            <p class="anim-item">Here are the modules you have access to.</p>
+        </div>
+
+        <div *ngIf="currentStep == 4" class="step-info d-flex flex-column align-items-center mb-3" @authPageStagger>
+            <app-lottie
+                [options]="lottieOptions"
+                [path]="lottiePath"
+                [width]="'200px'"
+                [height]="'200px'"
+                [style]="'margin-top: -1.5rem;'"
+            >
+            </app-lottie>
+            <!-- <img class="success" src="assets/img/project/illustrations/success.gif" alt="silo-reg-success"> -->
+            <h3 class="anim-item m-rd">You're all set!</h3>
+            <p class="anim-item">Welcome to the team! Your profile is complete and you're ready to go.</p>
+        </div>
+    </div>
+
+    <div class="pg-body">
+        <form class="form-group mx-auto" [formGroup]="form">
+            <div *ngIf="currentStep == 1" class="field-group">
+                <mat-form-field class="field w-48 anim-item" appearance="outline">
+                    <mat-label>First Name</mat-label>
+                    <input matInput readonly formControlName="firstName" id="firstName" name="firstName" placeholder="Enter first name">
+                </mat-form-field>
+
+                <mat-form-field class="field w-48 anim-item" appearance="outline">
+                    <mat-label>Last Name</mat-label>
+                    <input matInput readonly formControlName="lastName" id="lastName" name="lastName" placeholder="Enter last name">
+                </mat-form-field>
+
+                <mat-form-field class="field w-48 anim-item" appearance="outline">
+                    <mat-label>Email Address</mat-label>
+                    <input matInput readonly formControlName="email" id="email" name="email" type="email" placeholder="Enter email address">
+                </mat-form-field>
+
+                <mat-form-field class="field w-48 anim-item" appearance="outline">
+                    <mat-label>Phone Number</mat-label>
+                    <input matInput formControlName="phone" id="phone" name="phone" placeholder="Enter phone number">
+                </mat-form-field>
+
+                <mat-form-field class="field w-48 anim-item" appearance="outline">
+                    <mat-label>Date of birth</mat-label>
+                    <input matInput [matDatepicker]="picker" readonly formControlName="dateOfBirth">
+                    <!-- <mat-hint>DD/MM/YYYY</mat-hint> -->
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker color="primary" disabled="false"></mat-datepicker>
+                    <mat-error *ngIf="formCtrls['dateOfBirth'].touched && formCtrls['dateOfBirth']?.hasError('required')">Date of birth is required</mat-error>
+                    <mat-error *ngIf="formCtrls['dateOfBirth'].touched && formCtrls['dateOfBirth']?.hasError('date')">Date of birth is invalid</mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="field w-48 anim-item" appearance="outline">
+                    <mat-label>Gender</mat-label>
+                    <mat-select
+                        class="selectField"
+                        disableOptionCentering
+                        panelClass="matDropdown"
+                        formControlName="gender"
+                    >
+                        <mat-option *ngFor="let option of genderOptions | keyvalue: keepOrder" [value]="option.key">{{option.value}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div *ngIf="currentStep == 1" class="actions anim-item text-center">
+                <button (click)="goToNextStep()" type="submit" class="w-100 cta cta-primary anim-item my-4 px-5" role="button"><span *ngIf="isLoading" class="loader spinner-border text-white"></span> Save & Continue</button>
+            </div>
+
+            <div *ngIf="currentStep == 2" class="field-group">
+                <mat-form-field class="field w-100 anim-item" appearance="outline">
+                    <mat-label>Company Name</mat-label>
+                    <input matInput readonly formControlName="companyName" id="companyName" name="companyName" placeholder="Enter company name">
+                </mat-form-field>
+
+                <mat-form-field class="field w-48 anim-item" appearance="outline">
+                    <mat-label>Branch</mat-label>
+                    <mat-select
+                        class="selectField"
+                        disableOptionCentering
+                        panelClass="matDropdown"
+                        formControlName="branch"
+                    >
+                        <mat-option *ngFor="let option of branchOptions | keyvalue: keepOrder" [value]="option.key">{{option.value}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="field w-48 anim-item" appearance="outline">
+                    <mat-label>Department</mat-label>
+                    <mat-select
+                        class="selectField"
+                        disableOptionCentering
+                        panelClass="matDropdown"
+                        formControlName="department"
+                    >
+                        <mat-option *ngFor="let option of departmentOptions | keyvalue" [value]="option.key">{{option.value}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="field w-48 anim-item" appearance="outline">
+                    <mat-label>Job Title</mat-label>
+                    <input matInput formControlName="jobTitle" id="jobTitle" name="jobTitle" placeholder="Enter job title">
+                </mat-form-field>
+
+                <mat-form-field class="field w-48 anim-item" appearance="outline">
+                    <mat-label>Contract Type</mat-label>
+                    <mat-select
+                        class="selectField"
+                        disableOptionCentering
+                        panelClass="matDropdown"
+                        formControlName="contractType"
+                    >
+                        <mat-option *ngFor="let option of contractTypeOptions | keyvalue: keepOrder" [value]="option.key">{{option.value}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div *ngIf="currentStep == 2" class="actions d-flex gap-5 anim-item text-center mt-4">
+                <button (click)="goToPrevStep()" type="submit" class="w-100 cta cta-trans my-4 px-5" role="button"><span *ngIf="isLoading" class="loader spinner-border text-white"></span> Back</button>
+                <button (click)="goToNextStep()" type="submit" class="w-100 cta cta-primary my-4 px-5" role="button"><span *ngIf="isLoading" class="loader spinner-border text-white"></span> Save & Continue</button>
+            </div>
+
+            <div *ngIf="currentStep == 3" class="field-group" @authPageStagger>
+                <div class="modules-grid">
+                    <div
+                        class="module-hld anim-item"
+                        *ngFor="let module of companyModules"
+                        [class.selected]="module.isSelected"
+                    >
+                        <div class="inner-wrap">
+                            <!-- Selected indicator -->
+                            <div class="select-indicator">
+                                <i class="bi bi-check"></i>
+                            </div>
+
+                            <!-- Header -->
+                            <div class="module-header">
+                                <div class="icon">
+                                    <i class="bi" [ngClass]="module.icon"></i>
+                                </div>
+                                <span class="module-name">{{ module.moduleName }}</span>
+                            </div>
+
+                            <!-- Features -->
+                            <div class="module-features">
+                                <span class="feature-chip" *ngFor="let feature of module.moduleFeatures">
+                                    {{ feature }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="currentStep == 3" class="actions d-flex gap-5 anim-item text-center mt-4">
+                <button (click)="goToPrevStep()" type="submit" class="w-100 cta cta-trans my-4 px-5" role="button"><span *ngIf="isLoading" class="loader spinner-border text-white"></span> Back</button>
+                <button (click)="goToNextStep()" type="submit" class="w-100 cta cta-primary my-4 px-5" role="button"><span *ngIf="isLoading" class="loader spinner-border text-white"></span> Continue</button>
+            </div>
+
+            <div *ngIf="currentStep == 4" class="glass-card anim-item" @authPageStagger>
+                <div class="inner-wrap">
+                    <h4 class="text-center anim-item">What's next ?</h4>
+                    <ul class="anim-item">
+                        <li class="">
+                            <span><i class="bi bi-check2-circle"></i></span>
+                            <span>Review and complete your profile</span>
+                        </li>
+                        <li class="">
+                            <span><i class="bi bi-check2-circle"></i></span>
+                            <span>Check out the available tools and features</span>
+                        </li>
+                        <li class="">
+                            <span><i class="bi bi-check2-circle"></i></span>
+                            <span>Explore and collaborate with your team</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div *ngIf="currentStep == 4" class="actions anim-item text-center">
+                <button (click)="goToNextStep()" type="submit" class="w-50 cta cta-primary anim-item mt-5 px-5" role="button"><span *ngIf="isLoading" class="loader spinner-border text-white"></span> Go to Dashboard</button>
+            </div>
+
+        </form>
+    </div>
+</div>

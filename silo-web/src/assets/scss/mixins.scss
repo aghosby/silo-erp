@@ -110,3 +110,17 @@ $media-types-retina: (
 @function color-opacity($variable, $opacity) {
   	@return rgba(var(#{$variable}), $opacity);
 }
+
+@mixin glass-effect(
+	$bg-opacity: 0.15,
+	$blur: 12px,
+	$border-opacity: 1,
+	$shadow-opacity: 0.1
+) {
+	background: rgba(255, 255, 255, $bg-opacity);
+	backdrop-filter: blur($blur);
+	-webkit-backdrop-filter: blur($blur);
+
+	border: 1px solid rgba(255, 255, 255, $border-opacity);
+	box-shadow: 0 8px 32px rgba(0, 0, 0, $shadow-opacity);
+}

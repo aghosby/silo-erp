@@ -16,6 +16,7 @@ export class NotificationService {
   ) { }
 
   showSuccess(message: string = "Successful") {
+    console.log('Show success')
     this.toastr.success(message, "Success")
   }
 

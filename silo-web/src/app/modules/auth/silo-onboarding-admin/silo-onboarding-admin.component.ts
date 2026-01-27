@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { authPageStagger } from '@animations/auth-page-animations';
+import { AuthService } from '@sharedWeb/services/utils/auth.service';
+import { AnimationOptions } from 'ngx-lottie';
 
 @Component({
   selector: 'app-silo-onboarding-admin',
   standalone: false,
   templateUrl: './silo-onboarding-admin.component.html',
   styleUrl: './silo-onboarding-admin.component.scss',
-  animations: [authPageStagger],
+  animations: [authPageStagger]
 })
 export class SiloOnboardingAdminComponent implements OnInit {
 
@@ -15,6 +17,14 @@ export class SiloOnboardingAdminComponent implements OnInit {
   isLoading:boolean = false;
   currentStep:number = 1;
   keepOrder = () => 0;
+  loggedInUser:any;
+
+  lottiePath:string = 'assets/img/project/illustrations/success.json'
+
+  lottieOptions: AnimationOptions = {
+    loop: true,
+    autoplay: true
+  };
 
   industryOptions = {
     Technology: 'Technology',
@@ -68,12 +78,15 @@ export class SiloOnboardingAdminComponent implements OnInit {
     }
   ]
 
-  constructor() {
+  constructor(
+    private authService: AuthService
+  ) {
     this.initFormGroup();
   }
 
   ngOnInit(): void {
-      this.addEmployee();
+    this.loggedInUser = this.authService.loggedInUser;
+    this.addEmployee();
   }
 
   private initFormGroup(): void {
@@ -107,7 +120,7 @@ export class SiloOnboardingAdminComponent implements OnInit {
   }
 
   goToNextStep() {
-    if(this.currentStep == 3 || this.currentStep == 0) {
+    if(this.currentStep == 4 || this.currentStep == 0) {
       //Go to dashboard
       return
     }

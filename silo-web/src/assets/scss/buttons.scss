@@ -37,9 +37,9 @@
       padding: 1rem;
     }
 
-    // &:hover {
-    //     background: rgba(#00C8AA, 0.8);
-    // }
+    &:hover {
+        transform: translateY(-2px);
+    }
 
     &-trans {
         background: transparent;

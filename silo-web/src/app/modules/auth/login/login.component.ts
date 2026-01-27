@@ -44,6 +44,7 @@ export class LoginComponent implements OnInit {
   showPassword: boolean = false;
   showConfirmPassword: boolean = false;
   isLoading:boolean = false;
+  verifyingOtp:boolean = false;
   userEmail:string = '';
 
   resendingOtp:boolean = false;
@@ -96,6 +97,7 @@ export class LoginComponent implements OnInit {
           break;
         case 'onboarding':
           this.userAction = 'onboard';
+          this.loggedInUser = this.authService.loggedInUser;
           break;
         default:
           this.userAction = 'login';
@@ -167,7 +169,7 @@ export class LoginComponent implements OnInit {
           }
         ),
         confirmPassword: new FormControl('', [Validators.required, Validators.minLength(8)]),
-        otp: new FormControl('', [Validators.minLength(4), Validators.maxLength(4)]),
+        otp: new FormControl('', [Validators.minLength(6), Validators.maxLength(6)]),
       },
       {
         validators: CustomValidators.MatchingPasswords
@@ -180,8 +182,8 @@ export class LoginComponent implements OnInit {
   }
 
   setUserEmail() {
-    this.userEmail = <string>sessionStorage.getItem('userRegDetails')
-    this.userEmail && this.authForm.controls['email'].setValue(JSON.parse(this.userEmail).email)
+    const userEmail = <string>sessionStorage.getItem('userEmail')
+    userEmail && this.authForm.controls['email'].setValue(userEmail);
   }
 
   checkPasswords: ValidatorFn = (group: AbstractControl): ValidationErrors | null => {
@@ -235,8 +237,9 @@ export class LoginComponent implements OnInit {
       this.isLoading = true;
       let payload = {
         email: this.authForm.value.email,
+        otp: this.authForm.value.otp
       }
-      sessionStorage.setItem('userRegDetails', JSON.stringify(payload));
+      sessionStorage.setItem('userEmail', JSON.stringify(payload));
       this.authService.verifyEmail(payload).subscribe({
         next: res => {
           //console.log(res);
@@ -261,24 +264,25 @@ export class LoginComponent implements OnInit {
   verifyOtp() {
     //this.changeState('change');
     if(this.authForm.controls['otp'].valid) {
-      this.isLoading = true;
+      this.verifyingOtp = true;
       //console.log(this.userEmail, this.authForm.value.eamil)
       let payload = {
-        email: this.authForm.value.email,
-        otp: Number(this.authForm.value.otp)
+        email: sessionStorage.getItem('userEmail'),
+        otp: String(this.authForm.value.otp)
       }
       this.authService.verifyOtp(payload).subscribe({
         next: res => {
           //console.log(res);
-          if (res.success) {
+          if (res.status == 200) {
             this.changeState('change')
-            this.isLoading = false; 
+            sessionStorage.setItem('verificationToken', JSON.stringify(res.verificationToken));
+            this.verifyingOtp = false; 
             this.notifyService.showSuccess(res.message)
           }
         },
         error: err => {
-          this.notifyService.showSuccess(err.error.message)
-          this.isLoading = false;  
+          this.notifyService.showError(err.error.message)
+          this.verifyingOtp = false;  
         }
       })
     }
@@ -288,32 +292,50 @@ export class LoginComponent implements OnInit {
   }
 
   createAccount() {
+    console.log('Called')
     //this.changeState('verify');
-    if(this.formCtrls['firstName'].valid && this.formCtrls['lastName'].valid && this.formCtrls['email'].valid) {
-      this.isLoading = true;
-      let payload = {
-        firstName: this.authForm.value.firstName,
-        lastName: this.authForm.value.lastName,
-        email: this.authForm.value.email,
-      }
-      sessionStorage.setItem('userRegDetails', JSON.stringify(payload));
-      this.authService.createAccount(payload).subscribe({
-        next: res => {
-          if (res.success) {
-            this.changeState('verify');
-            this.notifyService.showSuccess(res.message);
-          }
-        },
-        error: err => {
-          this.notifyService.showError(err.error.message);
-          this.isLoading = false;  
+    let payload = {}
+    if(this.authForm.value.accountType && this.authForm.value.accountType == 'Company') {
+      if(this.formCtrls['companyName'].valid && this.formCtrls['email'].valid) {
+        payload = {
+          email: this.authForm.value.email,
+          accountType: this.authForm.value.accountType,
+          companyName: this.authForm.value.companyName
         }
-      })
+      }
+      else {
+        this.authForm.markAllAsTouched();
+        this.notifyService.showError('Please check that the you have filled in all required fields')
+      } 
     }
     else {
-      this.authForm.markAllAsTouched();
-      this.notifyService.showError('Please check that the you have filled in all required fields')
-    }    
+      if(this.formCtrls['firstName'].valid && this.formCtrls['lastName'].valid && this.formCtrls['email'].valid) {
+        payload = {
+          email: this.authForm.value.email,
+          accountType: this.authForm.value.accountType,
+          firstName: this.authForm.value.firstName,
+          lastName: this.authForm.value.lastName
+        }
+      }
+      else {
+        this.authForm.markAllAsTouched();
+        this.notifyService.showError('Please check that the you have filled in all required fields')
+      } 
+    }
+    this.isLoading = true;
+    this.authService.createAccount(payload).subscribe({
+      next: res => {
+        if (res.status == 200) {
+          sessionStorage.setItem('userEmail', this.authForm.value.email); //Temp store user email
+          this.changeState('verify');
+          this.notifyService.showSuccess(res.message);
+        }
+      },
+      error: err => {
+        this.notifyService.showError(err.error.message);
+        this.isLoading = false;  
+      }
+    })   
   }
 
   resendOtp() {
@@ -322,17 +344,15 @@ export class LoginComponent implements OnInit {
     this.resendingOtp = true;
     // const userRegDetails = JSON.parse(sessionStorage.getItem('userRegDetails')!)
     // if(userRegDetails) this.authForm.controls['email'].setValue(userRegDetails.email)
-    let payload = {
-      email: this.authForm.value.email,
-    }
-    sessionStorage.setItem('userRegDetails', JSON.stringify(payload));
+    const email = sessionStorage.getItem('userEmail')
+    //sessionStorage.setItem('userRegDetails', JSON.stringify(payload));
     //console.log('payload', payload)
-    this.authService.verifyEmail(payload).subscribe({
+    this.authService.verifyEmail(email).subscribe({
       next: (res:any) => {
         //console.log(res);
-        if (res.success) {
+        if (res.status == 200) {
           this.isLoading = false;
-          this.changeState('verify')
+          this.changeState('change')
           this.notifyService.showSuccess(res.message);
           this.resendingOtp = false; 
         }
@@ -381,18 +401,30 @@ export class LoginComponent implements OnInit {
         next: res => {
           console.log(res);
           if(res.status == 200) {
-            if(res.data.isSuperAdmin) {
-              this.isLoading = false
-              if(!res.data.activeStatus) this.router.navigate(['app/settings']);
-              else this.router.navigate(['/app']);
-            }
-            else if(res.data.email == 'siloerp@silo-inc.com') {
-              this.router.navigate(['app/silo']);
+            this.loggedInUser = res.data;
+            if(res.data.firstTimeLogin) {
+              this.isLoading = false;
+              this.router.navigate(['/onboarding']);
             }
             else {
-              this.isLoading = false
-              this.router.navigate(['app/human-resources/dashboard']);
+              if(res.data.isSuperAdmin) {
+                this.isLoading = false
+                this.router.navigate(['/app']);
+                // if(res.data.firstTimeLogin) this.router.navigate(['./onboarding']);
+                // else this.router.navigate(['/app']);
+                // if(!res.data.activeStatus) this.router.navigate(['app/settings']);
+                // else this.router.navigate(['/app']);
+              }
+              else if(res.data.email == 'siloerp@silo-inc.com') {
+                this.isLoading = false
+                this.router.navigate(['app/silo']);
+              }
+              else {
+                this.isLoading = false
+                this.router.navigate(['app/human-resources/dashboard']);
+              }
             }
+            
           }
         },
         error: err => {
@@ -411,21 +443,21 @@ export class LoginComponent implements OnInit {
 
   setPassword() {
     //this.changeState('verify');
-    const userRegDetails = JSON.parse(sessionStorage.getItem('userRegDetails')!)
-    if(userRegDetails) this.authForm.controls['email'].setValue(userRegDetails.email)
-    if(this.authForm.controls['email'].valid) {
+    const email = sessionStorage.getItem('userEmail');
+    const token = JSON.parse(sessionStorage.getItem('verificationToken')!);
+    //if(userRegDetails) this.authForm.controls['email'].setValue(userRegDetails.email)
+    if(this.authForm.controls['password'].valid && this.authForm.controls['confirmPassword'].valid) {
       this.isLoading = true;
       let payload = {
-        email: this.authForm.value.email,
-        password: this.authForm.value.password,
-        confirmPassword: this.authForm.value.confirmPassword
+        verificationToken: token,
+        password: this.authForm.value.password
       }
       this.authService.setPassword(payload).subscribe({
         next: res => {
           //console.log('Reset', res);
           if (res.success) {
             this.notifyService.showSuccess(res.message);
-            this.login(payload.email)
+            this.login(<string>email)
             this.isLoading = false;   
           }
         },

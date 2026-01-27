@@ -55,7 +55,8 @@
     </div>
 
     <div *ngIf="userAction == 'onboard'" class="page-content">
-        <app-silo-onboarding-admin></app-silo-onboarding-admin>
+        <app-silo-onboarding-admin *ngIf="loggedInUser.isSuperAdmin"></app-silo-onboarding-admin>
+        <app-silo-onboarding-employee *ngIf="!loggedInUser.isSuperAdmin"></app-silo-onboarding-employee>
     </div>
     
     <div *ngIf="userAction != 'start' && userAction != 'onboard'" class="page-content" @authPageStagger>
@@ -102,13 +103,13 @@
 
                     <mat-form-field *ngIf="userAction != 'verify'" class="field anim-item" appearance="outline">
                         <mat-label>Email Address</mat-label>
-                        <input matInput formControlName="email" id="email" name="email" type="email" placeholder="Enter email address">
+                        <input matInput [readonly]="userAction === 'change'" formControlName="email" id="email" name="email" type="email" placeholder="Enter email address">
                         <mat-error *ngIf="formCtrls['email'].touched && formCtrls['email'].hasError('required')">Email is required</mat-error>
                         <mat-error *ngIf="formCtrls['email'].touched && formCtrls['email'].hasError('email')">Please enter a valid email </mat-error>
                     </mat-form-field>
 
                     <div *ngIf="userAction == 'verify'" class="field anim-item d-flex justify-content-center">
-                        <ng-otp-input formControlName="otp"></ng-otp-input>
+                        <ng-otp-input formControlName="otp" [config]="{ length: 6 }"></ng-otp-input>
                     </div>
 
                     <mat-form-field *ngIf="userAction != 'reset' && userAction != 'create' && userAction != 'verify'" class="field anim-item" appearance="outline">
@@ -144,25 +145,25 @@
                 </div>
 
                 <div class="text-center">
-                    <button *ngIf="userAction == 'create'" (click)="createAccount()" type="submit" class="w-100 cta cta-primary anim-item my-3 px-5" role="button">
-                        <span *ngIf="isLoading" class="loader spinner-border text-white"></span> Create Account
+                    <button *ngIf="userAction == 'create'" (click)="createAccount()" type="submit" class="w-100 d-flex align-items-center justify-content-center cta cta-primary anim-item my-3 px-5 gap-2" role="button">
+                        Create Account <span *ngIf="isLoading" class="loader"></span> 
                     </button>
-                    <button *ngIf="userAction == 'verify'" (click)="verifyOtp()" type="submit" class="w-100 cta cta-primary anim-item my-4 px-5" role="button">
-                    <span *ngIf="resendingOtp" class="loader spinner-border text-primary"></span> Submit OTP
+                    <button *ngIf="userAction == 'verify'" (click)="verifyOtp()" type="submit" class="w-100 d-flex align-items-center justify-content-center cta cta-primary anim-item my-4 px-5 gap-2" role="button">
+                        Submit OTP <span *ngIf="verifyingOtp" class="loader"></span> 
                     </button>
-                    <button [disabled]="timeLeft != 30" (click)="resendOtp()" *ngIf="userAction == 'verify'" class="w-100 anim-item cta cta-wht mb-4">
-                        <span *ngIf="resendingOtp" class="loader spinner-border text-primary"></span> 
+                    <button [disabled]="timeLeft != 30" (click)="resendOtp()" *ngIf="userAction == 'verify'" class="w-100 d-flex align-items-center justify-content-center anim-item cta cta-wht mb-4 gap-2">
                         <span *ngIf="timeLeft != 30">Resend in {{timeLeft}}s</span>
                         <span *ngIf="timeLeft == 30">Resend OTP</span>
+                        <span *ngIf="isLoading" class="loader"></span> 
                     </button>
                     <button *ngIf="userAction == 'login'" (click)="login()" type="submit" class="w-100 cta cta-primary anim-item mb-3 px-5 d-flex align-items-center justify-content-center gap-2" role="button">
                         Login <span *ngIf="isLoading" class="loader"></span> 
                     </button>
-                    <button *ngIf="userAction == 'reset'" (click)="resendOtp()" type="submit" class="w-100 cta cta-primary anim-item my-3 px-5" role="button">
-                        <span *ngIf="isLoading" class="loader spinner-border text-white"></span> Reset Password
+                    <button *ngIf="userAction == 'reset'" (click)="resendOtp()" type="submit" class="w-100 d-flex align-items-center justify-content-center cta cta-primary anim-item my-3 px-5 gap-2" role="button">
+                        Reset Password <span *ngIf="isLoading" class="loader"></span> 
                     </button>
-                    <button *ngIf="userAction == 'change'" (click)="setPassword()" type="submit" class="w-100 cta cta-primary anim-item my-3 px-5" role="button">
-                        <span *ngIf="isLoading" class="loader spinner-border text-white"></span> Set Password
+                    <button *ngIf="userAction == 'change'" (click)="setPassword()" type="submit" class="w-100 d-flex align-items-center justify-content-center cta cta-primary anim-item my-3 px-5 gap-2" role="button">
+                        Set Password <span *ngIf="isLoading" class="loader"></span> 
                     </button>
                 </div>
 
