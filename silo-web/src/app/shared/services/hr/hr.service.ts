@@ -43,4 +43,22 @@ export class HrService {
     return this.http.post<any>(`${this.baseUrl}/onboarding/invite-employees`, payload, this.requestOptions);
   }
 
+
+  //Get departments by companyId
+  public getCompanyDepartments(companyId:string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/company/${companyId}/departments`, this.requestOptions);
+  }
+
+  //Get modules by companyId
+  public getCompanyModules(companyId:string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/company/${companyId}/modules`, this.requestOptions);
+  }
+
+
+
+  //Update Employee
+  public updateEmployee(data: any): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/updateEmployee`, data, this.requestOptions);
+  }
+
 }
