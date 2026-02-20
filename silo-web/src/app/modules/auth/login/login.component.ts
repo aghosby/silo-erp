@@ -432,7 +432,7 @@ export class LoginComponent implements OnInit {
           console.log(res);
           if(res.status == 200) {
             this.loggedInUser = res.data;
-            if(!this.loggedInUser.onboardingCompleted) {
+            if(!res.onboardingCompleted) {
               this.isLoading = false;
               this.router.navigate(['/onboarding']);
             }
