@@ -33,7 +33,7 @@ export class EmployeeListComponent implements OnInit {
     //   sortable: false
     // },
     {
-      key: "image",
+      key: "profilePic",
       label: "",
       order: 2,
       columnWidth: "5%",

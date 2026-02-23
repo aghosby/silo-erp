@@ -6,6 +6,7 @@ import { EmployeeInfoComponent } from '../employee-info/employee-info.component'
 import { ActivatedRoute } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { LeaveAssignmentComponent } from '@hr/leave-management/leave-assignment/leave-assignment.component';
+import { DocumentUploadComponent } from '@sharedWeb/components/blocks/document-upload/document-upload.component';
 
 @Component({
   selector: 'app-employee-profile',
@@ -24,6 +25,24 @@ export class EmployeeProfileComponent implements OnInit {
   };
   chartData:any = [];
   totalChartData:any = [];
+
+  documents: any[] = [
+    {
+      name: "Project_Proposal.pdf",
+      type: "pdf",
+      uploadDate: "2026-02-15T10:30:00Z"
+    },
+    {
+      name: "Employee_Handbook.docx",
+      type: "word",
+      uploadDate: "2026-02-18T14:45:00Z"
+    },
+    {
+      name: "Sales_Report_Q1.csv",
+      type: "csv",
+      uploadDate: "2026-02-20T09:15:00Z"
+    }
+  ];
 
   constructor(
     private route: ActivatedRoute,
@@ -135,6 +154,22 @@ export class EmployeeProfileComponent implements OnInit {
     .subscribe(result => {
       if (result.action === 'submit' && result.dirty) {
         this.getEmployeeDetails();
+      }
+    });
+  }
+
+  openDocUploadModal() {
+    const modalConfig:any = {
+      isExisting: false,
+      width: '35%',
+    }
+    this.modalService.open(
+      DocumentUploadComponent, 
+      modalConfig
+    )
+    .subscribe(result => {
+      if (result.action === 'submit' && result.dirty) {
+        //this.getEmployeeDetails();
       }
     });
   }

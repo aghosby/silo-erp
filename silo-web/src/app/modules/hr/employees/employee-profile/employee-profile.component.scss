@@ -46,6 +46,11 @@
 
         .minor {
             font-size: 0.8rem;
+
+            &.sm {
+                font-size: 0.65rem;
+                line-height: 1.7;
+            }
         }
     }
 
