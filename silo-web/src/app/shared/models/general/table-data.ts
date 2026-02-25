@@ -9,6 +9,7 @@ export interface IPaging {
 export type TableCellType =
     | 'text'
     | 'number'
+    | 'amount'
     | 'currency'
     | 'date'
     | 'datetime'

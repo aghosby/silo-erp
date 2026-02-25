@@ -33,7 +33,7 @@ export const navMenuData: MenuItem[] = [
             },
             { 
                 routeLink: 'hr/leave-management', 
-                icon: 'palmTree', 
+                icon: 'calendarCheck', 
                 label: 'Leave Management',
                 roles: ['superAdmin', 'manager'] 
             },
@@ -56,7 +56,7 @@ export const navMenuData: MenuItem[] = [
                 roles: ['superAdmin', 'manager'] 
             },
             { 
-                routeLink: 'hr/user-expense', 
+                routeLink: 'hr/expense-requests', 
                 icon: 'bankNoteDown', 
                 label: 'Expense Requests', 
                 roles: ['manager', 'employee']

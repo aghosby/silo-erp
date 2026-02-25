@@ -174,4 +174,14 @@ export class UtilityService {
     return '--';
   }
 
+  generateYearOptions(currentYear:any) {
+    const chartYearOptions:any = {};
+    for (let i = 0; i < 5; i++) {
+      const year = currentYear - i;
+      chartYearOptions[year] = year.toString();
+    }
+
+    return chartYearOptions;
+  }
+
 }

@@ -97,6 +97,11 @@
                                 {{ row[col.key] | date: 'medium' }}
                             </span>
 
+                            <!-- AMOUNT -->
+                            <span *ngSwitchCase="'amount'">
+                                {{ row[col.key] | localeString }}
+                            </span>
+                            
                             <!-- IMAGE CELL -->
                             <span *ngSwitchCase="'profile'" class="img-wrap">
                                 <ng-container *ngIf="row[col.key]; else noImage">

@@ -462,6 +462,21 @@ a {
   }
 }
 
+//Progress bar Styling
+.progress-bar {
+  width: 100%;
+  height: 0.6rem;
+  overflow: hidden;
+  background-color: var(--primary-light);
+  border-radius: var(--radius-lg);
+
+  .bar-fill {
+    height: 100%;
+    background: var(--primary);
+    border-radius: var(--radius-lg);
+  }
+}
+
 //ITEMS IN LIST FORMAT IN CARDS
 .listed-items {
 
@@ -635,6 +650,7 @@ a {
   letter-spacing: 0.03rem !important;
   fill: var(--text-dark-4) !important;
   letter-spacing: 0.02rem !important;
+  font-family: var(--font-regular);
 }
 
 .ngx-charts-tooltip-content {

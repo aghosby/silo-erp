@@ -7,41 +7,19 @@ import { ModalService } from '@services/utils/modal.service';
 import { NotificationService } from '@services/utils/notification.service';
 import { UtilityService } from '@services/utils/utility.service';
 import { BehaviorSubject, catchError, combineLatest, debounceTime, of, Subject, switchMap, takeUntil, tap } from 'rxjs';
-import { LeaveRequestInfoComponent } from '../leave-request-info/leave-request-info.component';
+import { ExpenseRequestsInfoComponent } from '../expense-requests-info/expense-requests-info.component';
 
 @Component({
-  selector: 'app-leave-management-overview',
-  templateUrl: './leave-management-overview.component.html',
-  styleUrl: './leave-management-overview.component.scss'
+  selector: 'app-expense-management-overview',
+  templateUrl: './expense-management-overview.component.html',
+  styleUrl: './expense-management-overview.component.scss'
 })
-export class LeaveManagementOverviewComponent implements OnInit {
-
+export class ExpenseManagementOverviewComponent implements OnInit {
   requestedApprovals!: any[];
   approvedRequests!: any[];
   leaveGraphDetails:any;
-  leaveTypes: any[] = [];
-  leaveRequestMatrix:any = [
-    {
-      id: 1,
-      label: "21+",
-      key: "21+ days",
-    },
-    {
-      id: 2,
-      label: "15-21",
-      key: "15-21 days",
-    },
-    {
-      id: 3,
-      label: "8-14",
-      key: "8-14 days",
-    },
-    {
-      id: 4,
-      label: "0-7",
-      key: "0-7 days",
-    },
-  ]
+  expenseTypes: any[] = [];
+  currency:string = '';
 
   chartYear: string = new Date().getFullYear().toString();
   chartYearOptions:any = {};
@@ -52,15 +30,19 @@ export class LeaveManagementOverviewComponent implements OnInit {
   isLoading = false;
   selectedRows:any[] = [];
 
+  private search$ = new Subject<string>();
+  private filters$ = new BehaviorSubject<any>({});
+  private paging$ = new BehaviorSubject<{ page: number; pageSize: number }>({ page: 1, pageSize: 10 });
+  private unsubscribe$ = new Subject<void>();
+
+  // Paging object sent to dynamic-table
+  paging = {
+    page: 1,
+    pageSize: 10,
+    total: 0
+  };
+
   tableColumns: TableColumn[] = [
-    // {
-    //   key: "select",
-    //   label: "Select",
-    //   order: 1,
-    //   columnWidth: "3%",
-    //   cellStyle: "width: 100%",
-    //   sortable: false
-    // },
     {
       key: "profilePic",
       label: "",
@@ -71,7 +53,7 @@ export class LeaveManagementOverviewComponent implements OnInit {
       sortable: false
     },
     {
-      key: "fullName",
+      key: "employeeName",
       label: "Name",
       order: 2,
       columnWidth: "10%",
@@ -79,38 +61,37 @@ export class LeaveManagementOverviewComponent implements OnInit {
       sortable: true
     },
     {
-      key: "leaveTypeName",
-      label: "Leave Type",
+      key: "expenseTypeName",
+      label: "Expense Type",
       order: 3,
       columnWidth: "12%",
       cellStyle: "width: 100%",
       sortable: true
     },
     {
-      key: "requestDate",
-      label: "Submitted",
+      key: "amount",
+      label: "Amount",
       order: 4,
+      columnWidth: "6%",
+      cellStyle: "width: 100%",
+      type: 'amount',
+      sortable: false
+    },
+    {
+      key: "dateRequested",
+      label: "Submitted",
+      order: 5,
       columnWidth: "12%",
       cellStyle: "width: 100%",
       type: 'datetime',
       sortable: true
     },
     {
-      key: "leaveStartDate",
-      label: "Start Date",
-      order: 5,
+      key: "approver",
+      label: "Approver",
+      order: 6,
       columnWidth: "10%",
       cellStyle: "width: 100%",
-      type: 'date',
-      sortable: true
-    },
-    {
-      key: "leaveEndDate",
-      label: "End Date",
-      order: 6,
-      columnWidth: "12%",
-      cellStyle: "width: 100%",
-      type: 'date',
       sortable: true
     },
     {
@@ -141,18 +122,6 @@ export class LeaveManagementOverviewComponent implements OnInit {
     }
   ]
 
-  private search$ = new Subject<string>();
-  private filters$ = new BehaviorSubject<any>({});
-  private paging$ = new BehaviorSubject<{ page: number; pageSize: number }>({ page: 1, pageSize: 10 });
-  private unsubscribe$ = new Subject<void>();
-
-  // Paging object sent to dynamic-table
-  paging = {
-    page: 1,
-    pageSize: 10,
-    total: 0
-  };
-
   constructor(
     private route: ActivatedRoute,
     private authService: AuthService,
@@ -163,25 +132,15 @@ export class LeaveManagementOverviewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.currency = this.utils.currency;
     this.chartYearOptions = this.utils.generateYearOptions(Number(this.chartYear));
-    const leaveGraph$ = this.hrService.getLeaveGraph(Number(this.chartYear)).subscribe(res => {
-      this.leaveGraphDetails = res.data;
-      console.log(this.leaveGraphDetails);
-      this.leaveGraphDetails.forEach((row:any) => {
-        this.leaveRequestMatrix.find((x:any) => {
-          if(x.key == row.group) x.staff = row.employees;
-        }) 
-      });
-      console.log('Matrix', this.leaveRequestMatrix)
-    });
-
-    this.hrService.getLeaveTypes().subscribe(res => {
-      this.leaveTypes = res.data;
+    this.hrService.getExpenseTypes().subscribe(res => {
+      this.expenseTypes = res.data;
       this.buildFilters();
     });
 
     // Reactive pipeline
-    const leaveHistory$ = combineLatest([
+    const expenseHistory$ = combineLatest([
       this.search$.pipe(
         debounceTime(300)
       ), 
@@ -198,7 +157,7 @@ export class LeaveManagementOverviewComponent implements OnInit {
       )
     )
       
-    leaveHistory$.subscribe(res => {
+    expenseHistory$.subscribe(res => {
       console.log('Requests', res)
       this.requestedApprovals = res.data;
       this.approvedRequests = this.requestedApprovals.filter(item => {
@@ -209,10 +168,6 @@ export class LeaveManagementOverviewComponent implements OnInit {
     });
 
     this.search$.next('');
-  }
-
-  goBack() {
-    this.utils.goBack();
   }
 
   ngOnDestroy() {
@@ -248,10 +203,10 @@ export class LeaveManagementOverviewComponent implements OnInit {
   buildFilters() {
     this.tableFilters = [
       { 
-        key: 'leaveType', 
-        label: 'Leave Types', 
+        key: 'expenseType', 
+        label: 'Expense Types', 
         type: 'select', 
-        options: this.utils.arrayToObject(this.leaveTypes, 'leaveName'), 
+        options: this.utils.arrayToObject(this.expenseTypes, 'expenseType'), 
         includeIfEmpty: false 
       },
       // { 
@@ -281,10 +236,10 @@ export class LeaveManagementOverviewComponent implements OnInit {
       width: '35%',
       data: modalData,
       forApproval: true,
-      leaveTypes: this.leaveTypes
+      expenseTypes: this.expenseTypes
     }
     this.modalService.open(
-      LeaveRequestInfoComponent, 
+      ExpenseRequestsInfoComponent, 
       modalConfig
     )
     .subscribe(result => {
@@ -298,17 +253,17 @@ export class LeaveManagementOverviewComponent implements OnInit {
   deleteRow(row: any) {
     //console.log('Delete', row);
     this.notify.confirmAction({
-      title: 'Remove Leave Request',
+      title: 'Remove Expense Request',
       message: 'Are you sure you want to remove this request?',
-      confirmText: 'Remove Leave Request',
+      confirmText: 'Remove Expense Request',
       cancelText: 'Cancel',
     }).subscribe((confirmed) => {
       if (confirmed) {
-        this.hrService.deleteLeaveRequest(row._id).subscribe({
+        this.hrService.deleteExpenseRequest(row._id).subscribe({
           next: res => {
             // console.log(res);
             if(res.status == 200) {
-              this.notify.showInfo('This leave request has been deleted successfully');
+              this.notify.showInfo('This expense request has been deleted successfully');
             }
             this.search$.next('');
           },
@@ -319,5 +274,4 @@ export class LeaveManagementOverviewComponent implements OnInit {
       }
     });
   }
-
 }
