@@ -17,11 +17,19 @@ import { LeaveRequestInfoComponent } from './leave-management/leave-request-info
 import { ExpenseManagementOverviewComponent } from './expense-management/expense-management-overview/expense-management-overview.component';
 import { ExpenseRequestsInfoComponent } from './expense-management/expense-requests-info/expense-requests-info.component';
 import { ExpenseRequestsOverviewComponent } from './expense-management/expense-requests-overview/expense-requests-overview.component';
+import { EmployeeAssignmentComponent } from './employees/employee-assignment/employee-assignment.component';
+import { AttendancePortalComponent } from './attendance/attendance-portal/attendance-portal.component';
+import { AttendanceLogComponent } from './attendance/attendance-log/attendance-log.component';
+import { VisitorInfoComponent } from './attendance/visitor-info/visitor-info.component';
+import { VisitorsLogComponent } from './attendance/visitors-log/visitors-log.component';
 
 
 @NgModule({
   declarations: [
+    AttendancePortalComponent,
+    AttendanceLogComponent,
     DashboardComponent,
+    EmployeeAssignmentComponent,
     EmployeeListComponent,
     EmployeeInfoComponent,
     EmployeeProfileComponent,
@@ -33,6 +41,8 @@ import { ExpenseRequestsOverviewComponent } from './expense-management/expense-r
     LeaveRequestInfoComponent,
     LeaveRequestsOverviewComponent,
     PaymentInfoComponent,
+    VisitorInfoComponent,
+    VisitorsLogComponent,
     WorkLocationComponent
   ],
   imports: [

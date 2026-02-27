@@ -8,6 +8,9 @@ import { LeaveRequestInfoComponent } from './leave-management/leave-request-info
 import { LeaveRequestsOverviewComponent } from './leave-management/leave-requests-overview/leave-requests-overview.component';
 import { ExpenseManagementOverviewComponent } from './expense-management/expense-management-overview/expense-management-overview.component';
 import { ExpenseRequestsOverviewComponent } from './expense-management/expense-requests-overview/expense-requests-overview.component';
+import { AttendancePortalComponent } from './attendance/attendance-portal/attendance-portal.component';
+import { AttendanceLogComponent } from './attendance/attendance-log/attendance-log.component';
+import { VisitorsLogComponent } from './attendance/visitors-log/visitors-log.component';
 
 const routes: Routes = [
   {
@@ -46,6 +49,25 @@ const routes: Routes = [
   {
     path: 'expense-requests',
     component: ExpenseRequestsOverviewComponent
+  },
+  {
+    path: 'access-logs',
+    component: AttendancePortalComponent,
+    children: [
+      {
+        path: '',
+        redirectTo: 'attendance',
+        pathMatch: 'full'
+      },
+      {
+        path : 'attendance',
+        component: AttendanceLogComponent
+      },
+      {
+        path : 'visitors',
+        component: VisitorsLogComponent
+      }
+    ]
   },
 ];
 

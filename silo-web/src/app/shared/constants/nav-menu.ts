@@ -85,14 +85,19 @@ export const navMenuData: MenuItem[] = [
                 label: 'Calendar' 
             },
             { 
-                routeLink: 'hr/attendance', 
+                routeLink: 'hr/access-logs', 
                 icon: 'bookUser', 
-                label: 'Attendance' 
+                label: 'Attendance & Visits' 
             },
             { 
-                routeLink: 'hr/visitors-log', 
-                icon: 'landmark', 
-                label: 'Visitors Log' 
+                routeLink: 'hr/notice-board', 
+                icon: 'newspaper', 
+                label: 'Notice Board' 
+            },
+            { 
+                routeLink: 'hr/reports', 
+                icon: 'chart', 
+                label: 'Reports & Analytics' 
             }
         ]
     },
