@@ -31,7 +31,7 @@ export class StatusInfoComponent implements OnInit {
         controlName: 'stageName',
         controlType: 'text',
         controlLabel: 'Stage Name',
-        controlWidth: '48%',
+        controlWidth: '100%',
         initialValue: this.data.isExisting ? this.data.data.stageName : null,
         validators: [Validators.required],
         order: 1
@@ -46,13 +46,30 @@ export class StatusInfoComponent implements OnInit {
         order: 2
       },
       {
+        controlName: 'theme',
+        controlType: 'select',
+        controlLabel: 'Color theme',
+        controlWidth: '48%',
+        initialValue: this.data.isExisting ? this.data.data?.colorTheme : null,
+        selectOptions: {
+          blue: 'blue',
+          green: 'green',
+          orange: 'orange',
+          purple: 'purple',
+          red: 'red',
+          yellow: 'yellow',
+        },
+        validators: [Validators.required],
+        order: 3
+      },
+      {
         controlName: 'description',
         controlType: 'textarea',
         controlLabel: 'Description',
         controlWidth: '100%',
         initialValue: this.data.isExisting ? this.data.data.description : null,
         validators: null,
-        order: 3
+        order: 4
       }
     ]
   }
