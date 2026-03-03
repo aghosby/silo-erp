@@ -692,6 +692,15 @@ a {
   }
 }
 
+.ngx-charts g .grid-panel.odd rect {
+  fill: none !important;
+}
+
+.ngx-charts .tick text {
+  font-family: var(--font-regular) !important;
+  font-size: 0.85rem !important;
+  fill: var(--black-tint) !important;
+}
 
 
 //MAT FORM FIELDS STYLES

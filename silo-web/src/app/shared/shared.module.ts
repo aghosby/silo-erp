@@ -66,6 +66,7 @@ import { CdkOverlayOrigin } from "@angular/cdk/overlay";
 import { DocumentUploadComponent } from './components/blocks/document-upload/document-upload.component';
 import { DateScrollSelectionComponent } from './components/blocks/date-scroll-selection/date-scroll-selection.component';
 import { StatusInfoComponent } from './components/blocks/status-info/status-info.component';
+import { BarChartComponent } from './components/charts/bar-chart/bar-chart.component';
 
 const SHARED_COMP = [
   MatFormFieldModule,
@@ -107,6 +108,7 @@ const SHARED_COMP = [
     AreaChartComponent,
     DateScrollSelectionComponent,
     PieChartComponent,
+    BarChartComponent,
     ProgressBarComponent,
     ConfirmationModalComponent,
     PaginationComponent,
@@ -164,6 +166,7 @@ const SHARED_COMP = [
     ToastComponent,
     ProgressBarComponent,
     AreaChartComponent,
+    BarChartComponent,
     PieChartComponent,
     ProgressBarComponent,
     PaginationComponent,

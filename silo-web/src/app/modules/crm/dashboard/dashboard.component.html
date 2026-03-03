@@ -70,20 +70,120 @@
         </div>
 
         <div class="row-section d-flex justify-content-between mt-3">
-            <div class="row-card card-xmlg card-ylg">
-                <div class="row-card"></div>
+            <div class="row-card card-xmlg">
+                <div class="card-cont d-flex flex-column position-relative">
+                    <div class="top d-flex justify-content-between align-items-start">
+                        <div class="hdr">
+                            <div class="card-title color-theme-primary">Monthly Sales Revenue</div>
+                            <div class="preamble mt-1">Sales revenue throughout the year</div>
+                        </div>
+
+                        <div class="actions">
+                            <mat-form-field class="field compact-field" appearance="outline" [style.width]="'10rem'">
+                                <mat-label>Select Year</mat-label>
+                                <mat-select
+                                    class="selectField"
+                                    disableOptionCentering
+                                    panelClass="compact-dropdown"
+                                    [(ngModel)]="chartYear"
+                                    style="font-size: 0.7rem;"
+                                >
+                                    <mat-option *ngFor="let option of chartYearOptions | keyvalue: keepOrder" [value]="option.key">{{option.value}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="btm mt-auto">
+                        <app-area-chart></app-area-chart>
+                    </div>
+                </div>
             </div>
-            <div class="row-card card-xmd card-ylg">
-                <div class="row-card"></div>
+
+            <div class="row-card card-xmd">
+                <div class="row-card">
+                    <div class="card-cont">
+                        <div class="top">
+                            <div class="hdr">
+                                <div class="card-title color-theme-primary">Invoice By Status</div>
+                                <div class="preamble mt-1">Analysis by payment status</div>
+                                <ul class="chart-legend d-flex mt-1">
+                                    <li *ngFor="let item of invoiceAnalysisData; let i = index"> 
+                                        <span class="code" [style.background]="invoiceAnalysisColorScheme['domain'][i]"></span>{{item.name}}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="btm d-flex flex-column align-items-center justify-content-center">
+                            <app-pie-chart
+                                [chartSize]="[260, 260]"
+                                [chartData]="invoiceAnalysisData"
+                                [colorScheme]="invoiceAnalysisColorScheme"
+                                [doughnut]="false"
+                            ></app-pie-chart>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="row-section d-flex justify-content-between mt-3">
-            <div class="row-card card-xmd card-ylg">
-                <div class="row-card"></div>
+            <div class="row-card card-xmd">
+                <div class="card-cont">
+                    <div class="top">
+                        <div class="hdr">
+                            <div class="card-title color-theme-primary">Leads By Status</div>
+                            <div class="preamble mt-1">Analysis by leads status</div>
+                            <ul class="chart-legend d-flex mt-1">
+                                <li *ngFor="let item of leadsAnalysisData; let i = index"> 
+                                    <span class="code" [style.background]="leadsAnalysisColorScheme['domain'][i]"></span>{{item.name}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="btm d-flex flex-column align-items-center justify-content-center">
+                        <app-pie-chart
+                            [chartSize]="[260, 260]"
+                            [chartData]="leadsAnalysisData"
+                            [colorScheme]="leadsAnalysisColorScheme"
+                            [doughnut]="true"
+                        ></app-pie-chart>
+                    </div>
+                </div>
             </div>
-            <div class="row-card card-xmlg card-ylg">
-                <div class="row-card"></div>
+
+            <div class="row-card card-xmlg">
+                <div class="row-card">
+                    <div class="card-cont d-flex flex-column position-relative">
+                        <div class="top d-flex justify-content-between align-items-start">
+                            <div class="hdr">
+                                <div class="card-title color-theme-primary">Contacts Vs. Leads</div>
+                                <div class="preamble mt-1">Trend of contacts and leads across months of the year.</div>
+                            </div>
+
+                            <div class="actions">
+                                <mat-form-field class="field compact-field" appearance="outline" [style.width]="'10rem'">
+                                    <mat-label>Select Year</mat-label>
+                                    <mat-select
+                                        class="selectField"
+                                        disableOptionCentering
+                                        panelClass="compact-dropdown"
+                                        [(ngModel)]="chartYear"
+                                        style="font-size: 0.7rem;"
+                                    >
+                                        <mat-option *ngFor="let option of chartYearOptions | keyvalue: keepOrder" [value]="option.key">{{option.value}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="btm mt-auto">
+                            <app-bar-chart
+                                [chartSize]="[620, 300]"
+                                [chartData]="contactsLeadsAnalysisData"
+                            >
+                            </app-bar-chart>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -92,7 +192,29 @@
                 <div class="row-card"></div>
             </div>
             <div class="row-card card-xmd card-ylg">
-                <div class="row-card"></div>
+                <div class="row-card">
+                    <div class="card-cont">
+                        <div class="top">
+                            <div class="hdr">
+                                <div class="card-title color-theme-primary">Tickets By Progress</div>
+                                <div class="preamble mt-1">Analysis by ticket statuses</div>
+                                <ul class="chart-legend d-flex mt-1">
+                                    <li *ngFor="let item of ticketAnalysisData; let i = index"> 
+                                        <span class="code" [style.background]="ticketAnalysisColorScheme['domain'][i]"></span>{{item.name}}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="btm d-flex flex-column align-items-center justify-content-center">
+                            <app-pie-chart
+                                [chartSize]="[240, 240]"
+                                [chartData]="ticketAnalysisData"
+                                [colorScheme]="ticketAnalysisColorScheme"
+                                [doughnut]="false"
+                            ></app-pie-chart>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="row-card card-xmd card-ylg">
                 <div class="row-card"></div>
