@@ -17,6 +17,7 @@
             [fields]="formFields"
             [isLoading]="isLoading"
             (formAction)="handleFormAction($event)"
+            (valueChanges)="onFormChanges($event)"
         ></app-dynamic-form>
     </section>
 </div>

@@ -65,35 +65,47 @@ export class LeadsInfoComponent implements OnInit {
 
     this.formFields = [
       {
-        controlName: 'firstName',
-        controlType: 'text',
-        controlLabel: 'First Name',
-        controlWidth: '48%',
-        initialValue: this.data.isExisting ? this.data.data?.firstName : null,
-        validators: [Validators.required],
-        order: 1
-      },
-      {
-        controlName: 'lastName',
-        controlType: 'text',
-        controlLabel: 'Last Name',
-        controlWidth: '48%',
-        initialValue: this.data.isExisting ? this.data.data?.lastName : null,
-        validators: [Validators.required],
-        order: 2
-      },
-      {
         controlName: 'leadType',
         controlType: 'select',
         controlLabel: 'Lead Type',
-        controlWidth: '48%',
+        controlWidth: '100%',
         initialValue: this.data.isExisting ? this.data.data?.leadType : null,
         selectOptions: {
           Individual: 'Individual',
           Company: 'Company'
         },
         validators: [Validators.required],
+        order: 1
+      },
+      {
+        controlName: 'firstName',
+        controlType: 'text',
+        controlLabel: 'First Name',
+        controlWidth: '48%',
+        hidden: true,
+        initialValue: this.data.isExisting ? this.data.data?.firstName : null,
+        validators: [Validators.required],
+        order: 2
+      },
+      {
+        controlName: 'lastName',
+        controlType: 'text',
+        controlLabel: 'Last Name',
+        controlWidth: '48%',
+        hidden: true,
+        initialValue: this.data.isExisting ? this.data.data?.lastName : null,
+        validators: [Validators.required],
         order: 3
+      },
+      {
+        controlName: 'companyName',
+        controlType: 'text',
+        controlLabel: 'Company Name',
+        controlWidth: '48%',
+        initialValue: this.data.isExisting ? this.data.data?.companyName : null,
+        validators: [],
+        hidden: true,
+        order: 3.5
       },
       {
         controlName: 'industry',
@@ -210,6 +222,32 @@ export class LeadsInfoComponent implements OnInit {
         order: 11
       },
     ]
+  }
+
+  onFormChanges(value: any) {
+    this.toggleLeadTypeFields(value.leadType);
+  }
+
+  toggleLeadTypeFields(type: string) {
+    const firstName = this.formFields.find(f => f.controlName === 'firstName');
+    const lastName = this.formFields.find(f => f.controlName === 'lastName');
+    const companyName = this.formFields.find(f => f.controlName === 'companyName');
+
+    if (!firstName || !lastName || !companyName) return;
+
+    if (type === 'Company') {
+      firstName.hidden = true;
+      lastName.hidden = true;
+      companyName.hidden = false;
+    } 
+    else {
+      firstName.hidden = false;
+      lastName.hidden = false;
+      companyName.hidden = true;
+    }
+
+    // 🔥 IMPORTANT: trigger change detection
+    this.formFields = [...this.formFields];
   }
 
   handleFormAction(event: any) {

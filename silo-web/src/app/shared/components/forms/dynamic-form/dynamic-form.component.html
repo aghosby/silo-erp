@@ -1,7 +1,7 @@
 <form class="" [formGroup]="form">
     <div class="form-wrap d-flex flex-wrap justify-content-between">
         <ng-container *ngFor="let field of fields">
-            <ng-container [ngSwitch]="field.controlType">
+            <ng-container *ngIf="!field.hidden" [ngSwitch]="field.controlType">
                 <!-- Text Input -->
                 <mat-form-field *ngSwitchCase="'text'" appearance="outline" [style.width]="field.controlWidth || '100%'" color="primary">
                     <mat-label>{{ field.controlLabel }}</mat-label>
