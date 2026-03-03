@@ -6,6 +6,8 @@ import { FilterConfig, TableColumn } from '@models/general/table-data';
 import { UtilityService } from '@services/utils/utility.service';
 import { BehaviorSubject, catchError, combineLatest, debounceTime, forkJoin, of, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CrmService } from '@services/crm/crm.service';
+import { LeadsInfoComponent } from '../leads-info/leads-info.component';
 
 @Component({
   selector: 'app-leads-overview',
@@ -180,7 +182,7 @@ export class LeadsOverviewComponent implements OnInit {
 
   constructor(
     private modalService: ModalService,
-    private hrService: HrService,
+    private crmService: CrmService,
     private utils: UtilityService,
     private router: Router,
     private route: ActivatedRoute,
@@ -188,7 +190,40 @@ export class LeadsOverviewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // Reactive pipeline
+    const tableData$ = combineLatest([
+      this.search$.pipe(
+        debounceTime(300)
+      ), 
+      this.filters$, 
+      this.paging$
+      ]
+    ).pipe(
+      takeUntil(this.unsubscribe$),
+      tap(() => (this.isLoading = true)),
+      switchMap(([search, filters, paging]) =>
+        this.crmService.getLeads(paging.page, paging.pageSize, search, filters).pipe(
+          catchError(() => of({ data: [], total: 0 })) // fallback if API fails
+        )
+      )
+    )
       
+    tableData$.subscribe(res => {
+      //console.log('Employees', res)
+      this.tableData = res.data;
+      this.paging.total = res.totalRecords;
+      this.isLoading = false;
+    });
+
+    // Trigger initial load
+    this.search$.next('');
+
+    forkJoin({
+      agents: this.crmService.getAgents(),
+    }).subscribe(({ agents }) => {
+      this.agentsList = agents.data;
+      this.buildFilters();
+    });
   }
 
   ngOnDestroy() {
@@ -271,7 +306,7 @@ export class LeadsOverviewComponent implements OnInit {
       cancelText: 'Cancel',
     }).subscribe((confirmed) => {
       if (confirmed) {
-        this.hrService.deleteEmployee(row._id).subscribe({
+        this.crmService.deleteLead(row._id).subscribe({
           next: res => {
             // console.log(res);
             if(res.status == 200) {
@@ -322,11 +357,25 @@ export class LeadsOverviewComponent implements OnInit {
       }
     }
     else {
-      this.notify.showError('Please select the employees you need to take action on')
+      this.notify.showError('Please select the leads you need to take action on')
     }    
   }
 
-  openLeadsModal(row?:any) {
-    
+  openLeadsModal(modalData?:any) {
+    const modalConfig:any = {
+      isExisting: modalData ? true : false,
+      width: '40%',
+      data: modalData,
+      agents: this.agentsList
+    }
+    this.modalService.open(
+      LeadsInfoComponent, 
+      modalConfig
+    )
+    .subscribe(result => {
+      if (result.action === 'submit' && result.dirty) {
+        this.search$.next('');
+      }
+    });
   }
 }
