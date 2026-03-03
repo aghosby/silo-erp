@@ -8,6 +8,7 @@ import { SubscriptionOverviewComponent } from './general/subscription-overview/s
 import { AuditTrailComponent } from './general/audit-trail/audit-trail.component';
 import { BillingOverviewComponent } from './general/billing-overview/billing-overview.component';
 import { AccountSettingsPortalComponent } from './general/account-settings-portal/account-settings-portal.component';
+import { CrmSettingsComponent } from './crm/crm-settings/crm-settings.component';
 
 const routes: Routes = [
   {
@@ -54,6 +55,10 @@ const routes: Routes = [
   {
     path: 'hr-settings',
     component: HrSettingsComponent
+  },
+  {
+    path: 'crm-settings',
+    component: CrmSettingsComponent
   }
 ];
 

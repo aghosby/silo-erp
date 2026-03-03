@@ -1,0 +1,24 @@
+.form-wrap {
+    gap: 1rem 0;
+
+    .field-wrap {
+        position: relative;
+
+        .cta-add {
+            width: 2.5rem;
+            height: 2.5rem;
+            font-size: 1.7rem;
+            display: flex;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            border-radius: var(--radius-sm);
+            transform: translateY(-50%);
+            background: var(--primary);
+            color: white;
+            right: 0.4rem;
+            top: 1.6rem;
+        }
+    }
+}

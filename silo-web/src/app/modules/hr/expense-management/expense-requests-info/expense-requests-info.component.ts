@@ -93,7 +93,7 @@ export class ExpenseRequestsInfoComponent implements OnInit {
         controlLabel: 'Attachment',
         controlWidth: '100%',
         initialValue: this.data.isExisting ? this.data.data.attachment : null,
-        validators: [Validators.required],
+        validators: [],
         order: 5
       },
     ]
@@ -114,16 +114,16 @@ export class ExpenseRequestsInfoComponent implements OnInit {
 
   handleFormAction(event: any) {
     this.isLoading = true;
-    const payload = event.value;
-    console.log("Default submit:", payload);
+    const formValue = event.value;
+    console.log("Default submit:", formValue);
 
     if(this.data.forApproval) {
       this.isLoading = true;
       this.buttonLoading = event.buttonKey;
-      let data = {
+      const payload = {
         requestId: this.data.data._id,
         approved: event.buttonKey === 'approve' ? true : false,
-        comments: payload.decisionReason
+        comments: formValue.decisionReason
       }
       console.log(this.data);
       this.hrService.actionExpenseRequest(payload).subscribe({
@@ -142,8 +142,11 @@ export class ExpenseRequestsInfoComponent implements OnInit {
       })
     }
     else {
+      const formData = new FormData();
+      Object.keys(formValue).forEach(k => formData.append(k, formValue[k] ?? ''));
+
       this.data.isExisting ? 
-      this.hrService.updateLeaveRequest(payload, this.data.data._id).subscribe({
+      this.hrService.updateLeaveRequest(formData, this.data.data._id).subscribe({
         next: res => {
           //console.log('Update Response', res)
           if(res.success) this.notify.showSuccess('Your leave application has been updated successfully');
@@ -155,7 +158,7 @@ export class ExpenseRequestsInfoComponent implements OnInit {
         }
       }) 
       :
-      this.hrService.createLeaveRequest(payload).subscribe({
+      this.hrService.createLeaveRequest(formData).subscribe({
         next: res => {
           console.log('Create Response', res)
           if(res.success) this.notify.showSuccess('Your leave application has been sent successfully');

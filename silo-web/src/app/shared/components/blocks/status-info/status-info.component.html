@@ -1,0 +1,23 @@
+<div class="modal-wrap">
+    <section class="modal-header">
+        <div class="illustration">
+            <div class="img-wrap">
+                <img src="assets/img/project/illustrations/puzzle.webp" alt="">
+            </div>
+        </div>
+
+        <div class="details">
+            <div *ngIf="data.stageType === 'lead'" class="title">{{ data.isExisting ? 'Edit Lead Stage' : 'Create Lead Stage' }}</div>
+            <div *ngIf="data.stageType === 'ticket'" class="title">{{ data.isExisting ? 'Edit Support Ticket Stage' : 'Create Support Ticket Stage' }}</div>
+            <div class="preamble">Enter the stage information</div>        
+        </div>        
+    </section>
+
+    <section class="modal-body">
+        <app-dynamic-form
+            [fields]="formFields"
+            [isLoading]="isLoading"
+            (formAction)="handleFormAction($event)"
+        ></app-dynamic-form>
+    </section>
+</div>
