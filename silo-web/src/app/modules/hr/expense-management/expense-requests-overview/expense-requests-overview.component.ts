@@ -157,7 +157,7 @@ export class ExpenseRequestsOverviewComponent implements OnInit {
       isExisting: modalData ? true : false,
       width: '35%',
       data: modalData,
-      forApproval: true,
+      forApproval: false,
       expenseTypes: this.expenseTypes
     }
     this.modalService.open(

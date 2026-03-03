@@ -116,14 +116,14 @@ export const navMenuData: MenuItem[] = [
                 label: 'Dashboard' 
             },
             { 
-                routeLink: 'crm/contacts', 
-                icon: 'contactRound', 
-                label: 'Contacts' 
+                routeLink: 'crm/leads', 
+                icon: 'userStar', 
+                label: 'Leads' 
             },
             { 
-                routeLink: 'crm/leads', 
-                icon: 'shieldUser', 
-                label: 'Leads' 
+                routeLink: 'crm/contacts', 
+                icon: 'bookUser', 
+                label: 'Contacts' 
             },
             { 
                 routeLink: 'crm/communication', 

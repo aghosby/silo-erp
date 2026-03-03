@@ -19,10 +19,12 @@ import { BillingOverviewComponent } from './general/billing-overview/billing-ove
 import { RolesPermissionManagementComponent } from './general/roles-permission-management/roles-permission-management.component';
 import { SubscriptionHistoryComponent } from './general/subscription-history/subscription-history.component';
 import { SubscriptionOverviewComponent } from './general/subscription-overview/subscription-overview.component';
+import { CrmSettingsComponent } from './crm/crm-settings/crm-settings.component';
 
 
 @NgModule({
   declarations: [
+    CrmSettingsComponent,
     GeneralSettingsComponent,
     HrSettingsComponent,
     DepartmentInfoComponent,

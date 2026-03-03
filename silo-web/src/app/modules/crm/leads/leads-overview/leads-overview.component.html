@@ -1,0 +1,93 @@
+<div class="content-wrap">
+    <div class="inner-wrap">
+        <div class="row-section d-flex justify-content-between align-items-center">
+            <div class="page-header">Leads</div>
+            <div class="main-actions d-flex justify-content-start align-items-center">
+                <div (click)="openLeadsModal()" class="cta cta-primary icon lg"><app-icon [iconName]="'userStar'" [iconStrokeWidth]="2" [iconWidth]="25" [iconHeight]="25"></app-icon> New Lead</div>
+            </div>
+        </div>
+
+        <div class="row-section d-flex justify-content-between mt-4">
+            <div class="row-card card-xsmd card-ysm card-theme-blue">
+                <div class="card-cont d-flex flex-column">
+                    <div class="top d-flex align-items-end">
+                        <div class="card-title">Total Leads</div>
+                        <!-- <span class="percent-diff increase"><i class="bi bi-arrow-up-right"></i> 10%</span> -->
+                    </div>
+                    <div class="btm d-flex justify-content-between align-items-end mt-auto">
+                        <div class="card-icon">
+                            <app-icon [iconName]="'userStar'" [iconStrokeWidth]="2" [iconWidth]="25" [iconHeight]="25"></app-icon>
+                        </div>
+                        <div class="card-count ms-auto">70 <span>Leads</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-card card-xsmd card-ysm card-theme-yellow">
+                <div class="card-cont d-flex flex-column">
+                    <div class="top d-flex align-items-end">
+                        <div class="card-title">Expected Value</div>
+                        <!-- <span class="percent-diff decrease"><i class="bi bi-arrow-down-right"></i> 5%</span> -->
+                    </div>
+                    <div class="btm d-flex justify-content-between align-items-end mt-auto">
+                        <div class="card-icon">
+                            <app-icon [iconName]="'bankNote'" [iconStrokeWidth]="2" [iconWidth]="25" [iconHeight]="25"></app-icon>
+                        </div>
+                        <div class="card-count ms-auto">$ 100,000</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-card card-xsmd card-ysm card-theme-green">
+                <div class="card-cont d-flex flex-column">
+                    <div class="top d-flex align-items-end">
+                        <div class="card-title">Leads Won</div>
+                        <!-- <span class="percent-diff increase"><i class="bi bi-arrow-up-right"></i> 3%</span> -->
+                    </div>
+                    <div class="btm d-flex justify-content-between align-items-end mt-auto">
+                        <div class="card-icon">
+                            <app-icon [iconName]="'handshake'" [iconStrokeWidth]="2" [iconWidth]="25" [iconHeight]="25"></app-icon>
+                        </div>
+                        <div class="card-count ms-auto">40 <span>Leads</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-card card-xsmd card-ysm card-theme-red">
+                <div class="card-cont d-flex flex-column">
+                    <div class="top d-flex align-items-end">
+                        <div class="card-title">Deals Lost</div>
+                        <!-- <span class="percent-diff increase"><i class="bi bi-arrow-up-right"></i> 6%</span> -->
+                    </div>
+                    <div class="btm d-flex justify-content-between align-items-end mt-auto">
+                        <div class="card-icon">
+                            <app-icon [iconName]="'bankNoteX'" [iconStrokeWidth]="2" [iconWidth]="25" [iconHeight]="25"></app-icon>
+                        </div>
+                        <div class="card-count ms-auto">10 <span>Leads</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row-section mt-4">
+            <app-dynamic-table
+                [columns]="tableColumns"
+                [showCheckbox]="true"
+                [data]="tableData"
+                [paging]="paging"
+                [filters]="tableFilters"
+                [bulkActions]="bulkActions"
+                [loading]="isLoading"
+                [emptyDataMessage]="'No leads exist currently.'"
+                [emptyDataImage]="'assets/img/project/illustrations/user.webp'"
+                (rowClick)="viewRow($event)"
+                (bulkAction)="onBulkAction($event)"
+                (actionClick)="onTableAction($event)"
+                (pagingChange)="onPagingChange($event)"
+                (searchChange)="onSearchChange($event)"
+                (filterChange)="onFilterChange($event)"
+                (selectionChange)="onSelectionChange($event)"
+            ></app-dynamic-table>
+        </div>
+    </div>
+</div>

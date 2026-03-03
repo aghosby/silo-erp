@@ -79,6 +79,12 @@ export class UtilityService {
     }
   }
 
+  get pieChartColorScheme() {
+    return {
+      domain: ['rgba(235, 87, 87, 0.7)', 'rgba(54, 171, 104, 0.7)', 'rgba(229, 166, 71, 0.7)', 'rgba(66, 133, 244, 0.7)', 'rgba(255, 150, 85, 0.7)']
+    };
+  }
+
   goBack() {
     this.location.back();
   }
