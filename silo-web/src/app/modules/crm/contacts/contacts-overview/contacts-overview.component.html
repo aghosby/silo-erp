@@ -6,5 +6,89 @@
                 <div (click)="openContactsModal()" class="cta cta-primary icon lg"><app-icon [iconName]="'bookUser'" [iconStrokeWidth]="2" [iconWidth]="25" [iconHeight]="25"></app-icon> New Contact</div>
             </div>
         </div>
+
+        <div class="row-section d-flex justify-content-between mt-4">
+            <div class="row-card card-xsmd card-ysm card-theme-blue">
+                <div class="card-cont d-flex flex-column">
+                    <div class="top d-flex align-items-end">
+                        <div class="card-title">Total Contacts</div>
+                        <!-- <span class="percent-diff increase"><i class="bi bi-arrow-up-right"></i> 10%</span> -->
+                    </div>
+                    <div class="btm d-flex justify-content-between align-items-end mt-auto">
+                        <div class="card-icon">
+                            <app-icon [iconName]="'bookUser'" [iconStrokeWidth]="2" [iconWidth]="22" [iconHeight]="22"></app-icon>
+                        </div>
+                        <div class="card-count ms-auto">40 <span>Contacts</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-card card-xsmd card-ysm card-theme-yellow">
+                <div class="card-cont d-flex flex-column">
+                    <div class="top d-flex align-items-end">
+                        <div class="card-title">Sales Value</div>
+                        <!-- <span class="percent-diff decrease"><i class="bi bi-arrow-down-right"></i> 5%</span> -->
+                    </div>
+                    <div class="btm d-flex justify-content-between align-items-end mt-auto">
+                        <div class="card-icon">
+                            <app-icon [iconName]="'layers'" [iconStrokeWidth]="2" [iconWidth]="22" [iconHeight]="22"></app-icon>
+                        </div>
+                        <div class="card-count ms-auto">$ 100,000</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-card card-xsmd card-ysm card-theme-green">
+                <div class="card-cont d-flex flex-column">
+                    <div class="top d-flex align-items-end">
+                        <div class="card-title">Acquisition Rate</div>
+                        <!-- <span class="percent-diff increase"><i class="bi bi-arrow-up-right"></i> 6%</span> -->
+                    </div>
+                    <div class="btm d-flex justify-content-between align-items-end mt-auto">
+                        <div class="card-icon">
+                            <app-icon [iconName]="'handshake'" [iconStrokeWidth]="2" [iconWidth]="25" [iconHeight]="25"></app-icon>
+                        </div>
+                        <div class="card-count ms-auto">10%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-card card-xsmd card-ysm card-theme-red">
+                <div class="card-cont d-flex flex-column">
+                    <div class="top d-flex align-items-end">
+                        <div class="card-title">Total Invoices</div>
+                        <!-- <span class="percent-diff increase"><i class="bi bi-arrow-up-right"></i> 3%</span> -->
+                    </div>
+                    <div class="btm d-flex justify-content-between align-items-end mt-auto">
+                        <div class="card-icon">
+                            <app-icon [iconName]="'bankNote'" [iconStrokeWidth]="2" [iconWidth]="25" [iconHeight]="25"></app-icon>
+                        </div>
+                        <div class="card-count ms-auto">$ 20,000</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row-section mt-4">
+            <app-dynamic-table
+                [columns]="tableColumns"
+                [showCheckbox]="true"
+                [data]="tableData"
+                [paging]="paging"
+                [filters]="tableFilters"
+                [bulkActions]="bulkActions"
+                [loading]="isLoading"
+                [emptyDataMessage]="'No leads exist currently.'"
+                [emptyDataImage]="'assets/img/project/illustrations/user.webp'"
+                (rowClick)="viewRow($event)"
+                (bulkAction)="onBulkAction($event)"
+                (actionClick)="onTableAction($event)"
+                (pagingChange)="onPagingChange($event)"
+                (searchChange)="onSearchChange($event)"
+                (filterChange)="onFilterChange($event)"
+                (selectionChange)="onSelectionChange($event)"
+            ></app-dynamic-table>
+        </div>
+
     </div>
 </div>

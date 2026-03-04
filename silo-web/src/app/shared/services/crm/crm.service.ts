@@ -69,6 +69,29 @@ export class CrmService {
     return this.http.delete<any>(`${this.baseUrl}/deleteLead/${leadId}`, this.requestOptions);
   }
 
+  /*************** CONTACT RELATED ACTIONS ***************/
+
+  //Create a new contact
+  public createContact(info: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/createContact`, info, this.requestOptions);
+  }
+
+  //Get the list of all Contacts
+  public getContacts(pageNo?:number, pageSize?:number, searchParam?:string, filters?:any): Observable<any> {
+    const url = `${this.baseUrl}/fetchContacts`;
+    return this.getPagedData$(url, pageNo, pageSize, searchParam, filters);
+  }
+
+  //Update Contact
+  public updateContact(payload: any, contactId: string): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/updateContact/${contactId}`, payload, this.requestOptions);
+  }
+
+  //Delete Contact
+  public deleteContact(contactId: any): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/deleteContact/${contactId}`, this.requestOptions);
+  }
+
   /*************** AGENT RELATED ACTIONS ***************/
 
   //Create a new agent

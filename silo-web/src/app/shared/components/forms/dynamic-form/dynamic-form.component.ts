@@ -16,6 +16,7 @@ export class DynamicFormComponent implements OnInit {
   @Input() loadingButtonKey: string | null = null;
   @Input() buttons: DynamicFormButton[] | null = null;
   @Output() formAction = new EventEmitter<DynamicFormAction>();
+  @Output() valueChanges = new EventEmitter<any>();
 
   keepOrder = () => 0;
 
@@ -44,6 +45,10 @@ export class DynamicFormComponent implements OnInit {
           this.fb.control(field.initialValue, field.validators || [])
         );
       }
+    });
+
+    this.form.valueChanges.subscribe(value => {
+      this.valueChanges.emit(value);
     });
   }
 

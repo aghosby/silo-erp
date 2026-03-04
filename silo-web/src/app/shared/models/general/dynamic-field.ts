@@ -7,6 +7,7 @@ export interface DynamicField {
     controlWidth: string,
     initialValue: any,
     placeholder?: string,
+    hidden?: boolean,
     readonly?: boolean,
     selectOptions?: {[key: string]: string},
     validators?: ValidatorFn[] | null,
