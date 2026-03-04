@@ -1,0 +1,26 @@
+<div class="deals-card {{'color-theme-'+ theme}}">
+    <div class="header">
+        <div class="value">$ {{data.value}}</div>
+        <div class="icon {{data.priority}}">
+            <app-icon [iconName]="data.priority == 'hot' ? 'flame' : data.priority == 'cold' ? 'cold' : 'warm'" [iconStrokeWidth]="2" [iconWidth]="20" [iconHeight]="20"></app-icon>
+        </div>
+    </div>
+    <div class="body">
+        <div class="title">{{data.title}}</div>
+        <div class="info">
+            <div class="info-hld">
+                <span>{{data.company}}</span>
+                <span>{{data.date}}</span>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="image">
+            <span class="card-img bkg-standard" style="background-image: url('{{data.avatar}}');"></span>
+        </div>
+        <div class="info">
+            <div class="name">{{data.contactName}}</div>
+            <div class="email">{{data.email}}</div>
+        </div>
+    </div>
+</div>

@@ -126,9 +126,14 @@ export const navMenuData: MenuItem[] = [
                 label: 'Contacts' 
             },
             { 
-                routeLink: 'crm/communication', 
-                icon: 'megaphone', 
-                label: 'Communication' 
+                routeLink: 'crm/deals-pipeline', 
+                icon: 'tags', 
+                label: 'Deals Pipeline' 
+            },
+            { 
+                routeLink: 'crm/sales', 
+                icon: 'scrollText', 
+                label: 'Sales Orders' 
             },
             { 
                 routeLink: 'crm/calendar', 
@@ -136,14 +141,14 @@ export const navMenuData: MenuItem[] = [
                 label: 'Calendar' 
             },
             { 
+                routeLink: 'crm/communication', 
+                icon: 'megaphone', 
+                label: 'Communication' 
+            },
+            { 
                 routeLink: 'crm/support', 
                 icon: 'headset', 
                 label: 'Support' 
-            },
-            { 
-                routeLink: 'crm/sales', 
-                icon: 'scrollText', 
-                label: 'Sales' 
             },
             { 
                 routeLink: 'crm/agents', 

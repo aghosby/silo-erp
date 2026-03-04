@@ -1,0 +1,20 @@
+<div class="content-wrap">
+    <div class="inner-wrap">
+        <div class="row-section d-flex justify-content-between align-items-center">
+            <div class="page-header">Deals Pipeline</div>
+            <div class="main-actions d-flex justify-content-start align-items-center">
+                <div (click)="openDealsModal()" class="cta cta-primary icon lg"><app-icon [iconName]="'bookUser'" [iconStrokeWidth]="2" [iconWidth]="25" [iconHeight]="25"></app-icon> New Deal</div>
+            </div>
+        </div>
+
+        <div class="row-section mt-4">
+            <kanban-board
+                #kanbanBoard
+                [stages]="stages"
+                [items]="items"
+                [cardComponent]="kanbanCardComponent"
+                (itemMoved)="onCardMoved($event)">
+            </kanban-board>
+        </div>
+    </div>
+</div>

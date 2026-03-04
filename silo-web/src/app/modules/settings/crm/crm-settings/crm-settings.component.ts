@@ -24,8 +24,9 @@ export class CrmSettingsComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = new FormGroup({
-      leadStage: new FormControl(''),
-      supportTicketStage: new FormControl(''),
+      leadStatus: new FormControl(''),
+      dealStatus: new FormControl(''),
+      supportTicketStatus: new FormControl(''),
     });
 
     this.loadAccordionData();
@@ -59,7 +60,7 @@ export class CrmSettingsComponent implements OnInit {
       isExisting: modalData ? true : false,
       width: '35%',
       data: modalData,
-      stageType: statusType
+      statusType: statusType
     }
     this.modalService.open(
       StatusInfoComponent, 

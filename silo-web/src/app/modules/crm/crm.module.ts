@@ -7,6 +7,9 @@ import { ContactsOverviewComponent } from './contacts/contacts-overview/contacts
 import { LeadsOverviewComponent } from './leads/leads-overview/leads-overview.component';
 import { LeadsInfoComponent } from './leads/leads-info/leads-info.component';
 import { ContactsInfoComponent } from './contacts/contacts-info/contacts-info.component';
+import { SalesPipelineComponent } from './deals/sales-pipeline/sales-pipeline.component';
+import { DealInfoComponent } from './deals/deal-info/deal-info.component';
+import { DealsCardComponent } from './deals/deals-card/deals-card.component';
 
 
 @NgModule({
@@ -14,8 +17,11 @@ import { ContactsInfoComponent } from './contacts/contacts-info/contacts-info.co
     ContactsInfoComponent,
     ContactsOverviewComponent,
     DashboardComponent,
+    DealsCardComponent,
+    DealInfoComponent,
     LeadsInfoComponent,
-    LeadsOverviewComponent
+    LeadsOverviewComponent,
+    SalesPipelineComponent,
   ],
   imports: [
     CommonModule,

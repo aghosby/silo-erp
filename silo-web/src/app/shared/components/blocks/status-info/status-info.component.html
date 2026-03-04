@@ -7,9 +7,10 @@
         </div>
 
         <div class="details">
-            <div *ngIf="data.stageType === 'lead'" class="title">{{ data.isExisting ? 'Edit Lead Stage' : 'Create Lead Stage' }}</div>
-            <div *ngIf="data.stageType === 'ticket'" class="title">{{ data.isExisting ? 'Edit Support Ticket Stage' : 'Create Support Ticket Stage' }}</div>
-            <div class="preamble">Enter the stage information</div>        
+            <div *ngIf="data.statusType === 'lead'" class="title">{{ data.isExisting ? 'Edit Lead Status' : 'Create Lead Status' }}</div>
+            <div *ngIf="data.statusType === 'deal'" class="title">{{ data.isExisting ? 'Edit Deal Status' : 'Create Deal Status' }}</div>
+            <div *ngIf="data.statusType === 'ticket'" class="title">{{ data.isExisting ? 'Edit Support Ticket Status' : 'Create Support Ticket Status' }}</div>
+            <div class="preamble">Enter the status information</div>        
         </div>        
     </section>
 

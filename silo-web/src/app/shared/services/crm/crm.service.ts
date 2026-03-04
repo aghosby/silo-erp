@@ -92,6 +92,29 @@ export class CrmService {
     return this.http.delete<any>(`${this.baseUrl}/deleteContact/${contactId}`, this.requestOptions);
   }
 
+  /*************** DEAL RELATED ACTIONS ***************/
+
+  //Create a new deal
+  public createDeal(info: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/createDeal`, info, this.requestOptions);
+  }
+
+  //Get the list of all Deals
+  public getDeals(pageNo?:number, pageSize?:number, searchParam?:string, filters?:any): Observable<any> {
+    const url = `${this.baseUrl}/fetchDeals`;
+    return this.getPagedData$(url, pageNo, pageSize, searchParam, filters);
+  }
+
+  //Update Deal
+  public updateDeal(payload: any, dealId: string): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/updateContact/${dealId}`, payload, this.requestOptions);
+  }
+
+  //Delete Deal
+  public deleteDeal(dealId: any): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/deleteContact/${dealId}`, this.requestOptions);
+  }
+
   /*************** AGENT RELATED ACTIONS ***************/
 
   //Create a new agent

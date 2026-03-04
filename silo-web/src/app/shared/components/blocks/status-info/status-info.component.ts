@@ -28,18 +28,18 @@ export class StatusInfoComponent implements OnInit {
     console.log(this.data);
     this.formFields = [
       {
-        controlName: 'stageName',
+        controlName: 'statusName',
         controlType: 'text',
-        controlLabel: 'Stage Name',
+        controlLabel: 'Status Name',
         controlWidth: '100%',
-        initialValue: this.data.isExisting ? this.data.data.stageName : null,
+        initialValue: this.data.isExisting ? this.data.data.statusName : null,
         validators: [Validators.required],
         order: 1
       },
       {
         controlName: 'order',
         controlType: 'number',
-        controlLabel: 'Stage Hierarchy',
+        controlLabel: 'Status Hierarchy',
         controlWidth: '48%',
         initialValue: this.data.isExisting ? this.data.data?.order : null,
         validators: [Validators.required],

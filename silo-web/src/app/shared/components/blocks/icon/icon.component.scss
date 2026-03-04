@@ -1,0 +1,11 @@
+svg.lucide path {
+    pointer-events: none;
+}
+
+span {
+    display: inline-block;
+}
+
+svg.lucide, span {
+    pointer-events: all !important;
+}

@@ -1,0 +1,68 @@
+<div class="kanban-toolbar">
+    <mat-form-field appearance="outline" class="table-search compact-field lg">
+        <mat-label>Search</mat-label>
+            <input
+                matInput
+                type="text"
+                [value]="searchTerm"
+                (input)="onSearch($event)"
+                placeholder="Type to search..."
+            />
+            <div matPrefix class="icon">
+            <app-icon [iconName]="'search'" [iconStrokeWidth]="2" [iconWidth]="20" [iconHeight]="20"></app-icon>
+        </div>
+    </mat-form-field>
+</div>
+
+<div class="kanban-container mt-2" #scrollContainer *ngIf="vm$ | async as vm">
+    <div class="kanban-board" cdkDropListGroup>
+        <div
+            class="kanban-stage {{'color-theme-'+stage.theme}}"
+            *ngFor="let stage of vm; trackBy: trackStage"
+            cdkDropList
+            [id]="stage.id"
+            [cdkDropListData]="stage.items"
+            [cdkDropListConnectedTo]="connectedStageIds"
+            (cdkDropListDropped)="onDrop($event, stage.id)"
+        >
+            <div class="stage-header">
+                <div class="title">
+                    <span class="dot"></span>
+                    <span class="text">{{ stage.title }}</span>
+                </div>
+                <span class="count">{{ stage.items.length }}</span>
+            </div>
+
+            <div class="stage-items">
+                <article
+                    class="kanban-card"
+                    *ngFor="let item of stage.items; trackBy: trackItem"
+                    cdkDrag
+                    [cdkDragData]="item"
+                    (cdkDragStarted)="onDragStarted()"
+                    (cdkDragEnded)="onDragEnded()"
+                >
+                    <div class="drag-handle" title="Drag">
+                        <span></span><span></span><span></span>
+                    </div>
+
+                    <ng-container
+                        *ngComponentOutlet="cardComponent; injector: createInjector(item)"
+                    ></ng-container>
+
+                    <ng-template cdkDragPlaceholder>
+                        <div class="card-placeholder"></div>
+                    </ng-template>
+                </article>
+            </div>
+
+            <div class="empty" *ngIf="stage.items.length === 0">
+                <app-no-data
+                    [height]="'15rem'"
+                    [imageUrl]="'assets/img/project/illustrations/puzzle.webp'"
+                    [message]="'No items in this stage'"
+                ></app-no-data>
+            </div>
+        </div>
+    </div>
+</div>

@@ -13,16 +13,24 @@
                     <div class="form-wrap d-flex flex-wrap justify-content-between w-100">
                         <div class="field-wrap w-48">
                             <mat-form-field class="field w-100" appearance="outline">
-                                <mat-label>Create Lead Stage</mat-label>
-                                <input matInput formControlName="leadStage" id="leadStage" name="leadStage" placeholder="Enter stage name">
+                                <mat-label>Create Lead Status</mat-label>
+                                <input matInput formControlName="leadStatus" id="leadStatus" name="leadStatus" placeholder="Enter status name">
                             </mat-form-field>
                             <div (click)="openStatusModal('lead')" class="cta-add"><i class="bi bi-plus"></i></div>
                         </div>
 
                         <div class="field-wrap w-48">
                             <mat-form-field class="field w-100" appearance="outline">
-                                <mat-label>Create Support Ticket Stage</mat-label>
-                                <input matInput formControlName="supportTicketStage" id="supportTicketStage" name="supportTicketStage" placeholder="Enter stage name">
+                                <mat-label>Create Deal Status</mat-label>
+                                <input matInput formControlName="dealStatus" id="dealStatus" name="dealStatus" placeholder="Enter status name">
+                            </mat-form-field>
+                            <div (click)="openStatusModal('deal')" class="cta-add"><i class="bi bi-plus"></i></div>
+                        </div>
+
+                        <div class="field-wrap w-48">
+                            <mat-form-field class="field w-100" appearance="outline">
+                                <mat-label>Create Support Ticket Status</mat-label>
+                                <input matInput formControlName="supportTicketStatus" id="supportTicketStatus" name="supportTicketStatus" placeholder="Enter status name">
                             </mat-form-field>
                             <div (click)="openStatusModal('ticket')" class="cta-add"><i class="bi bi-plus"></i></div>
                         </div>

@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LeadsOverviewComponent } from './leads/leads-overview/leads-overview.component';
 import { ContactsOverviewComponent } from './contacts/contacts-overview/contacts-overview.component';
+import { SalesPipelineComponent } from './deals/sales-pipeline/sales-pipeline.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,10 @@ const routes: Routes = [
   {
     path: 'leads',
     component: LeadsOverviewComponent,
+  },
+  {
+    path: 'deals-pipeline',
+    component: SalesPipelineComponent,
   },
 ];
 
