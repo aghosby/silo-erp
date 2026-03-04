@@ -1,0 +1,203 @@
+:host {
+    display: block;
+}
+
+.kanban-toolbar {
+    display: flex;
+    gap: 12px;
+}
+
+.compact-field {
+    width: min(420px, 100%);
+}
+
+.kanban-container {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth; // optional
+    padding-bottom: 6px;
+}
+
+.kanban-board {
+    width: max-content;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    min-height: 420px;
+    padding: 6px 2px;
+}
+
+.kanban-stage {
+    flex: 0 0 320px;
+    background: white; // adjust to your theme
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    border-radius: 0.7rem;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    //box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 240px);
+
+    &.color-theme-blue {
+        border: 1px solid var(--blue-theme-light);
+        .stage-header {
+            background: var(--blue-theme-lightest);
+
+            .title {
+
+                .dot {
+                    background: var(--blue-theme);
+                }
+            }
+        }
+    }
+
+    &.color-theme-green {
+        border: 1px solid var(--green-theme-light);
+        .stage-header {
+            background: var(--green-theme-lightest);
+
+            .title {
+
+                .dot {
+                    background: var(--green-theme);
+                }
+            }
+        }
+    }
+
+    &.color-theme-red {
+        border: 1px solid var(--red-theme-light);
+        .stage-header {
+            background: var(--red-theme-lightest);
+
+            .title {
+
+                .dot {
+                    background: var(--red-theme);
+                }
+            }
+        }
+    }
+
+    &.color-theme-yellow {
+        border: 1px solid var(--yellow-theme-light);
+
+        .stage-header {
+            background: var(--yellow-theme-lightest);
+
+            .title {
+
+                .dot {
+                    background: var(--yellow-theme);
+                }
+            }
+        }
+    }
+}
+
+.stage-header {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.7rem 1rem;
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--black-tint-sm);
+
+    .title {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-family: var(--font-medium);
+        color: black;
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.04);
+        }
+
+    }
+
+    .count {
+        font-size: 0.85rem;
+        font-family: var(--font-medium);
+        line-height: 1;
+        padding: 4px 8px;
+        background: var(--rpimary-light);
+        border-radius: var(--radius-sm);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        color: var(--black-tint);
+    }
+}
+
+.stage-items {
+    padding: 0.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow: auto;
+}
+
+.kanban-card {
+    position: relative;
+    border-radius: var(--radius-sm);
+    //padding: 10px 10px 10px 12px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(#000, 0.07);
+    transition: transform 120ms ease, box-shadow 120ms ease;
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+    cursor: grab;
+
+    &:hover {
+        //box-shadow: 0 10px 26px rgba(0, 0, 0, 0.24);
+        transform: translateY(-1px);
+    }
+}
+
+.drag-handle {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    background: rgba(255, 255, 255, 0.04);
+
+    display: none;
+    place-items: center;
+    cursor: grab;
+
+    span {
+        display: block;
+        width: 12px;
+        height: 2px;
+        background: rgba(255, 255, 255, 0.45);
+        margin: 2px 0;
+        border-radius: 2px;
+    }
+}
+
+.card-placeholder {
+    height: 4.5rem;
+    margin: 0.2rem;
+    border-radius: var(--radius-sm);
+    border: 1px dashed rgba(148, 163, 184, 0.35);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.empty {
+    padding: 10px 12px;
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 13px;
+}

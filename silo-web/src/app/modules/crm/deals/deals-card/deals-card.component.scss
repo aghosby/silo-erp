@@ -1,0 +1,120 @@
+.deals-card {
+    font-size: 0.85rem;
+    font-family: var(--font-regular);
+    padding: 0.7rem 0.85rem;
+
+    &.color-theme-blue {
+        background: var(--blue-theme-lightest);
+    }
+
+    &.color-theme-red {
+        background: var(--red-theme-lightest);
+    }
+
+    &.color-theme-green {
+        background: var(--green-theme-lightest);
+    }
+
+    &.color-theme-orange {
+        background: var(--orange-theme-lightest);
+    }
+
+    &.color-theme-yellow {
+        background: var(--yellow-theme-lightest);
+    }
+
+    .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .value {
+            font-size: 1rem;
+            font-family: var(--font-medium);
+            letter-spacing: 0.04rem;
+            color: var(--black-tint);
+        }
+
+        .icon {
+
+            &.hot {
+                color: var(--orange-theme);
+            }
+
+            &.cold {
+                color: var(--blue-theme);
+            }
+
+            &.warm {
+                color: var(--yellow-theme);
+            }
+        }
+    }
+
+    .body {
+        margin-top: 0.4rem;
+
+        .title {
+            font-size: 0.95rem;
+            letter-spacing: 0.03rem;
+            font-family: var(--font-medium);
+            color: var(--text-dark);
+        }
+
+        .info {
+            margin-top: 0.5rem;
+            
+            .info-hld {
+                display: flex;
+                flex-direction: column;
+                gap: 0.6rem;
+
+                span {
+                    font-size: 0.75rem;
+                    display: inline-block;
+                    line-height: 1;
+                    color: var(--text-dark-2);
+
+                    &:last-child {
+                        font-size: 0.7rem;
+                    }
+                }
+            }
+        }
+    }
+
+    .footer {
+        display: flex;
+        gap: 0.4rem;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        align-items: center;
+        border-top: 1px dashed var(--border-grey-light);
+
+        .image {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+
+            .card-img {
+                width: 100%;
+                height: 100%;
+                display: inline-flex;
+                background: balck;
+                background-size: contain;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+        }
+
+        .info {
+            display: flex;
+            flex-direction: column;
+            font-size: 0.7rem;
+            line-height: 1;
+            letter-spacing: 0.04rem;
+            gap: 0.3rem;
+            color: var(--text-dark);
+        }
+    }
+}

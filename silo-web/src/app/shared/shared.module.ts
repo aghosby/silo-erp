@@ -67,6 +67,8 @@ import { DocumentUploadComponent } from './components/blocks/document-upload/doc
 import { DateScrollSelectionComponent } from './components/blocks/date-scroll-selection/date-scroll-selection.component';
 import { StatusInfoComponent } from './components/blocks/status-info/status-info.component';
 import { BarChartComponent } from './components/charts/bar-chart/bar-chart.component';
+import { KanbanBoardComponent } from './components/blocks/kanban-board/kanban-board.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 const SHARED_COMP = [
   MatFormFieldModule,
@@ -99,6 +101,7 @@ const SHARED_COMP = [
     TranslateModule,
     AngularSvgIconModule,
     NgbModule,
+    DragDropModule,
     CdkOverlayOrigin
 ],
   declarations: [
@@ -115,6 +118,7 @@ const SHARED_COMP = [
     TableFilterComponent,
     DynamicTableComponent,
     DocumentUploadComponent,
+    KanbanBoardComponent,
     NoDataComponent,
     StatusInfoComponent,
 
@@ -153,6 +157,7 @@ const SHARED_COMP = [
     LottieAnimationComponent,
     ConfirmationModalComponent,
     DocumentUploadComponent,
+    KanbanBoardComponent,
     FileUploadComponent,
     NoDataComponent,
     StatusInfoComponent,
