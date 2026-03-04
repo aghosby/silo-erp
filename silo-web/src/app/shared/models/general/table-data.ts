@@ -18,6 +18,7 @@ export type TableCellType =
     | 'switch'
     | 'document'
     | 'custom'
+    | 'priority'
     | 'status'
     | 'actions';
 

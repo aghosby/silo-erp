@@ -1,23 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalService } from '@sharedWeb/services/utils/modal.service';
-import { HrService } from '@services/hr/hr.service';
 import { NotificationService } from '@services/utils/notification.service';
 import { FilterConfig, TableColumn } from '@models/general/table-data';
 import { UtilityService } from '@services/utils/utility.service';
 import { BehaviorSubject, catchError, combineLatest, debounceTime, forkJoin, of, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AgentsInfoComponent } from '../agents-info/agents-info.component';
 import { CrmService } from '@services/crm/crm.service';
-import { EmployeeInfoComponent } from '@hr/employees/employee-info/employee-info.component';
+import { TicketInfoComponent } from '../ticket-info/ticket-info.component';
 
 @Component({
-  selector: 'app-agents-overview',
-  templateUrl: './agents-overview.component.html',
-  styleUrl: './agents-overview.component.scss'
+  selector: 'app-support-overview',
+  templateUrl: './support-overview.component.html',
+  styleUrl: './support-overview.component.scss'
 })
-export class AgentsOverviewComponent implements OnInit {
-  departmentList: any[] = [];
-  designationList: any[] = [];
+export class SupportOverviewComponent implements OnInit {
+  agentsList:any[] = [];
+  industriesList:any[] = [];
   selectedRows:any[] = [];
   tableData!: any[];
   isLoading = false;
@@ -35,21 +33,29 @@ export class AgentsOverviewComponent implements OnInit {
     total: 0
   };
 
-  //Employee Table Column Names
-  tableColumns: TableColumn[] = [
+  //Tickets Table Column Names
+  tableColumns: any[] = [
     {
-      key: "profilePic",
+      key: "priority",
       label: "",
-      order: 2,
-      columnWidth: "5%",
+      order: 1,
+      columnWidth: "4%",
       cellStyle: "width: 100%",
-      type: 'profile',
+      type: 'priority',
       sortable: false
     },
     {
-      key: "fullName",
+      key: "name",
       label: "Name",
-      order: 4,
+      order: 2,
+      columnWidth: "12%",
+      cellStyle: "width: 100%",
+      sortable: false
+    },
+    {
+      key: "ticketNumber",
+      label: "Ticket No",
+      order: 3,
       columnWidth: "12%",
       cellStyle: "width: 100%",
       sortable: true
@@ -57,54 +63,36 @@ export class AgentsOverviewComponent implements OnInit {
     {
       key: "email",
       label: "Email Address",
-      order: 6,
-      columnWidth: "15%",
-      cellStyle: "width: 100%",
-      sortable: true
-    },
-    // {
-    //   key: "phoneNumber",
-    //   label: "Phone Number",
-    //   order: 7,
-    //   columnWidth: "12%",
-    //   cellStyle: "width: 100%",
-    //   sortable: true
-    // },
-    // {
-    //   key: "dateOfBirth",
-    //   label: "Date of Birth",
-    //   order: 8,
-    //   columnWidth: "8%",
-    //   cellStyle: "width: 100%",
-    //   sortable: true
-    // },
-    {
-      key: "department",
-      label: "Department",
-      order: 8,
+      order: 4,
       columnWidth: "12%",
       cellStyle: "width: 100%",
       sortable: true
     },
     {
-      key: "companyRole",
-      label: "Role",
-      order: 9,
+      key: "title",
+      label: "Ticket Title",
+      order: 6,
       columnWidth: "15%",
       cellStyle: "width: 100%",
       sortable: true
     },
     {
-      key: "activeStatus",
+      key: "createdAt",
+      label: "Date",
+      order: 7,
+      columnWidth: "10%",
+      cellStyle: "width: 100%",
+      type: 'datetime',
+      sortable: true
+    },
+    {
+      key: "status",
       label: "Status",
       order: 10,
       columnWidth: "10%",
       cellStyle: "width: 100%",
       type: 'status',
-      statusMap: {
-        true: 'active',
-        false: 'pending'
-      },
+      statusMap: this.utils.statusMap ,
       sortable: true
     },
     {
@@ -116,28 +104,14 @@ export class AgentsOverviewComponent implements OnInit {
       type: "actions",
       actions: [
         { icon: 'view', color: 'var(--blue-theme)', tooltip: 'View', callback: (row: any) => this.viewRow(row) },
-        { icon: 'userPen', color: 'var(--yellow-theme)', tooltip: 'Edit', callback: (row: any) => this.editRow(row) },
-        // { icon: 'trash', color: 'var(--red-theme)', tooltip: 'Delete', callback: (row: any) => this.deleteRow(row) },
-      ],
-      menuActions: [
-        {
-          icon: 'briefcase',
-          label: 'Assign Manager',
-          actionKey: 'assignManager'
-        },
-        {
-          icon: 'trash',
-          label: 'Delete',
-          actionKey: 'delete',
-          color: 'var(--red-theme)'
-        },
+        { icon: 'ticket', color: 'var(--yellow-theme)', tooltip: 'Edit', callback: (row: any) => this.editRow(row) },
+        { icon: 'trash', color: 'var(--red-theme)', tooltip: 'Delete', callback: (row: any) => this.deleteRow(row) },
       ]
     }
   ]
 
   constructor(
     private modalService: ModalService,
-    private hrService: HrService,
     private crmService: CrmService,
     private utils: UtilityService,
     private router: Router,
@@ -146,18 +120,6 @@ export class AgentsOverviewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    forkJoin({
-      departments: this.hrService.getDepartments(),
-      designations: this.hrService.getDesignations()
-    }).subscribe(({ departments, designations }) => {
-
-      this.departmentList = departments.data;
-      this.designationList = designations.data;
-
-      this.buildFilters();
-      //this.getEmployees();
-    });
-
     // Reactive pipeline
     const tableData$ = combineLatest([
       this.search$.pipe(
@@ -170,7 +132,7 @@ export class AgentsOverviewComponent implements OnInit {
       takeUntil(this.unsubscribe$),
       tap(() => (this.isLoading = true)),
       switchMap(([search, filters, paging]) =>
-        this.crmService.getAgents(paging.page, paging.pageSize, search, filters).pipe(
+        this.crmService.getTickets(paging.page, paging.pageSize, search, filters).pipe(
           catchError(() => of({ data: [], total: 0 })) // fallback if API fails
         )
       )
@@ -185,6 +147,13 @@ export class AgentsOverviewComponent implements OnInit {
 
     // Trigger initial load
     this.search$.next('');
+
+    forkJoin({
+      agents: this.crmService.getAgents(),
+    }).subscribe(({ agents }) => {
+      this.agentsList = agents.data;
+      this.buildFilters();
+    });
   }
 
   ngOnDestroy() {
@@ -220,60 +189,35 @@ export class AgentsOverviewComponent implements OnInit {
   buildFilters() {
     this.tableFilters = [
       { 
-        key: 'department', 
-        label: 'Department', 
+        key: 'agents', 
+        label: 'Agents', 
         type: 'select', 
-        options: this.utils.arrayToObject(this.departmentList, 'departmentName'), 
+        options: this.utils.arrayToObject(this.agentsList, 'agentName'), 
         includeIfEmpty: false 
       },
       { 
-        key: 'designation', 
-        label: 'Designation', 
+        key: 'industry', 
+        label: 'Industries', 
         type: 'select', 
-        options: this.utils.arrayToObject(this.designationList, 'designationName'), 
+        options: this.utils.arrayToObject(this.industriesList, 'industryName'), 
         includeIfEmpty: false 
       },
       { 
-        key: 'employmentStatus', 
-        label: 'Employment Status', 
+        key: 'status', 
+        label: 'Ticket Status', 
         type: 'select', 
         options: {
-          Active: 'Active',
-          Inactive: 'Inactive'
-        }, 
-        includeIfEmpty: false 
-      },
-      { 
-        key: 'employmentType', 
-        label: 'Employment Type', 
-        type: 'select', 
-        options: {
-          Contract: 'Contract',
-          Permanent: 'Permanent'
+          New: 'New',
+          Triaged: 'Triaged',
+          Assigned: 'Assigned',
+          Investigating: 'Investigating',
+          Progress: 'In progress',
+          Waiting: 'Awaiting Customer Response',
+          Resolved: 'Resolved'
         }, 
         includeIfEmpty: false 
       }
     ];
-  }
-
-  openAgentsModal(modalData?:any) {
-    const modalConfig:any = {
-      isExisting: modalData ? true : false,
-      width: '40%',
-      data: modalData,
-      departmentList: this.departmentList,
-      designationList: this.designationList
-    }
-    //if(this.form.value.department) modalConfig['name'] = this.form.value.department;
-    this.modalService.open(
-      EmployeeInfoComponent, 
-      modalConfig
-    )
-    .subscribe(result => {
-      if (result.action === 'submit' && result.dirty) {
-        this.search$.next('');
-      }
-    });
   }
 
   viewRow(row: any) {
@@ -284,24 +228,24 @@ export class AgentsOverviewComponent implements OnInit {
 
   editRow(row: any) {
     //console.log('Edit', row);
-    this.openAgentsModal(row);
+    this.openTicketsModal(row);
   }
 
-  //Delete an employee
+  //Delete a Ticket
   deleteRow(row: any) {
     //console.log('Delete', row);
     this.notify.confirmAction({
-      title: 'Remove Employee',
-      message: 'Are you sure you want to remove this employee?',
-      confirmText: 'Remove Employee',
+      title: 'Remove Support Ticket',
+      message: 'Are you sure you want to remove this ticket?',
+      confirmText: 'Remove Support Ticket',
       cancelText: 'Cancel',
     }).subscribe((confirmed) => {
       if (confirmed) {
-        this.hrService.deleteEmployee(row._id).subscribe({
+        this.crmService.deleteLead(row._id).subscribe({
           next: res => {
             // console.log(res);
             if(res.status == 200) {
-              this.notify.showInfo('The employee has been deleted successfully');
+              this.notify.showInfo('This support ticket has been deleted successfully');
             }
             this.search$.next('');
           },
@@ -316,11 +260,58 @@ export class AgentsOverviewComponent implements OnInit {
   onTableAction(event: { action: string; row: any }) {
     switch (event.action) {
       case 'invite':
+        //this.resendEmployeeInvite([event.row]);
+        break;
+      case 'assignManager':
+        // if(this.selectedRows.length > 0) {
+        //   this.selectedRows = []; 
+        //   this.selectedRows.push(event.row);
+        // }
+        // else this.selectedRows.push(event.row);
+        // this.openAssignmentModal('manager');
         break;
       case 'delete':
         this.deleteRow(event.row);
         break;
     }
+  }
+
+  onBulkAction(event:any) {
+    console.log(event);
+    if(this.selectedRows.length) {
+      switch (event) {
+        // case 'invite':
+        //   this.resendEmployeeInvite([event.row]);
+        //   break;
+        // case 'assignManager':
+        //   this.openAssignmentModal('manager');
+        //   break;
+        // case 'assignApprover':
+        //   this.openAssignmentModal('approver');
+        //   break;
+      }
+    }
+    else {
+      this.notify.showError('Please select the leads you need to take action on')
+    }    
+  }
+
+  openTicketsModal(modalData?:any) {
+    const modalConfig:any = {
+      isExisting: modalData ? true : false,
+      width: '40%',
+      data: modalData,
+      agents: this.agentsList
+    }
+    this.modalService.open(
+      TicketInfoComponent, 
+      modalConfig
+    )
+    .subscribe(result => {
+      if (result.action === 'submit' && result.dirty) {
+        this.search$.next('');
+      }
+    });
   }
 
 }

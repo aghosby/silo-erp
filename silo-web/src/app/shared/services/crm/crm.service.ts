@@ -123,8 +123,32 @@ export class CrmService {
   }
 
   //Get the list of all Agents
-  public getAgents(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/fetchAgents`, this.requestOptions);
+  public getAgents(pageNo?:number, pageSize?:number, searchParam?:string, filters?:any): Observable<any> {
+    const url = `${this.baseUrl}/fetchAgents`;
+    return this.getPagedData$(url, pageNo, pageSize, searchParam, filters);
+  }
+
+  /*************** TICKET RELATED ACTIONS ***************/
+
+  //Create a new ticket
+  public createTicket(info: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/createTicket`, info, this.requestOptions);
+  }
+
+  //Get the list of all tickets
+  public getTickets(pageNo?:number, pageSize?:number, searchParam?:string, filters?:any): Observable<any> {
+    const url = `${this.baseUrl}/fetchTickets`;
+    return this.getPagedData$(url, pageNo, pageSize, searchParam, filters);
+  }
+
+  //Update Ticket
+  public updateTicket(payload: any, dealId: string): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/updateTicket/${dealId}`, payload, this.requestOptions);
+  }
+
+  //Delete Deal
+  public deleteTicket(dealId: any): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/deleteTicket/${dealId}`, this.requestOptions);
   }
 
 }

@@ -33,27 +33,29 @@
                 <span class="count">{{ stage.items.length }}</span>
             </div>
 
-            <div class="stage-items">
-                <article
-                    class="kanban-card"
-                    *ngFor="let item of stage.items; trackBy: trackItem"
-                    cdkDrag
-                    [cdkDragData]="item"
-                    (cdkDragStarted)="onDragStarted()"
-                    (cdkDragEnded)="onDragEnded()"
-                >
-                    <div class="drag-handle" title="Drag">
-                        <span></span><span></span><span></span>
+            <div class="stage-body">
+                <div class="stage-items">
+                    <div
+                        class="kanban-card"
+                        *ngFor="let item of stage.items; trackBy: trackItem"
+                        cdkDrag
+                        [cdkDragData]="item"
+                        (cdkDragStarted)="onDragStarted()"
+                        (cdkDragEnded)="onDragEnded()"
+                    >
+                        <div class="drag-handle" title="Drag">
+                            <span></span><span></span><span></span>
+                        </div>
+
+                        <ng-container
+                            *ngComponentOutlet="cardComponent; injector: createInjector(item)"
+                        ></ng-container>
+
+                        <ng-template cdkDragPlaceholder>
+                            <div class="card-placeholder"></div>
+                        </ng-template>
                     </div>
-
-                    <ng-container
-                        *ngComponentOutlet="cardComponent; injector: createInjector(item)"
-                    ></ng-container>
-
-                    <ng-template cdkDragPlaceholder>
-                        <div class="card-placeholder"></div>
-                    </ng-template>
-                </article>
+                </div>
             </div>
 
             <div class="empty" *ngIf="stage.items.length === 0">

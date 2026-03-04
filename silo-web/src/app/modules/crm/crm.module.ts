@@ -10,10 +10,16 @@ import { ContactsInfoComponent } from './contacts/contacts-info/contacts-info.co
 import { SalesPipelineComponent } from './deals/sales-pipeline/sales-pipeline.component';
 import { DealInfoComponent } from './deals/deal-info/deal-info.component';
 import { DealsCardComponent } from './deals/deals-card/deals-card.component';
+import { SupportOverviewComponent } from './support/support-overview/support-overview.component';
+import { TicketInfoComponent } from './support/ticket-info/ticket-info.component';
+import { AgentsOverviewComponent } from './agents/agents-overview/agents-overview.component';
+import { AgentsInfoComponent } from './agents/agents-info/agents-info.component';
 
 
 @NgModule({
   declarations: [
+    AgentsInfoComponent,
+    AgentsOverviewComponent,
     ContactsInfoComponent,
     ContactsOverviewComponent,
     DashboardComponent,
@@ -22,6 +28,8 @@ import { DealsCardComponent } from './deals/deals-card/deals-card.component';
     LeadsInfoComponent,
     LeadsOverviewComponent,
     SalesPipelineComponent,
+    SupportOverviewComponent,
+    TicketInfoComponent
   ],
   imports: [
     CommonModule,
