@@ -4,6 +4,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { LeadsOverviewComponent } from './leads/leads-overview/leads-overview.component';
 import { ContactsOverviewComponent } from './contacts/contacts-overview/contacts-overview.component';
 import { SalesPipelineComponent } from './deals/sales-pipeline/sales-pipeline.component';
+import { SupportOverviewComponent } from './support/support-overview/support-overview.component';
+import { AgentsOverviewComponent } from './agents/agents-overview/agents-overview.component';
 
 const routes: Routes = [
   {
@@ -26,6 +28,14 @@ const routes: Routes = [
   {
     path: 'deals-pipeline',
     component: SalesPipelineComponent,
+  },
+  {
+    path: 'support',
+    component: SupportOverviewComponent
+  },
+  {
+    path: 'agents',
+    component: AgentsOverviewComponent,
   },
 ];
 

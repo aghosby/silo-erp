@@ -2,14 +2,14 @@
     <section class="modal-header">
         <div class="illustration">
             <div class="img-wrap">
-                <img src="assets/img/project/illustrations/entity.png" alt="">
+                <img src="assets/img/project/illustrations/puzzle.webp" alt="">
             </div>
         </div>
 
         <div class="details">
-            <div class="title">{{ data.isExisting ? 'Edit Deal' : 'Create Deal' }}</div>
-            <div class="preamble">Enter the deal information</div>        
-        </div>                
+            <div class="title">{{ data.isExisting ? 'Edit Support Ticket' : 'Create Support Ticket' }}</div>
+            <div class="preamble">Enter the support ticket information</div>        
+        </div>
     </section>
 
     <section class="modal-body">
@@ -17,7 +17,6 @@
             [fields]="formFields"
             [isLoading]="isLoading"
             (formAction)="handleFormAction($event)"
-            (valueChanges)="onFormChanges($event)"
         ></app-dynamic-form>
     </section>
 </div>

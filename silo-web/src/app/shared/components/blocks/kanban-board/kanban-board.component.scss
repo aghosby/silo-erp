@@ -131,10 +131,19 @@
         font-family: var(--font-medium);
         line-height: 1;
         padding: 4px 8px;
-        background: var(--rpimary-light);
+        background: var(--black-tint);
         border-radius: var(--radius-sm);
         border: 1px solid rgba(148, 163, 184, 0.2);
-        color: var(--black-tint);
+        color: white;
+    }
+}
+
+.stage-body {
+    height: 100%;
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+        display: none;
     }
 }
 

@@ -148,7 +148,7 @@ export const navMenuData: MenuItem[] = [
             { 
                 routeLink: 'crm/support', 
                 icon: 'headset', 
-                label: 'Support' 
+                label: 'Support Portal' 
             },
             { 
                 routeLink: 'crm/agents', 
