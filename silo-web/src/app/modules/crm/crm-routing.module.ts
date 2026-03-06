@@ -6,6 +6,12 @@ import { ContactsOverviewComponent } from './contacts/contacts-overview/contacts
 import { SalesPipelineComponent } from './deals/sales-pipeline/sales-pipeline.component';
 import { SupportOverviewComponent } from './support/support-overview/support-overview.component';
 import { AgentsOverviewComponent } from './agents/agents-overview/agents-overview.component';
+import { ReportsPortalComponent } from './reports/reports-portal/reports-portal.component';
+import { LeadsReportComponent } from './reports/leads-report/leads-report.component';
+import { ContactsReportComponent } from './reports/contacts-report/contacts-report.component';
+import { DealsReportComponent } from './reports/deals-report/deals-report.component';
+import { SalesReportComponent } from './reports/sales-report/sales-report.component';
+import { AgentsReportComponent } from './reports/agents-report/agents-report.component';
 
 const routes: Routes = [
   {
@@ -37,6 +43,37 @@ const routes: Routes = [
     path: 'agents',
     component: AgentsOverviewComponent,
   },
+  {
+    path: 'reports',
+    component: ReportsPortalComponent,
+    children: [
+      {
+        path: '',
+        redirectTo: 'leads',
+        pathMatch: 'full'
+      },
+      {
+        path : 'leads',
+        component: LeadsReportComponent
+      },
+      {
+        path : 'contacts',
+        component: ContactsReportComponent
+      },
+      {
+        path : 'deals',
+        component: DealsReportComponent
+      },
+      {
+        path : 'sales',
+        component: SalesReportComponent
+      },
+      {
+        path : 'agents',
+        component: AgentsReportComponent
+      },
+    ]
+  }
 ];
 
 @NgModule({

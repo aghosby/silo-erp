@@ -29,6 +29,10 @@ import { AppComponent }         from './app.component';
 import { appInitFactory }       from '@factories/app-init.factory';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { ToastrModule } from 'ngx-toastr';
+import 'highlight.js';
+import 'quill/modules/syntax';
+import { QuillModule } from 'ngx-quill';
+
 
 @NgModule({
   imports: [
@@ -51,6 +55,7 @@ import { ToastrModule } from 'ngx-toastr';
       positionClass: 'toast-top-right',
       preventDuplicates: true,
     }),
+    QuillModule.forRoot(),
     HttpClientModule,
 
     // Internal modules

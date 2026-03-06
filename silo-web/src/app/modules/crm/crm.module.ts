@@ -14,6 +14,10 @@ import { SupportOverviewComponent } from './support/support-overview/support-ove
 import { TicketInfoComponent } from './support/ticket-info/ticket-info.component';
 import { AgentsOverviewComponent } from './agents/agents-overview/agents-overview.component';
 import { AgentsInfoComponent } from './agents/agents-info/agents-info.component';
+import { ReportsPortalComponent } from './reports/reports-portal/reports-portal.component';
+import { LeadsReportComponent } from './reports/leads-report/leads-report.component';
+import { ContactsReportComponent } from './reports/contacts-report/contacts-report.component';
+import { DealsReportComponent } from './reports/deals-report/deals-report.component';
 
 
 @NgModule({
@@ -22,11 +26,15 @@ import { AgentsInfoComponent } from './agents/agents-info/agents-info.component'
     AgentsOverviewComponent,
     ContactsInfoComponent,
     ContactsOverviewComponent,
+    ContactsReportComponent,
     DashboardComponent,
     DealsCardComponent,
     DealInfoComponent,
+    DealsReportComponent,
     LeadsInfoComponent,
     LeadsOverviewComponent,
+    LeadsReportComponent,
+    ReportsPortalComponent,
     SalesPipelineComponent,
     SupportOverviewComponent,
     TicketInfoComponent

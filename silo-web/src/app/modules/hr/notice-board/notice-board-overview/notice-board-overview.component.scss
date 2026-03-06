@@ -1,0 +1,12 @@
+
+.notice-list {
+    max-height: 76vh;
+
+    .listed-items {
+        overflow-y: auto;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+}

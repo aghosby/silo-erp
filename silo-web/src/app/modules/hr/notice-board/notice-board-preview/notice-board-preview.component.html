@@ -1,0 +1,25 @@
+<div class="notice-wrap">
+    <div class="header">
+        <div class="date-wrap">
+            <div class="date">
+                <span>{{data?.createdAt | date: 'dd'}}</span> <span>{{data?.createdAt | date: 'MMM'}}</span>
+            </div>
+            <div class="time mt-2">{{data?.createdAt | date: 'hh:mm a'}}</div>
+        </div>
+        <div class="hdr-wrap">
+            <div class="title">{{data?.title}}</div>
+        </div>
+    </div>
+    <div class="body">
+        <div *ngIf="data?.attachments?.length > 0" class="featured-image">
+            <img [src]="data?.attachments[0].url" alt="">
+        </div>
+        <div class="content mt-4" [innerHTML]="data?.content"></div>
+        <div class="author my-4">
+            <div class="image"></div>
+            <div class="info">
+                <span>{{data?.createdByName}}</span>
+            </div>
+        </div>
+    </div>
+</div>

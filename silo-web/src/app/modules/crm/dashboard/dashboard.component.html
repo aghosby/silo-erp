@@ -189,8 +189,96 @@
 
         <div class="row-section d-flex justify-content-between mt-3">
             <div class="row-card card-xsm card-ylg">
-                <div class="row-card"></div>
+                <div class="row-card">
+                    <div class="card-cont">
+                        <div class="top">
+                            <div class="hdr">
+                                <div class="card-title color-theme-primary">Top Leads</div>
+                                <div class="preamble mt-1">Leads according to expected revenue.</div>
+                            </div>
+                        </div>
+                        <div class="btm">
+                            <div class="listed-items mt-lg-3">
+                                <div class="item">
+                                    <div class="content">
+                                        <div class="det d-flex align-items-end gap-2">
+                                            <div class="image rd bkg-standard" style="background-image: url('assets/img/project/home/employee1.webp');"></div>
+                                            <div class="info">
+                                                <div class="major bd">Leonel Grimbsy</div>
+                                                <div class="minor">Valued at £ 34,500</div>
+                                            </div>
+                                        </div>
+                                        <div class="det right">
+                                            <span class="rating-icon pe-lg-1" *ngFor="let f of [].constructor(5)"><i class="bi bi-star-fill"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="item">
+                                    <div class="content">
+                                        <div class="det d-flex align-items-end gap-2">
+                                            <div class="image rd bkg-standard" style="background-image: url('assets/img/project/home/employee2.webp');"></div>
+                                            <div class="info">
+                                                <div class="major bd">Sarah Yale</div>
+                                                <div class="minor">Valued at £ 24,300</div>
+                                            </div>
+                                        </div>
+                                        <div class="det right">
+                                            <span class="rating-icon pe-lg-1" *ngFor="let f of [].constructor(4)"><i class="bi bi-star-fill"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="item">
+                                    <div class="content">
+                                        <div class="det d-flex align-items-end gap-2">
+                                            <div class="image rd bkg-standard" style="background-image: url('assets/img/project/home/employee3.webp');"></div>
+                                            <div class="info">
+                                                <div class="major bd">Grennady Justin</div>
+                                                <div class="minor">Valued at £ 12,200</div>
+                                            </div>
+                                        </div>
+                                        <div class="det right">
+                                            <span class="rating-icon pe-lg-1" *ngFor="let f of [].constructor(4)"><i class="bi bi-star-fill"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="item">
+                                    <div class="content">
+                                        <div class="det d-flex align-items-end gap-2">
+                                            <div class="image rd bkg-standard" style="background-image: url('assets/img/project/home/employee4.webp');"></div>
+                                            <div class="info">
+                                                <div class="major bd">Tyler Rickon</div>
+                                                <div class="minor">Valued at £ 10,200</div>
+                                            </div>
+                                        </div>
+                                        <div class="det right">
+                                            <span class="rating-icon pe-lg-1" *ngFor="let f of [].constructor(3)"><i class="bi bi-star-fill"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="item">
+                                    <div class="content">
+                                        <div class="det d-flex align-items-end gap-2">
+                                            <div class="image rd bkg-standard" style="background-image: url('assets/img/project/home/employee5.webp');"></div>
+                                            <div class="info">
+                                                <div class="major bd">Marcus Bent</div>
+                                                <div class="minor">Valued at £ 9,400</div>
+                                            </div>
+                                        </div>
+                                        <div class="det right">
+                                            <span class="rating-icon pe-lg-1" *ngFor="let f of [].constructor(3)"><i class="bi bi-star-fill"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+
             <div class="row-card card-xmd card-ylg">
                 <div class="row-card">
                     <div class="card-cont">
@@ -216,8 +304,24 @@
                     </div>
                 </div>
             </div>
+
             <div class="row-card card-xmd card-ylg">
-                <div class="row-card"></div>
+                <div class="card-cont">
+                    <div class="top">
+                        <div class="hdr">
+                            <div class="card-title color-theme-primary">Upcoming Activities</div>
+                            <div class="preamble">Activities scheduled for leads and contacts</div>
+                        </div>
+                    </div>
+                    <div class="btm">
+                        <app-no-data 
+                            [height]="'15rem'"
+                            [message]="'No upcoming activities exist'" 
+                            [imageUrl]="'assets/img/project/illustrations/calendar.webp'" 
+                            [messageFontSize]="'1rem'"
+                        ></app-no-data>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
