@@ -69,6 +69,8 @@ import { StatusInfoComponent } from './components/blocks/status-info/status-info
 import { BarChartComponent } from './components/charts/bar-chart/bar-chart.component';
 import { KanbanBoardComponent } from './components/blocks/kanban-board/kanban-board.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { QuillEditorComponent } from './components/forms/quill-editor/quill-editor.component';
+import { QuillModule } from 'ngx-quill';
 
 const SHARED_COMP = [
   MatFormFieldModule,
@@ -102,8 +104,9 @@ const SHARED_COMP = [
     AngularSvgIconModule,
     NgbModule,
     DragDropModule,
+    QuillModule,
     CdkOverlayOrigin
-],
+  ],
   declarations: [
     // Components
     ToastComponent,
@@ -120,6 +123,7 @@ const SHARED_COMP = [
     DocumentUploadComponent,
     KanbanBoardComponent,
     NoDataComponent,
+    QuillEditorComponent,
     StatusInfoComponent,
 
     // Forms

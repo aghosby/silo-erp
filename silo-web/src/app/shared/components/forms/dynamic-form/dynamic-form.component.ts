@@ -13,6 +13,7 @@ export class DynamicFormComponent implements OnInit {
   @Input() fields: DynamicField[] = [];
   @Input() buttonSaveLabel:string = 'Save';
   @Input() isLoading: boolean = false;
+  @Input() noScroll: boolean = false;
   @Input() loadingButtonKey: string | null = null;
   @Input() buttons: DynamicFormButton[] | null = null;
   @Output() formAction = new EventEmitter<DynamicFormAction>();

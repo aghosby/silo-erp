@@ -31,6 +31,8 @@ import { ReportsPortalComponent } from './reports/reports-portal/reports-portal.
 import { EmployeesReportComponent } from './reports/employees-report/employees-report.component';
 import { LeaveReportsComponent } from './reports/leave-reports/leave-reports.component';
 import { ExpenseReportsComponent } from './reports/expense-reports/expense-reports.component';
+import { NoticeBoardOverviewComponent } from './notice-board/notice-board-overview/notice-board-overview.component';
+import { NoticeBoardPreviewComponent } from './notice-board/notice-board-preview/notice-board-preview.component';
 
 
 @NgModule({
@@ -52,6 +54,8 @@ import { ExpenseReportsComponent } from './reports/expense-reports/expense-repor
     LeaveReportsComponent,
     LeaveRequestInfoComponent,
     LeaveRequestsOverviewComponent,
+    NoticeBoardOverviewComponent,
+    NoticeBoardPreviewComponent,
     PaymentInfoComponent,
     PayrollCalculatorComponent,
     PayrollDetailsComponent,

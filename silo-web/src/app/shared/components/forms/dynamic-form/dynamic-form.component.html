@@ -1,5 +1,5 @@
 <form class="" [formGroup]="form">
-    <div class="form-wrap d-flex flex-wrap justify-content-between">
+    <div class="form-wrap d-flex flex-wrap justify-content-between" [class.visible]="noScroll">
         <ng-container *ngFor="let field of fields">
             <ng-container *ngIf="!field.hidden" [ngSwitch]="field.controlType">
                 <!-- Text Input -->
@@ -36,7 +36,7 @@
                 <!-- Multiple Select -->
                 <mat-form-field *ngSwitchCase="'mutipleSelect'" appearance="outline" [style.width]="field.controlWidth || '100%'" color="primary">
                     <mat-label>{{ field.controlLabel }}</mat-label>
-                    <mat-select [formControlName]="field.controlName" multiple>
+                    <mat-select [formControlName]="field.controlName" multiple panelClass="compact-dropdown lg">
                         <!-- Trigger shows selected chips -->
                         <mat-select-trigger>
                             <mat-chip-grid>
@@ -57,6 +57,14 @@
                     </mat-error>
                 </mat-form-field>
 
+                <!-- Quill Editor -->
+                <ng-container *ngSwitchCase="'quillEditor'">
+                    <label class="quill-label">{{field.controlLabel}}</label>
+                    <app-quill-editor class="w-100 mb-lg-3" [formControlName]="field.controlName"></app-quill-editor>
+                    <mat-error *ngIf="form.get(field.controlName)?.touched && form.get(field.controlName)?.hasError('required')">
+                        {{ field.controlLabel }} is required
+                    </mat-error>
+                </ng-container>
 
                 <!-- Date -->
                 <mat-form-field *ngSwitchCase="'date'" appearance="outline" [style.width]="field.controlWidth || '100%'" color="primary">

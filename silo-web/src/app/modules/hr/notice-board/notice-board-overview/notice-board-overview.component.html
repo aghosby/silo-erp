@@ -1,0 +1,85 @@
+<div class="content-wrap">
+    <div class="inner-wrap">
+        <div class="row-section d-flex justify-content-between align-items-center">
+            <div *hasRole="['superAdmin', 'manager']" class="page-header">{{announcements && announcements.length == 0 ? 'Create Notice' : 'Notice Board'}}</div>
+            <div *hasRole="['employee']" class="page-header">Notice Board</div>
+            <div *hasRole="['superAdmin', 'manager']" class="main-actions d-flex justify-content-start align-items-center">
+                <div (click)="newNotice = true" class="cta cta-primary icon lg"><app-icon [iconName]="'newspaper'" [iconStrokeWidth]="2" [iconWidth]="25" [iconHeight]="25"></app-icon>New Notice</div>
+            </div>
+        </div>
+
+        <div *hasRole="['employee']" class="row-section">
+            <div *ngIf="announcements && announcements.length == 0" class="row-card card-xmd">
+                <app-no-data 
+                    *ngIf="announcements && announcements.length == 0"
+                    [height]="'11rem'"
+                    [message]="'No notices exist'" 
+                    [imageUrl]="'assets/img/project/illustrations/puzzle.webp'" 
+                    [messageFontSize]="'1rem'"
+                ></app-no-data>
+            </div>
+        </div>
+
+        <div class="row-section d-flex justify-content-between align-items-start mt-4">
+            <div class="col-section card-xmlg pe-lg-4">
+                <app-notice-board-preview
+                    *ngIf="announcements && announcements.length && !newNotice"
+                    [data]="noticeInview"
+                ></app-notice-board-preview>
+
+                <ng-container *ngIf="formFields && newNotice">
+                    <app-dynamic-form
+                        *hasRole="['superAdmin', 'manager']"
+                        [fields]="formFields"
+                        [isLoading]="isLoading"
+                        [noScroll]="true"
+                        (valueChanges)="onFormChanges($event)"
+                        (formAction)="handleFormAction($event)"
+                    ></app-dynamic-form>
+                </ng-container>
+                
+            </div>
+
+            <div class="row-card notices-list card-xmd">
+                <div class="card-cont">
+                    <div class="top d-flex align-items-end">
+                        <div class="card-title sm color-theme-red">Recent Notices</div>
+                    </div>
+
+                    <div class="btm mt-3">
+                        <app-no-data 
+                            *ngIf="announcements && announcements.length == 0"
+                            [height]="'11rem'"
+                            [message]="'No notices exist'" 
+                            [imageUrl]="'assets/img/project/illustrations/puzzle.webp'" 
+                            [messageFontSize]="'1rem'"
+                        ></app-no-data>
+
+                        <div *ngIf="announcements && announcements.length" class="listed-items">
+                            <div *ngFor="let notice of announcements | slice:0:2" (click)="viewNotice(notice)" class="item">
+                                <!-- <div class="icon"><i class="bi bi-rocket-takeoff"></i></div> -->
+                                <div class="content">
+                                    <div class="det">
+                                        <div class="minor">{{notice.timestamp | timeDuration}}</div>
+                                        <div class="major lg mt-1" [innerHTML]="notice.message | truncateWords:30"></div>
+                                        <div class="author mt-2">
+                                            <div class="image"></div>
+                                            <div class="info">
+                                                <span>{{notice.createdByName}}</span>
+                                                <span>{{notice.createdAt | date: 'hh:mm a'}}</span>
+                                            </div>
+                                            <div *ngIf="isNoticeAuthor" (click)="editNotice(notice)" class="preview">
+                                                <app-icon [iconName]="'filePen'" [iconStrokeWidth]="2" [iconWidth]="15" [iconHeight]="15"></app-icon>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

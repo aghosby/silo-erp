@@ -20,6 +20,7 @@ import { LeaveReportsComponent } from './reports/leave-reports/leave-reports.com
 import { ExpenseReportsComponent } from './reports/expense-reports/expense-reports.component';
 import { PayrollReportsComponent } from './reports/payroll-reports/payroll-reports.component';
 import { AttendanceReportsComponent } from './reports/attendance-reports/attendance-reports.component';
+import { NoticeBoardOverviewComponent } from './notice-board/notice-board-overview/notice-board-overview.component';
 
 const routes: Routes = [
   {
@@ -70,6 +71,10 @@ const routes: Routes = [
   {
     path: 'expense-requests',
     component: ExpenseRequestsOverviewComponent
+  },
+  {
+    path: 'notice-board',
+    component: NoticeBoardOverviewComponent
   },
   {
     path: 'access-logs',

@@ -497,6 +497,28 @@ export class HrService {
     return this.http.delete<any>(`${this.baseUrl}/deleteMeeting/${meetingId}`, this.requestOptions);
   }
 
+  /*************** NOTICE BOARD RELATED ACTIONS ***************/
+
+  //Create a new notice
+  public createNotice(payload: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/announcements`, payload, this.requestOptions);
+  }
+
+  //Get the list of all notices
+  public getNotices(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/announcements`, this.requestOptions);
+  }
+
+  //Update Notice
+  public updateNotice(data: any, noticeId: any): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/announcements/${noticeId}`, data, this.requestOptions);
+  }
+
+  //Delete Notice
+  public deleteNotice(noticeId: any): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/announcements/${noticeId}`, this.requestOptions);
+  }
+
 
 
 }

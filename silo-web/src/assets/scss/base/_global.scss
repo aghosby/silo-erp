@@ -855,6 +855,24 @@ a {
   }
 }
 
+.mdc-evolution-chip__text-label.mat-mdc-chip-action-label,
+.mat-mdc-chip .mat-mdc-chip-text {
+  font-family: var(--font-regular) !important;
+  font-size: 0.75rem !important;
+  letter-spacing: 0.03rem;
+  color: var(--black--tint);
+}
+
+.mat-mdc-standard-chip {
+  background: var(--primary-lightest) !important;
+  border-radius: var(--radius-lg) !important;
+}
+
+.mat-mdc-standard-chip:not(.mdc-evolution-chip--disabled) .mdc-evolution-chip__action--primary::before {
+  border-radius: var(--radius-lg) !important;
+  border: 1px solid var(--black-tint-mmd) !important;
+}
+
 //NGX TIMEPICKER
 .timepicker {
   overflow: hidden !important;
@@ -876,4 +894,84 @@ a {
 }
 .clock-face__clock-hand_minute {
   border-color: var(--primary) !important;
+}
+
+//QUILL EDITOR
+quill-editor {
+  width: 100% !important;
+}
+
+.ql-editor {
+  min-height: 7rem;
+  font-family: var(--font-regular);
+}
+
+.ql-toolbar.ql-snow {
+  border: 1px solid var(--primary-light);
+
+  & + .ql-container.ql-snow {
+    border: 1px solid var(--primary-light);
+    border-top: 0px;
+    border-radius: 0 0 var(--radius-md) var(--radius-md) !important;
+  }
+}
+
+.ql-toolbar.ql-snow {
+  border: 1px solid var(--primary-light);
+  border-radius: var(--radius-md) var(--radius-md) 0 0 !important;
+}
+
+
+.quill-label {
+  font-size: 0.85rem;
+  line-height: 1;
+  letter-spacing: 0.04rem;
+  font-family: var(--font-regular);
+  color: var(--black-tint);
+}
+
+//ANNOUNCEMENT STYLING
+
+.notices-list {
+
+  .author {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+
+    .image {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      background: black;
+    }
+
+    .info {
+      flex: 1;
+      display: inline-flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      
+      span {
+        font-size: 0.65rem;
+        font-family: var(--font-regular);
+        letter-spacing: 0.03rem;
+        line-height: 1;
+        color: var(--black-tint);
+
+        &:first-child {
+          font-size: 0.75rem;
+          font-family: var(--font-medium);
+          color: black;
+        }
+      }
+    }
+
+    .preview {
+      font-size: 1.1rem;
+      margin-left: auto;
+      color: var(--black-tint);
+      cursor: pointer;
+    }
+  }
 }
