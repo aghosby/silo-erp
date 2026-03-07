@@ -91,8 +91,16 @@ export class CalendarWeekViewComponent<TMeta = unknown> {
       && slot.getHours() < this.config.businessHoursEnd;
   }
 
+  // formatTimeLabel(slot: Date): string {
+  //   return formatHourLabel(slot.getHours(), this.config.use24Hour);
+  // }
+
   formatTimeLabel(slot: Date): string {
-    return formatHourLabel(slot.getHours(), this.config.use24Hour);
+    return new Intl.DateTimeFormat(undefined, {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: !this.config.use24Hour
+    }).format(slot);
   }
 
   onSlotClick(day: Date, slot: Date, nativeEvent: MouseEvent): void {
