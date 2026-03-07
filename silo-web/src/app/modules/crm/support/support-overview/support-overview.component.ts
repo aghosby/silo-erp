@@ -45,7 +45,7 @@ export class SupportOverviewComponent implements OnInit {
       sortable: false
     },
     {
-      key: "name",
+      key: "contactName",
       label: "Name",
       order: 2,
       columnWidth: "12%",

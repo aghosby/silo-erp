@@ -21,6 +21,7 @@ import { ExpenseReportsComponent } from './reports/expense-reports/expense-repor
 import { PayrollReportsComponent } from './reports/payroll-reports/payroll-reports.component';
 import { AttendanceReportsComponent } from './reports/attendance-reports/attendance-reports.component';
 import { NoticeBoardOverviewComponent } from './notice-board/notice-board-overview/notice-board-overview.component';
+import { CalendarEventsComponent } from './calendar/calendar-events/calendar-events.component';
 
 const routes: Routes = [
   {
@@ -75,6 +76,10 @@ const routes: Routes = [
   {
     path: 'notice-board',
     component: NoticeBoardOverviewComponent
+  },
+  {
+    path: 'calendar',
+    component: CalendarEventsComponent
   },
   {
     path: 'access-logs',

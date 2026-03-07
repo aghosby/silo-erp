@@ -1,0 +1,57 @@
+<div class="calendar-shell">
+    <div class="calendar-toolbar">
+        <div class="left">
+            <button type="button" [class.active]="currentView() === 'month'" (click)="setView('month')">Month</button>
+            <button type="button" [class.active]="currentView() === 'week'" (click)="setView('week')">Week</button>
+            <button type="button" [class.active]="currentView() === 'day'" (click)="setView('day')">Day</button>
+        </div>
+
+        <div class="center">{{ title }}</div>
+
+        <div class="right">
+            <button type="button" (click)="previous()"><i class="bi bi-chevron-left"></i> Prev</button>
+            <button type="button" (click)="today()">Today</button>
+            <button type="button" (click)="next()">Next <i class="bi bi-chevron-right"></i></button>
+        </div>
+    </div>
+
+    <div class="calendar-body">
+        @switch (currentView()) {
+            @case ('day') {
+                <app-calendar-day-view
+                    [date]="currentDate()"
+                    [events]="events"
+                    [config]="config"
+                    [eventTemplate]="dayEventTemplate"
+                    [cellTemplate]="dayCellTemplate"
+                    (slotClick)="slotClick.emit($event)"
+                    (eventClick)="eventClick.emit($event)"
+                />
+            }
+
+            @case ('week') {
+                <app-calendar-week-view
+                    [date]="currentDate()"
+                    [events]="events"
+                    [config]="config"
+                    [eventTemplate]="weekEventTemplate"
+                    [slotTemplate]="weekSlotTemplate"
+                    (slotClick)="slotClick.emit($event)"
+                    (eventClick)="eventClick.emit($event)"
+                />
+            }
+
+            @case ('month') {
+                <app-calendar-month-view
+                    [date]="currentDate()"
+                    [events]="events"
+                    [config]="config"
+                    [eventTemplate]="monthEventTemplate"
+                    [cellTemplate]="monthCellTemplate"
+                    (slotClick)="slotClick.emit($event)"
+                    (eventClick)="eventClick.emit($event)"
+                />
+            }
+        }
+    </div>
+</div>
