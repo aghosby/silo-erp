@@ -71,6 +71,9 @@ import { KanbanBoardComponent } from './components/blocks/kanban-board/kanban-bo
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { QuillEditorComponent } from './components/forms/quill-editor/quill-editor.component';
 import { QuillModule } from 'ngx-quill';
+import { CalendarComponent } from './components/blocks/calendar/calendar/calendar.component';
+import { CalendarEventPopupComponent } from './components/blocks/calendar/views/calendar-event-popup/calendar-event-popup.component';
+import { SwitchComponent } from './components/forms/switch/switch.component';
 
 const SHARED_COMP = [
   MatFormFieldModule,
@@ -93,6 +96,7 @@ const SHARED_COMP = [
     // Angular modules
     ...SHARED_COMP,
     LottieComponent,
+    CalendarComponent,
     CommonModule,
     RouterModule,
     FormsModule,
@@ -109,6 +113,7 @@ const SHARED_COMP = [
   ],
   declarations: [
     // Components
+    CalendarEventPopupComponent,
     ToastComponent,
     LottieAnimationComponent,
     AreaChartComponent,
@@ -130,6 +135,7 @@ const SHARED_COMP = [
     FormConfirmComponent,
     DynamicFormComponent,
     FileUploadComponent,
+    SwitchComponent,
 
     // Modals
     ModalWrapperComponent,
@@ -157,12 +163,12 @@ const SHARED_COMP = [
     FormsModule,
     ReactiveFormsModule,
     ...SHARED_COMP,
+    CalendarEventPopupComponent,
     DateScrollSelectionComponent,
     LottieAnimationComponent,
     ConfirmationModalComponent,
     DocumentUploadComponent,
     KanbanBoardComponent,
-    FileUploadComponent,
     NoDataComponent,
     StatusInfoComponent,
 
@@ -184,8 +190,10 @@ const SHARED_COMP = [
     IconComponent,
 
     // Forms
+    FileUploadComponent,
     FormConfirmComponent,
     DynamicFormComponent,
+    SwitchComponent,
 
     // Modals
     ModalWrapperComponent,

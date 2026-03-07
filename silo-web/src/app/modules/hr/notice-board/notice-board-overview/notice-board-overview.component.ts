@@ -93,7 +93,7 @@ export class NoticeBoardOverviewComponent implements OnInit {
       {
         controlName: 'announcementType',
         controlType: 'select',
-        controlLabel: 'Announcement Type',
+        controlLabel: 'Notice Type',
         controlWidth: '48%',
         initialValue: this.data.isExisting ? this.data.data.announcementType : 'All',
         selectOptions: {

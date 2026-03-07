@@ -1,0 +1,64 @@
+<div class="month-view-shell">
+    <div class="month-weekdays">
+        @for (label of weekdayLabels; track label) {
+            <div class="month-weekday">{{ label }}</div>
+        }
+    </div>
+
+    <div class="month-grid">
+        @for (day of monthDays; track day.toISOString()) {
+            <div
+                class="month-cell"
+                [class.outside-month]="!isCurrentMonth(day)"
+                [class.today]="isToday(day)"
+                (click)="onDayClick(day, $event)"
+            >
+                <div class="month-cell-header">
+                    <div class="month-day-number">{{ day | date:'d' }}</div>
+                </div>
+
+                @if (cellTemplate) {
+                    <ng-container
+                        [ngTemplateOutlet]="cellTemplate"
+                        [ngTemplateOutletContext]="{
+                            $implicit: day,
+                            date: day,
+                            view: 'month',
+                            events: getEvents(day),
+                            isToday: isToday(day),
+                            isCurrentMonth: isCurrentMonth(day)
+                        }"
+                    />
+                } 
+                @else {
+                    <div class="month-events">
+                        @for (event of visibleEvents(day); track event.id) {
+                            <div class="month-event" (click)="onEventClick(event, $event)">
+                                @if (eventTemplate) {
+                                    <ng-container
+                                        [ngTemplateOutlet]="eventTemplate"
+                                        [ngTemplateOutletContext]="{
+                                            $implicit: event,
+                                            event: event,
+                                            view: 'month',
+                                            date: day
+                                        }"
+                                    />
+                                } 
+                                @else {
+                                    {{ event.title }}
+                                }
+                            </div>
+                        }
+
+                        @if (hiddenCount(day) > 0) {
+                            <button type="button" class="more-events" (click)="onMoreClick(day, $event)">
+                                +{{ hiddenCount(day) }} more
+                            </button>
+                        }
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>

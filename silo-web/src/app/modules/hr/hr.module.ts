@@ -33,12 +33,16 @@ import { LeaveReportsComponent } from './reports/leave-reports/leave-reports.com
 import { ExpenseReportsComponent } from './reports/expense-reports/expense-reports.component';
 import { NoticeBoardOverviewComponent } from './notice-board/notice-board-overview/notice-board-overview.component';
 import { NoticeBoardPreviewComponent } from './notice-board/notice-board-preview/notice-board-preview.component';
+import { CalendarEventsComponent } from './calendar/calendar-events/calendar-events.component';
+import { CalendarComponent } from '@sharedWeb/components/blocks/calendar/calendar/calendar.component';
+import { MeetingInfoComponent } from './calendar/meeting-info/meeting-info.component';
 
 
 @NgModule({
   declarations: [
     AttendancePortalComponent,
     AttendanceLogComponent,
+    CalendarEventsComponent,
     DashboardComponent,
     EmployeeAssignmentComponent,
     EmployeeListComponent,
@@ -54,6 +58,7 @@ import { NoticeBoardPreviewComponent } from './notice-board/notice-board-preview
     LeaveReportsComponent,
     LeaveRequestInfoComponent,
     LeaveRequestsOverviewComponent,
+    MeetingInfoComponent,
     NoticeBoardOverviewComponent,
     NoticeBoardPreviewComponent,
     PaymentInfoComponent,
@@ -70,6 +75,7 @@ import { NoticeBoardPreviewComponent } from './notice-board/notice-board-preview
   ],
   imports: [
     CommonModule,
+    CalendarComponent,
     HrRoutingModule,
     GoogleMapsModule,
     SharedModule,

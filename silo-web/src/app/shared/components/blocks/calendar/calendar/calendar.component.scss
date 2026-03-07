@@ -1,0 +1,106 @@
+@import 'src/assets/scss/helpers/mixins';
+
+:host {
+    display: block;
+    --calendar-border: #e5e7eb;
+    --calendar-border-strong: #d1d5db;
+    --calendar-bg: #ffffff;
+    --calendar-bg-soft: #f8fafc;
+    --calendar-text: #111827;
+    --calendar-text-soft: #6b7280;
+    --calendar-primary: #2563eb;
+    --calendar-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    --calendar-radius: 16px;
+    --toolbar-height: 5rem;
+    color: var(--calendar-text);
+    font-family: var(--font-regular);
+}
+
+.calendar-shell {
+    background: var(--calendar-bg);
+    border: 1px solid var(--calendar-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--box-shadow-1);
+    overflow: hidden;
+}
+
+.calendar-toolbar {
+    height: var(--toolbar-height);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 0 1.2rem;
+    border-bottom: 1px solid var(--calendar-border);
+    background: linear-gradient(to bottom, #ffffff, #fbfdff);
+}
+
+.calendar-toolbar .left,
+.calendar-toolbar .right {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.calendar-toolbar .center {
+    font-size: 0.85rem;
+    font-family: var(--font-medium);
+    justify-self: center;
+    letter-spacing: 0.03rem;
+    color: var(--calendar-text);
+}
+
+.calendar-toolbar button {
+    display: flex;
+    align-items: center;
+    appearance: none;
+    border: 1px solid var(--calendar-border);
+    background: #fff;
+    color: var(--calendar-text);
+    border-radius: var(--radius-sm);
+    padding: 0.3rem 0.8rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.03rem;
+    font-family: var(--font-regular);
+    cursor: pointer;
+    transition: all 0.4s ease;
+    gap: 0.3rem;
+}
+
+.calendar-toolbar button:hover {
+    background: var(--calendar-bg-soft);
+    border-color: var(--calendar-border-strong);
+}
+
+.calendar-toolbar button.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.24);
+}
+
+.calendar-body {
+    overflow: auto;
+    background: #fff;
+}
+
+@include screen-media-max(md) {
+    .calendar-toolbar {
+        grid-template-columns: 1fr;
+        height: auto;
+        padding: 1rem;
+    }
+
+    .calendar-toolbar .left,
+    .calendar-toolbar .right,
+    .calendar-toolbar .center {
+        justify-self: stretch;
+        justify-content: center;
+    }
+
+    .calendar-toolbar .left,
+    .calendar-toolbar .right {
+        flex-wrap: wrap;
+    }
+}

@@ -483,11 +483,16 @@ export class HrService {
   /*************** CALENDAR RELATED ACTIONS ***************/
 
   //Book a new meeting
-  public bookMeeting(info: any): Observable<any> {
+  public createMeeting(info: any): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/createMeeting`, info, this.requestOptions);
   }
 
-  //Get the list of all booked visitors
+  //Update Meeting
+  public updateMeeting(data: any, meetingId: any): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/updateMeeting/${meetingId}`, data, this.requestOptions);
+  }
+
+  //Get the list of all calendar events
   public getCalendar(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/fetchCalendar`, this.requestOptions);
   }

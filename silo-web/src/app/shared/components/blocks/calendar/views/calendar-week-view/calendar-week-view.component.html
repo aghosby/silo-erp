@@ -1,0 +1,116 @@
+<div class="week-view-wrapper">
+    <div class="week-view">
+        <div class="time-column header-spacer"></div>
+
+        @for (day of days; track trackByDate($index, day)) {
+            <div class="day-header" [class.today]="isToday(day)">
+                <div class="weekday">{{ day | date:'EEE' }}</div>
+                <div class="date-number">{{ day | date:'d' }}</div>
+            </div>
+        }
+
+        <div class="time-column all-day-label">All day</div>
+
+        @for (day of days; track trackByDate($index, day)) {
+            <div class="all-day-cell" (click)="onAllDayClick(day, $event)">
+                @if (allDayEvents(day).length === 0) {
+                    <div class="all-day-empty">—</div>
+                } 
+                @else {
+                    @for (event of allDayEvents(day); track event.id) {
+                        <div class="all-day-event" (click)="onEventClick(event, $event)">
+                            @if (eventTemplate) {
+                                <ng-container
+                                    [ngTemplateOutlet]="eventTemplate"
+                                    [ngTemplateOutletContext]="{
+                                        $implicit: event,
+                                        event: event,
+                                        view: 'week',
+                                        date: day,
+                                        isStart: true,
+                                        isEnd: true
+                                    }"
+                                />
+                            } 
+                            @else {
+                                <div class="all-day-default">{{ event.title }}</div>
+                            }
+                        </div>
+                    }
+                }
+            </div>
+        }
+
+        <div class="time-column">
+            @for (slot of timeSlots; track $index) {
+                <div class="time-label">{{ formatTimeLabel(slot) }}</div>
+            }
+        </div>
+
+        @for (day of days; track trackByDate($index, day)) {
+            <div class="day-column">
+                <div class="slot-grid">
+                    @for (slot of timeSlots; track $index) {
+                        <div
+                        class="slot"
+                        [class.business-hour]="isBusinessHour(slot)"
+                        (click)="onSlotClick(day, slot, $event)">
+                        @if (slotTemplate) {
+                            <ng-container
+                            [ngTemplateOutlet]="slotTemplate"
+                            [ngTemplateOutletContext]="{ $implicit: day, day: day, slot: slot, view: 'week' }"
+                            />
+                        }
+                        </div>
+                    }
+
+                    @if (showNowIndicator(day)) {
+                        <div class="now-indicator" [style.top.px]="nowIndicatorTop">
+                            <span class="now-dot"></span>
+                        </div>
+                    }
+
+                    <div class="events-layer">
+                        @for (item of positionedEvents(day); track trackByEvent($index, item)) {
+                            <div
+                                class="event-item"
+                                [style.top.px]="item.top - config.startHour * 60 * pxPerMinute"
+                                [style.height.px]="item.height"
+                                [style.left.%]="item.left"
+                                [style.width.%]="item.width"
+                                (click)="onEventClick(item.event, $event)"
+                            >
+                                @if (eventTemplate) {
+                                    <ng-container
+                                        [ngTemplateOutlet]="eventTemplate"
+                                        [ngTemplateOutletContext]="{
+                                            $implicit: item.event,
+                                            event: item.event,
+                                            view: 'week',
+                                            date: day,
+                                            top: item.top,
+                                            height: item.height,
+                                            left: item.left,
+                                            width: item.width,
+                                            isStart: item.isStart,
+                                            isEnd: item.isEnd
+                                        }"
+                                    />
+                                } 
+                                @else {
+                                    <div class="default-event">
+                                        <div class="title">{{ item.event.title }}</div>
+                                        <div class="time">
+                                            {{ item.event.start | date:'HH:mm' }} - {{ item.event.end | date:'HH:mm' }}
+                                        </div>
+                                        <div class="meta">Event</div>
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

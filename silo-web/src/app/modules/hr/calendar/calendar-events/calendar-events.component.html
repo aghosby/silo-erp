@@ -1,0 +1,99 @@
+<div class="content-wrap">
+    <div class="inner-wrap">
+        <div class="row-section d-flex justify-content-between align-items-center">
+            <div class="page-header">Calendar</div>
+            <div class="main-actions d-flex justify-content-start align-items-center">
+                <div (click)="openMeetingModal()" class="cta cta-primary icon lg"><app-icon [iconName]="'calendarClock'" [iconStrokeWidth]="2" [iconWidth]="25" [iconHeight]="25"></app-icon>New Meeting</div>
+            </div>
+        </div>
+
+        <div class="row-section d-flex justify-content-between mt-4">
+            <div class="col-section card-xlg">
+                <app-calendar
+                    [events]="calendarEvents || []"
+                    [view]="calendarView"
+                    [activeDate]="activeDate"
+                    [config]="config"
+                    [dayEventTemplate]="dayEvent"
+                    [weekEventTemplate]="weekEvent"
+                    [monthEventTemplate]="monthEvent"
+                    (slotClick)="handleSlotClick($event)"
+                    (eventClick)="handleEventClick($event)"
+                    (rangeChange)="onRangeChange($event)"
+                    (viewChange)="calendarView = $event"
+                    (activeDateChange)="activeDate = $event"
+                />
+            </div>
+
+            <div class="col-section card-xsm">
+                <div class="row-section">
+                    <div class="row-card event-categories">
+                        <div class="card-cont">
+                            <div class="top">
+                                <div class="card-title sm color-theme-primary">Calendar Event Categories</div>
+                            </div>
+                            <div class="btm" [formGroup]="filterForm">
+                                <div class="listed-items mt-3">
+                                    <div class="item" *ngFor="let item of calendarFilterItems; trackBy: trackByKey">
+                                        <div class="icon" [ngClass]="'color-theme-' + item.theme">
+                                            <app-icon [iconName]="item.icon" [iconStrokeWidth]="2" [iconWidth]="25" [iconHeight]="25"></app-icon>
+                                        </div>
+
+                                        <div class="content">
+                                            <div class="det">
+                                                <div class="major lg">{{ item.label }}</div>
+                                            </div>
+
+                                            <div class="det">
+                                                <app-switch [formControlName]="item.key"></app-switch>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<ng-template #weekEvent let-event let-view="view">
+    <div class="custom-event-card week-card" [class]="getEventTypeClass(event.meta?.type)">
+        <div class="event-card-top">
+            <span class="event-chip">{{ event.meta?.type || 'event' }}</span>
+            <span class="event-time">
+            {{ event.allDay ? 'All day' : ((event.start | date:'HH:mm') + ' - ' + (event.end | date:'HH:mm')) }}
+            </span>
+        </div>
+
+        <div class="event-title">{{ event.title }}</div>
+
+        <div class="event-subtitle">
+            {{ event.meta?.location || event.meta?.candidate || event.meta?.owner || 'No details' }}
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #dayEvent let-event>
+    <div class="custom-event-card day-card" [class]="getEventTypeClass(event.meta?.type)">
+        <div class="event-chip">{{ event.meta?.type || 'event' }}</div>
+        <div class="event-title">{{ event.title }}</div>
+        <div class="event-subtitle">
+            {{ event.allDay ? 'All day' : ((event.start | date:'HH:mm') + ' - ' + (event.end | date:'HH:mm')) }}
+        </div>
+        <div class="event-description">
+            {{ event.meta?.description || event.meta?.location || event.meta?.owner || '' }}
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #monthEvent let-event>
+    <div class="month-pill" [class]="getEventTypeClass(event.meta?.type)">
+        <span class="month-pill-title">
+            {{ event.title }}
+        </span>
+    </div>
+</ng-template>

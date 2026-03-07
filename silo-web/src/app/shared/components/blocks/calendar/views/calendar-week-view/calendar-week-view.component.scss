@@ -1,0 +1,227 @@
+:host {
+    display: block;
+    --time-column-width: 86px;
+    --slot-height: 45px;
+    --all-day-row-height: 56px;
+}
+
+.week-view-wrapper {
+    overflow: auto;
+}
+
+.week-view {
+    display: grid;
+    grid-template-columns: var(--time-column-width) repeat(7, minmax(140px, 1fr));
+    background: #fff;
+    min-width: 1120px;
+}
+
+.header-spacer,
+.day-header {
+    position: sticky;
+    top: 0;
+    z-index: 4;
+    background: #fff;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.header-spacer {
+    height: 64px;
+}
+
+.day-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.15rem;
+    height: 64px;
+    padding: 0.5rem;
+}
+
+.day-header .weekday {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.day-header .date-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2rem;
+    height: 2rem;
+    border-radius: 999px;
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: #111827;
+}
+
+.day-header.today .date-number {
+    background: #2563eb;
+    color: #fff;
+}
+
+.time-column {
+    border-right: 1px solid #e5e7eb;
+    background: #fff;
+}
+
+.all-day-label {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 0.8rem;
+    height: var(--all-day-row-height);
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: #6b7280;
+    border-bottom: 1px solid #eef2f7;
+}
+
+.all-day-cell {
+    min-height: var(--all-day-row-height);
+    border-right: 1px solid #eef2f7;
+    border-bottom: 1px solid #eef2f7;
+    padding: 0.35rem;
+    background: #fcfcfd;
+    cursor: pointer;
+}
+
+.all-day-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #cbd5e1;
+    height: 100%;
+}
+
+.all-day-event {
+    margin-bottom: 0.25rem;
+}
+
+.all-day-default {
+    min-height: 24px;
+    border-radius: 8px;
+    padding: 0.22rem 0.45rem;
+    background: #eef4ff;
+    border: 1px solid #dbeafe;
+    color: #1e40af;
+    font-size: 0.75rem;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.time-label {
+    height: var(--slot-height);
+    padding-right: 0.8rem;
+    text-align: right;
+    font-size: 0.76rem;
+    font-weight: 500;
+    color: #6b7280;
+    transform: translateY(-0.55rem);
+    user-select: none;
+}
+
+.day-column {
+    position: relative;
+    border-right: 1px solid #eef2f7;
+    background: linear-gradient(to bottom, rgba(248, 250, 252, 0.55), rgba(255, 255, 255, 0));
+}
+
+.slot-grid {
+    position: relative;
+    min-height: calc(var(--slot-height) * 32);
+}
+
+.slot {
+    height: var(--slot-height);
+    border-bottom: 1px solid #eef2f7;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.slot:hover {
+    background: rgba(37, 99, 235, 0.04);
+}
+
+.slot.business-hour {
+    background: rgba(16, 185, 129, 0.03);
+}
+
+.slot::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    border-top: 1px dashed rgba(148, 163, 184, 0.18);
+}
+
+.events-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.event-item {
+    position: absolute;
+    pointer-events: auto;
+    box-sizing: border-box;
+    padding: 3px;
+}
+
+.default-event {
+    height: 100%;
+    border-radius: 12px;
+    border: 1px solid rgba(37, 99, 235, 0.18);
+    background: linear-gradient(180deg, #eff6ff 0%, #dbeafe 100%);
+    box-shadow: 0 8px 22px rgba(37, 99, 235, 0.12);
+    padding: 0.5rem 0.65rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.default-event .title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #1d4ed8;
+    line-height: 1.2;
+}
+
+.default-event .time {
+    font-size: 0.72rem;
+    color: #334155;
+}
+
+.default-event .meta {
+    font-size: 0.72rem;
+    color: #64748b;
+    }
+
+.now-indicator {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 0;
+    border-top: 2px solid #ef4444;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.now-dot {
+    position: absolute;
+    top: -6px;
+    left: -1px;
+    width: 10px;
+    height: 10px;
+    background: #ef4444;
+    border-radius: 999px;
+}

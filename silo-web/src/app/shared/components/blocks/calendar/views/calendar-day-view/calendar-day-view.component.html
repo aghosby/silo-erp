@@ -1,0 +1,98 @@
+<div class="day-view">
+    <div class="time-column day-header-spacer"></div>
+
+    <div class="day-main-header">
+        <div class="day-badge">{{ date | date:'d' }}</div>
+        <div class="day-header-text">
+            <div class="label">{{ date | date:'EEEE' }}</div>
+            <div class="value">{{ date | date:'MMMM d, y' }}</div>
+        </div>
+    </div>
+
+    <div class="time-column all-day-label">All day</div>
+
+        <div class="all-day-cell" (click)="onAllDayClick($event)">
+            @if (allDayEvents.length === 0) {
+                <div class="all-day-empty">—</div>
+            } 
+            @else {
+                @for (event of allDayEvents; track event.id) {
+                    <div class="all-day-event" (click)="onEventClick(event, $event)">
+                        @if (eventTemplate) {
+                            <ng-container
+                                [ngTemplateOutlet]="eventTemplate"
+                                [ngTemplateOutletContext]="{
+                                    $implicit: event,
+                                    event: event,
+                                    view: 'day',
+                                    date: date,
+                                    isStart: true,
+                                    isEnd: true
+                                }"
+                            />
+                        } 
+                        @else {
+                            <div class="all-day-default">{{ event.title }}</div>
+                        }
+                    </div>
+                }
+            }
+        </div>
+
+        <div class="time-column">
+            @for (slot of timeSlots; track $index) {
+                <div class="time-label">{{ formatTimeLabel(slot) }}</div>
+            }
+        </div>
+
+        <div class="day-body">
+            @for (slot of timeSlots; track $index) {
+                <div class="slot" [class.business-hour]="isBusinessHour(slot)" (click)="onSlotClick(slot, $event)"></div>
+            }
+
+            @if (showNowIndicator) {
+                <div class="now-indicator" [style.top.px]="nowIndicatorTop">
+                    <span class="now-dot"></span>
+                </div>
+            }
+
+            <div class="events-layer">
+                @for (item of positionedEvents; track item.event.id) {
+                    <div
+                        class="event-item"
+                        [style.top.px]="item.top - config.startHour * 60 * pxPerMinute"
+                        [style.height.px]="item.height"
+                        [style.left.%]="item.left"
+                        [style.width.%]="item.width"
+                        (click)="onEventClick(item.event, $event)"
+                    >
+                    @if (eventTemplate) {
+                        <ng-container
+                            [ngTemplateOutlet]="eventTemplate"
+                            [ngTemplateOutletContext]="{
+                                $implicit: item.event,
+                                event: item.event,
+                                view: 'day',
+                                date: date,
+                                top: item.top,
+                                height: item.height,
+                                left: item.left,
+                                width: item.width,
+                                isStart: item.isStart,
+                                isEnd: item.isEnd
+                            }"
+                        />
+                    } 
+                    @else {
+                        <div class="default-event">
+                            <div class="title">{{ item.event.title }}</div>
+                            <div class="time">
+                                {{ item.event.start | date:'HH:mm' }} - {{ item.event.end | date:'HH:mm' }}
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>

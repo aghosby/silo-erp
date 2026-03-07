@@ -137,6 +137,34 @@ export class UtilityService {
     return `${yyyy}-${mm}-${dd}`;
   }
 
+  formatTimeFromISO(isoString: string): string {
+    const date = new Date(isoString);
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+  }
+
+  combineDateTime(dateVal: Date, timeVal: string): Date {
+    const result = new Date(dateVal);
+
+    const match = timeVal.trim().match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+    if (!match) {
+      throw new Error(`Invalid time format: ${timeVal}`);
+    }
+
+    let [, hours, minutes, meridiem] = match;
+    let h = Number(hours);
+    const m = Number(minutes);
+
+    meridiem = meridiem.toUpperCase();
+
+    if (meridiem === 'AM' && h === 12) h = 0;
+    if (meridiem === 'PM' && h < 12) h += 12;
+
+    result.setHours(h, m, 0, 0);
+    return result;
+  }
+
   /** Returns a yyyy-MM-dd date range covering today and the next day */
   buildDayRange(date: Date): { startDate: string; endDate: string } {
 

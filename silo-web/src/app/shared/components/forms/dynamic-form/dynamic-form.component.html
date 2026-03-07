@@ -39,13 +39,22 @@
                     <mat-select [formControlName]="field.controlName" multiple panelClass="compact-dropdown lg">
                         <!-- Trigger shows selected chips -->
                         <mat-select-trigger>
+                            <mat-chip-set>
+                                <mat-chip *ngFor="let val of form.value[field.controlName]"
+                                        (removed)="removeMultiSelectValue(field.controlName, val)">
+                                    {{ field.selectOptions?.[val] || val }}
+                                    <button matChipRemove>&times;</button>
+                                </mat-chip>
+                            </mat-chip-set>
+                        </mat-select-trigger>
+                        <!-- <mat-select-trigger>
                             <mat-chip-grid>
                                 <mat-chip-row *ngFor="let val of form.value[field.controlName]" (removed)="removeMultiSelectValue(field.controlName, val)">
                                     {{ field.selectOptions?.[val] || val }}
                                     <button matChipRemove>&times;</button>
                                 </mat-chip-row>
                             </mat-chip-grid>
-                        </mat-select-trigger>
+                        </mat-select-trigger> -->
 
                         <!-- Options -->
                         <mat-option *ngFor="let opt of field.selectOptions | keyvalue: keepOrder" [value]="opt.key">{{ opt.value }}</mat-option>

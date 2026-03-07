@@ -1,0 +1,37 @@
+.app-switch {
+
+    input[type=checkbox] {
+        width: 45px;
+        height: 23px;
+        outline: none;
+        cursor: pointer;
+        display: inline-block;
+        vertical-align: middle;
+        border-radius: 15px;
+        position: relative;
+        background-color: rgba(#000, 0.3);
+        appearance: none;
+        margin: 0;
+
+        &::before {
+            content: '';
+            position: absolute;
+            width: 19px;
+            height: 19px;
+            transform: translateY(-50%);
+            background: white;
+            border-radius: 50%;
+            transition: 0.5s ease;
+            left: 2px;
+            top: 50%;
+        }
+    }
+
+    input:checked[type=checkbox] {
+        background-color: var(--primary);
+
+        &::before {
+            left: 23px;
+        }
+    }
+}

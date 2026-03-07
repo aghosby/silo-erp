@@ -1,0 +1,21 @@
+<div class="event-wrap">
+    <div class="hdr">
+        <div class="top">
+            <div class="img-wrap">
+                <img src="assets/img/project/illustrations/calendar.webp" alt="">
+            </div>
+            <div class="event-title">
+                <span>Meeting</span>
+                <span>{{eventDetails.title}}</span>
+            </div>
+        </div>
+        
+        <div class="event-time justify-content-between">
+            <div class="det"> <span>Date:</span> {{eventDetails.start | date: 'dd MMM, yyyy'}}</div>
+            <div class="det"> <span>Time:</span> {{eventDetails.start | date: 'h:mm a'}}  -  {{eventDetails.end | date: 'h:mm a'}}</div>
+        </div>
+    </div>
+
+    <div class="body"></div>
+    <div class="footer"></div>
+</div>
