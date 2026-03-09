@@ -22,6 +22,10 @@ import { PayrollReportsComponent } from './reports/payroll-reports/payroll-repor
 import { AttendanceReportsComponent } from './reports/attendance-reports/attendance-reports.component';
 import { NoticeBoardOverviewComponent } from './notice-board/notice-board-overview/notice-board-overview.component';
 import { CalendarEventsComponent } from './calendar/calendar-events/calendar-events.component';
+import { AppraisalFormComponent } from './appraisal/appraisal-form/appraisal-form.component';
+import { AppraisalPortalComponent } from './appraisal/appraisal-portal/appraisal-portal.component';
+import { AppraisalOverviewComponent } from './appraisal/appraisal-overview/appraisal-overview.component';
+import { AppraisalKpisComponent } from './appraisal/appraisal-kpis/appraisal-kpis.component';
 
 const routes: Routes = [
   {
@@ -72,6 +76,33 @@ const routes: Routes = [
   {
     path: 'expense-requests',
     component: ExpenseRequestsOverviewComponent
+  },
+  {
+    path: 'appraisals',
+    component: AppraisalPortalComponent,
+    children: [
+      {
+        path: '',
+        redirectTo: 'overview',
+        pathMatch: 'full'
+      },
+      {
+        path : 'overview',
+        component: AppraisalOverviewComponent
+      },
+      {
+        path : 'appraisal-kpis',
+        component: AppraisalKpisComponent
+      }
+    ]
+  },
+  {
+    path: 'appraisal-requests',
+    component: AppraisalFormComponent
+  },
+  {
+    path: 'appraisals/:id',
+    component: AppraisalFormComponent
   },
   {
     path: 'notice-board',

@@ -23,9 +23,9 @@ export class NoticeBoardOverviewComponent implements OnInit {
   employees:any[] = [];
   departments:any[] = [];
   isLoading:boolean = false;
-  newNotice:boolean = false;
+  newNotice:boolean = true;
   
-  announcements: any[] = [];
+  announcements!: any[];
 
   constructor(
     private modalService: ModalService,

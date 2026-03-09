@@ -19,7 +19,7 @@ export class HeaderComponent implements OnInit {
   currentLink = 'Human Resources';
 
   constructor(
-    private route: Router,
+    private router: Router,
     private authService: AuthService, 
     private notifyService: NotificationService,
   ) { }
@@ -54,6 +54,10 @@ export class HeaderComponent implements OnInit {
         this.authService.logOut();
       }
     });
+  }
+
+  goToCalendar() {
+    this.router.navigateByUrl('/app/hr/calendar');
   }
 
 }

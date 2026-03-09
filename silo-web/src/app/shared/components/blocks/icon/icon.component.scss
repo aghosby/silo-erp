@@ -1,4 +1,6 @@
-svg.lucide path {
+
+:host {
+    display: inline-block;
     pointer-events: none;
 }
 
@@ -6,6 +8,7 @@ span {
     display: inline-block;
 }
 
-svg.lucide, span {
-    pointer-events: all !important;
+svg.lucide,
+svg.lucide * {
+    pointer-events: none;
 }
