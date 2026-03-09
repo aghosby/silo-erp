@@ -39,10 +39,16 @@ import { MeetingInfoComponent } from './calendar/meeting-info/meeting-info.compo
 import { AppraisalPortalComponent } from './appraisal/appraisal-portal/appraisal-portal.component';
 import { AppraisalOverviewComponent } from './appraisal/appraisal-overview/appraisal-overview.component';
 import { AppraisalPeriodInfoComponent } from './appraisal/appraisal-period-info/appraisal-period-info.component';
+import { AppraisalKpisComponent } from './appraisal/appraisal-kpis/appraisal-kpis.component';
+import { AppraisalKpiGroupInfoComponent } from './appraisal/appraisal-kpi-group-info/appraisal-kpi-group-info.component';
+import { AppraisalKpiInfoComponent } from './appraisal/appraisal-kpi-info/appraisal-kpi-info.component';
 
 
 @NgModule({
   declarations: [
+    AppraisalKpiInfoComponent,
+    AppraisalKpiGroupInfoComponent,
+    AppraisalKpisComponent,
     AppraisalOverviewComponent,
     AppraisalPeriodInfoComponent,
     AppraisalPortalComponent,

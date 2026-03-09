@@ -1,1 +1,22 @@
-<p>appraisal-kpi-info works!</p>
+<div class="modal-wrap">
+    <section class="modal-header">
+        <div class="illustration">
+            <div class="img-wrap">
+                <img src="assets/img/project/illustrations/equalizer.png" alt="">
+            </div>
+        </div>
+
+        <div class="details">
+            <div class="title">{{ data.isExisting ? 'Edit KPI' : 'Create KPI' }}</div>
+            <div class="preamble">Enter the KPI information</div>        
+        </div>        
+    </section>
+
+    <section class="modal-body">
+        <app-dynamic-form
+            [fields]="formFields"
+            [isLoading]="isLoading"
+            (formAction)="handleFormAction($event)"
+        ></app-dynamic-form>
+    </section>
+</div>
