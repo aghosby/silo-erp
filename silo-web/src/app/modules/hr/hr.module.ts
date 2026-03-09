@@ -42,10 +42,12 @@ import { AppraisalPeriodInfoComponent } from './appraisal/appraisal-period-info/
 import { AppraisalKpisComponent } from './appraisal/appraisal-kpis/appraisal-kpis.component';
 import { AppraisalKpiGroupInfoComponent } from './appraisal/appraisal-kpi-group-info/appraisal-kpi-group-info.component';
 import { AppraisalKpiInfoComponent } from './appraisal/appraisal-kpi-info/appraisal-kpi-info.component';
+import { AppraisalFormComponent } from './appraisal/appraisal-form/appraisal-form.component';
 
 
 @NgModule({
   declarations: [
+    AppraisalFormComponent,
     AppraisalKpiInfoComponent,
     AppraisalKpiGroupInfoComponent,
     AppraisalKpisComponent,

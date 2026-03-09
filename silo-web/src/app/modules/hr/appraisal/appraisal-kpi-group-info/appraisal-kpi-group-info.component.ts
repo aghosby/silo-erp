@@ -75,6 +75,7 @@ export class AppraisalKpiGroupInfoComponent implements OnInit {
         controlType: 'mutipleSelect',
         controlLabel: 'Departments',
         controlWidth: '100%',
+        disabled: false,
         initialValue: this.data.isExisting ? this.data.data.assignedDepartments.filter((x:any) => x.department_name).map((y:any) => y.department_id) : null,
         selectOptions: this.utils.arrayToObject(this.data.departments, 'departmentName'),
         validators: [],
@@ -126,6 +127,43 @@ export class AppraisalKpiGroupInfoComponent implements OnInit {
         order: 8
       }
     ]
+
+    this.applyRoleLogic();
+  }
+
+  applyRoleLogic() {
+    const accessField = this.formFields.find(x => x.controlName === 'accessLevel');
+    const departmentField = this.formFields.find(x => x.controlName === 'departments');
+
+    // Manager creating KPI
+    if (!this.data.isExisting && !this.loggedInUser.isSuperAdmin && this.loggedInUser.isManager) {
+
+      if (accessField) {
+        accessField.initialValue = 'Manager';
+        accessField.disabled = true;
+      }
+
+      if (departmentField) {
+
+        departmentField.initialValue = [this.loggedInUser.departmentId];
+
+        const reqOptions: any = {};
+        reqOptions[this.loggedInUser.departmentId] = this.loggedInUser.department;
+
+        departmentField.selectOptions = reqOptions;
+        departmentField.disabled = true;
+      }
+    }
+
+    // Editing KPI (non super admin)
+    if (this.data.isExisting && !this.loggedInUser.isSuperAdmin) {
+
+      if (accessField) {
+        accessField.disabled = true;
+      }
+
+    }
+
   }
 
   handleFormAction(event: any) {

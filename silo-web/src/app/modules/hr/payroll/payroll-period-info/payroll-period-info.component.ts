@@ -38,7 +38,7 @@ export class PayrollPeriodInfoComponent implements OnInit {
       },
       {
         controlName: 'description',
-        controlType: 'text',
+        controlType: 'textarea',
         controlLabel: 'Description',
         controlWidth: '100%',
         initialValue: this.data.isExisting ? this.data.data.description : null,
