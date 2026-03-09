@@ -69,7 +69,7 @@ export class LeadsOverviewComponent implements OnInit {
       sortable: false
     },
     {
-      key: "firstName",
+      key: "name",
       label: "Name",
       order: 4,
       columnWidth: "12%",

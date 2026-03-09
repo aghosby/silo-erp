@@ -12,6 +12,7 @@ import { ContactsReportComponent } from './reports/contacts-report/contacts-repo
 import { DealsReportComponent } from './reports/deals-report/deals-report.component';
 import { SalesReportComponent } from './reports/sales-report/sales-report.component';
 import { AgentsReportComponent } from './reports/agents-report/agents-report.component';
+import { CalendarEventsComponent } from './calendar/calendar-events/calendar-events.component';
 
 const routes: Routes = [
   {
@@ -38,6 +39,10 @@ const routes: Routes = [
   {
     path: 'support',
     component: SupportOverviewComponent
+  },
+  {
+    path: 'calendar',
+    component: CalendarEventsComponent
   },
   {
     path: 'agents',

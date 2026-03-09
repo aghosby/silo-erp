@@ -18,12 +18,17 @@ import { ReportsPortalComponent } from './reports/reports-portal/reports-portal.
 import { LeadsReportComponent } from './reports/leads-report/leads-report.component';
 import { ContactsReportComponent } from './reports/contacts-report/contacts-report.component';
 import { DealsReportComponent } from './reports/deals-report/deals-report.component';
+import { ActivityInfoComponent } from './calendar/activity-info/activity-info.component';
+import { CalendarEventsComponent } from './calendar/calendar-events/calendar-events.component';
+import { CalendarComponent } from '@sharedWeb/components/blocks/calendar/calendar/calendar.component';
 
 
 @NgModule({
   declarations: [
+    ActivityInfoComponent,
     AgentsInfoComponent,
     AgentsOverviewComponent,
+    CalendarEventsComponent,
     ContactsInfoComponent,
     ContactsOverviewComponent,
     ContactsReportComponent,
@@ -42,6 +47,7 @@ import { DealsReportComponent } from './reports/deals-report/deals-report.compon
   imports: [
     CommonModule,
     CrmRoutingModule,
+    CalendarComponent,
     SharedModule
   ]
 })

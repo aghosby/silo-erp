@@ -11,7 +11,7 @@
         <span>
             <app-icon [iconName]="'bell'" [iconWidth]="22" [iconHeight]="22"></app-icon>
         </span>
-        <span>
+        <span (click)="goToCalendar()" role="button">
             <app-icon [iconName]="'calendarRange'" [iconWidth]="22" [iconHeight]="22"></app-icon>
         </span>
         <div class="user">

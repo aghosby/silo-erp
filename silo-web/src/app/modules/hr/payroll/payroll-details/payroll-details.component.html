@@ -3,7 +3,7 @@
         <div class="row-section d-flex justify-content-between align-items-center">
             <div class="page-header"><span *hasRole="['superAdmin']" (click)="goBack()" class="back-btn"><i class="bi bi-arrow-left"></i></span> Payroll Details - {{periodInView?.payrollPeriodName}}</div>
             <div class="main-actions d-flex justify-content-start align-items-start gap-3">
-                <mat-form-field class="field compact-field" appearance="outline" [style.width]="'15rem'">
+                <mat-form-field class="field compact-field lg no-base" appearance="outline" [style.width]="'15rem'">
                     <mat-label>Select Period</mat-label>
                     <mat-select
                         class="selectField"

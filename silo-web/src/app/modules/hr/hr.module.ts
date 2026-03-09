@@ -36,10 +36,16 @@ import { NoticeBoardPreviewComponent } from './notice-board/notice-board-preview
 import { CalendarEventsComponent } from './calendar/calendar-events/calendar-events.component';
 import { CalendarComponent } from '@sharedWeb/components/blocks/calendar/calendar/calendar.component';
 import { MeetingInfoComponent } from './calendar/meeting-info/meeting-info.component';
+import { AppraisalPortalComponent } from './appraisal/appraisal-portal/appraisal-portal.component';
+import { AppraisalOverviewComponent } from './appraisal/appraisal-overview/appraisal-overview.component';
+import { AppraisalPeriodInfoComponent } from './appraisal/appraisal-period-info/appraisal-period-info.component';
 
 
 @NgModule({
   declarations: [
+    AppraisalOverviewComponent,
+    AppraisalPeriodInfoComponent,
+    AppraisalPortalComponent,
     AttendancePortalComponent,
     AttendanceLogComponent,
     CalendarEventsComponent,

@@ -791,6 +791,12 @@ a {
     }
   }
 
+  &.no-base {
+    .mat-mdc-form-field-subscript-wrapper {
+      display: none !important;
+    }
+  }
+
   &.md {
     font-size: 0.75rem;
     --mat-form-field-container-height: 38px;

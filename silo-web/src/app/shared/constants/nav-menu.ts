@@ -68,7 +68,7 @@ export const navMenuData: MenuItem[] = [
                 roles: ['superAdmin', 'manager'] 
             },
             { 
-                routeLink: 'hr/user-appraisal', 
+                routeLink: 'hr/appraisal-requests', 
                 icon: 'userShield', 
                 label: 'Appraisal Requests',
                 roles: ['manager', 'employee'] 

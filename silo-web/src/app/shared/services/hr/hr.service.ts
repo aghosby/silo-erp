@@ -358,6 +358,126 @@ export class HrService {
   }
 
 
+  /*************** APPRAISAL PERIODS RELATED ACTIONS ***************/
+
+  //Create a new appraisal period
+  public createAppraisalPeriod(info: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/createAppraisalPeriod`, info, this.requestOptions);
+  }
+
+  //Get the list of all appraisal periods
+  public getAppraisalPeriods(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/fetchPeriod`, this.requestOptions);
+  }
+
+  //Get appraisal period details for an employee
+  public getEmployeeAppraisalDetails(employeeId: string, periodId: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/fetchGroupDetails/${employeeId}/${periodId}`, this.requestOptions);
+  }
+
+  //Get appraisal period details for all employees
+  public getAppraisalDetails(periodId: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/fetchAppraisalPeriod/${periodId}`, this.requestOptions);
+  }
+
+  //Update Appraisal Period
+  public updateAppraisalPeriod(data: any, periodId: any): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/updatePeriod/${periodId}`, data, this.requestOptions);
+  }
+
+  //Delete Appraisal period
+  public deleteAppraisalPeriod(periodId: any): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/deletePeriod/${periodId}`, this.requestOptions);
+  }
+
+  /*************** APPRAISAL KPI GROUPS RELATED ACTIONS ***************/
+
+  //Create a new kpi group
+  public createKpiGroup(info: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/createKpiGroups`, info, this.requestOptions);
+  }
+
+  //Get the list of all kpi groups
+  public getKpiGroups(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/fetchAppraisalGroups`, this.requestOptions);
+  }
+
+  //Update kpi group
+  public updateKpiGroup(data: any, groupId: any): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/updateGroup/${groupId}`, data, this.requestOptions);
+  }
+
+  //Delete kpi group
+  public deleteKpiGroup(groupId: any): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/deleteGroup/${groupId}`, this.requestOptions);
+  }
+
+  /*************** APPRAISAL KPI RELATED ACTIONS ***************/
+
+  //Create a new kpi
+  public createKpi(info: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/createKpis`, info, this.requestOptions);
+  }
+
+  //Get the list of all kpis
+  // public getKpi(): Observable<any> {
+  //   return this.http.get<any>(`${this.path}/fetchAppraisalGroups`, this.requestOptions);
+  // }
+
+  //Update kpi
+  public updateKpi(data: any, kpiId: any): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/updateKPIs/${kpiId}`, data, this.requestOptions);
+  }
+
+  //Delete kpi 
+  public deleteKpi(kpiId: any): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/deleteKPI/${kpiId}`, this.requestOptions);
+  }
+
+  /*************** APPRAISAL KPI RATING RELATED ACTIONS ***************/
+
+  //Create a new kpi rating
+  public createKpiRating(info: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/createRating`, info, this.requestOptions);
+  }
+
+  //Get the list of all kpi ratings
+  public getKpiRatings(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/fetchRatings`, this.requestOptions);
+  }
+
+  //Update kpi rating
+  public updateKpiRating(data: any, ratingId: any): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/updateRating/${ratingId}`, data, this.requestOptions);
+  }
+
+  //Delete kpi rating
+  public deleteKpiRating(ratingId: any): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/deleteRating/${ratingId}`, this.requestOptions);
+  }
+
+  /*************** APPRAISAL SUBMISSION AND REVIEW RELATED ACTIONS ***************/
+
+  //Submit Appraisal Entry
+  public submitAppraisalEntry(payload: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/employeeRequestAppraisal`, payload, this.requestOptions);
+  }
+
+  //Submit Appraisal Review
+  public submitAppraisalReview(payload: any, employeeId: any): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/managerRateKpi/${employeeId}`, payload, this.requestOptions);
+  }
+
+  //Get the list of all appraisal requests
+  public getAppraisalRequests(periodId:string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/fetchAppraisalRequests/${periodId}`, this.requestOptions);
+  }
+
+  //Submit Appraisal Review
+  public updateAppraisalPeriodStatus(payload:any, periodId: string): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/updateAppraisalPeriodStatus/${periodId}`, payload, this.requestOptions);
+  }
+
   /*************** PAYROLL RELATED ACTIONS ***************/
 
   //Payroll details upload

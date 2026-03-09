@@ -73,6 +73,7 @@ export interface CalendarConfig {
 }
 
 export interface CalendarFilterItem {
+    _id?:string;
     key: string;
     label: string;
     theme: string;

@@ -1,1 +1,23 @@
-<p>activity-info works!</p>
+<div class="modal-wrap">
+    <section class="modal-header">
+        <div class="illustration">
+            <div class="img-wrap">
+                <img src="assets/img/project/illustrations/puzzle.webp" alt="">
+            </div>
+        </div>
+
+        <div class="details">
+            <div class="title">{{ data.isExisting ? 'Edit Activity' : 'Create Activity' }}</div>
+            <div class="preamble">Enter the activity information</div>        
+        </div>        
+    </section>
+
+    <section class="modal-body">
+        <app-dynamic-form
+            [fields]="formFields"
+            [isLoading]="isLoading"
+            (valueChanges)="onFormChanges($event)"
+            (formAction)="handleFormAction($event)"
+        ></app-dynamic-form>
+    </section>
+</div>
