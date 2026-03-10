@@ -38,12 +38,24 @@ export class DynamicFormComponent implements OnInit {
       this.form = this.fb.group({});
     }
 
+    // this.fields.forEach(field => {
+    //   if (!this.form.contains(field.controlName)) {
+    //     this.form.addControl(
+    //       field.controlName,
+    //       this.fb.control(field.initialValue, field.validators || [])
+    //     );
+    //   }
+    // });
+
     this.fields.forEach(field => {
       // Only add control if it does not exist
       if (!this.form.contains(field.controlName)) {
         this.form.addControl(
           field.controlName,
-          this.fb.control(field.initialValue, field.validators || [])
+          this.fb.control(
+            { value: field.initialValue, disabled: field.disabled || false },
+            field.validators || []
+          )
         );
       }
     });

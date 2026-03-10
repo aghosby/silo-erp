@@ -140,11 +140,11 @@ export const navMenuData: MenuItem[] = [
                 icon: 'calendarRange', 
                 label: 'Calendar' 
             },
-            { 
-                routeLink: 'crm/communication', 
-                icon: 'megaphone', 
-                label: 'Communication' 
-            },
+            // { 
+            //     routeLink: 'crm/communication', 
+            //     icon: 'megaphone', 
+            //     label: 'Communication' 
+            // },
             { 
                 routeLink: 'crm/support', 
                 icon: 'headset', 

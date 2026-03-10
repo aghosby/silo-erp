@@ -1,1 +1,365 @@
-<p>appraisal-form works!</p>
+<div class="content-wrap">
+    <div class="inner-wrap">
+        <div class="row-section d-flex justify-content-between align-items-center">
+            <div class="page-header">
+                <!-- <span *ngIf="!appraisalPending || employeeDetails.isSuperAdmin || periodInView?.managerId != employeeDetails?._id" (click)="goBack()" class="back-btn"><i class="bi bi-arrow-left"></i></span> {{periodInView ? periodInView?.appraisalPeriodName : 'Appraisal'}} -->
+                <span *ngIf="showBackBtn" (click)="goBack()" class="back-btn"><i class="bi bi-arrow-left"></i></span> {{periodInView && periodInView?.appraisalPeriodName ? periodInView?.appraisalPeriodName : 'Appraisal'}}
+            </div>
+            <div class="main-actions d-flex justify-content-start align-items-start gap-3">
+                <mat-form-field class="field compact-field lg no-base" appearance="outline" [style.width]="'15rem'">
+                    <mat-label>Select Period</mat-label>
+                    <mat-select
+                        class="selectField"
+                        disableOptionCentering
+                        panelClass="compact-dropdown"
+                        [(ngModel)]="periodName"
+                        style="font-size: 0.7rem;"
+                    >
+                        <mat-option *ngFor="let option of periodOptions | keyvalue: keepOrder" [value]="option.key">{{option.value}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <div (click)="openKpiModal()" class="cta cta-primary icon lg">
+                    <app-icon [iconName]="'save'" [iconStrokeWidth]="2" [iconWidth]="25" [iconHeight]="25"></app-icon> Save Changes & Continue
+                </div>
+            </div>
+        </div>
+
+        <div class="row-section appraisal-wrap">
+            <!-- <div *ngIf="!periodInView" class="row-section w-100">
+                <app-loading-data [height]="'25rem'"></app-loading-data>
+            </div> -->
+
+            <div *ngIf="!periodInView && appraisalPeriods && appraisalPeriods.length == 0" class="row-section w-100 my-lg-5">
+                <div class="cont">
+                    <app-no-data 
+                        [height]="'15rem'"
+                        [icon]="'calendar'"
+                        [imageUrl]="'assets/img/project/illustrations/puzzle.webp'" 
+                        [message]="'No appraisal periods have been created'"
+                    >
+                    </app-no-data>
+                </div>
+            </div>
+
+            <div *ngIf="periodInView" class="employee-info mt-lg-4">
+                <div class="details">
+                    <div class="image bkg-standard" style="background-image: url('{{periodInView?.profilePic}}');"></div>
+                    <div class="info-wrap">
+                        <div class="info-title">
+                            <span>{{periodInView?.fullName}}</span>
+                            <!-- <span></span> -->
+                        </div>
+                        <div class="info-list mt-lg-3">
+                            <div class="info tri">
+                                <span class="label">Department:</span>
+                                <span class="text">{{periodInView?.department}}</span>
+                            </div>
+                            <div class="info tri">
+                                <span class="label">Designation:</span>
+                                <span class="text">{{periodInView?.designation}}</span>
+                            </div>
+                            <div class="info tri">
+                                <span class="label">Company Role:</span>
+                                <span class="text">{{periodInView?.companyRole}}</span>
+                            </div>
+                            <div class="info tri">
+                                <span class="label">Review Period:</span>
+                                <span class="text">{{periodInView?.appraisalPeriodName}}</span>
+                            </div>
+                            <div class="info tri">
+                                <span class="label">Start Date:</span>
+                                <span class="text">{{periodInView?.startDate | date: 'mediumDate'}}</span>
+                            </div>
+                            <div class="info tri">
+                                <span class="label">End Date:</span>
+                                <span class="text">{{periodInView?.endDate | date: 'mediumDate'}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="periodInView" class="appraisal-hdr">
+                <div class="detail">
+                    <!-- <i class="bi bi-flag-fill"></i> -->
+                    <span>Appraisal Period KPIs</span>
+                </div>
+            </div>
+
+            <div *ngIf="periodInView && periodInView.appraisalPeriodProgress < 2" class="accordion accordion-flush mt-lg-3 mt-3">
+                <div *ngFor="let item of periodInView.kpiGroups; let i = index" class="accordion-item">
+                    <div class="accordion-header" id="{{'flush-heading-scale'+i}}">
+                        <button (click)="toggleAccordionInfo(i)" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#'+'flush-scale'+i" aria-expanded="false" [attr.aria-controls]="'flush-scale'+i">
+                            <div class="name"><span class="weight checked">{{item.weight}}%</span> {{item.groupName}}</div>
+                            <div class="chips">
+                                <div *ngFor="let dept of item.assignedDepartments; let k = index">
+                                    <span class="chip" *ngIf="dept.department_name">{{dept.department_name}}</span>                  
+                                </div>
+                            </div>
+                            <div class="actions">
+                                <div *ngIf="(employeeDetails.isSuperAdmin || (item.accessLevel!='Admin' && employeeDetails.isManager) || (item.accessLevel=='Employee' && !employeeDetails.isSuperAdmin && !employeeDetails.isManager)) && periodInView.appraisalPeriodProgress == 0" (click)="openKpiModal(item)" class="cta trans-bkg sm">Create KPI</div>
+                            </div>
+                            <!-- <div class="app-switch">
+                                <input type="checkbox">
+                            </div> -->
+                        </button>
+                    </div>
+                    <div [class.show]="activeTab == i" id="{{'flush-level'+i}}" class="accordion-collapse collapse" [attr.aria-labelledby]="'flush-heading-scale'+i" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body pb-lg-4">
+                            <section class="mb-2">{{item.description}}</section>
+                            <div class="headless-table-wrap">
+                                <div class="hdr row-hld">
+                                    <div class="row-cell">KPI Name</div>
+                                    <div class="row-cell">Weight</div>
+                                    <div class="row-cell">Target</div>
+                                    <div class="row-cell">Threshold</div>
+                                    <div class="row-cell"></div>
+                                </div>
+                                <div *ngFor="let kpi of item.groupKpis; let j = index" class="row-hld">
+                                    <div class="row-cell">{{kpi.kpiName}}</div>
+                                    <div class="row-cell weight">{{kpi.weight}}%</div>
+                                    <div class="row-cell">{{kpi.target.toLocaleString()}}</div>
+                                    <div class="row-cell">{{kpi.threshold.toLocaleString()}}</div>
+                                    <div class="row-cell">
+                                        <div class="actions">
+                                            <span *ngIf="(!employeeDetails.isSuperAdmin && !employeeDetails.isManager && periodInView.appraisalPeriodProgress == 0) || employeeDetails.isSuperAdmin || employeeDetails.isManager" (click)="openKpiModal(kpi)" class="table-icon edit" role="button" style="font-size: 1rem; color: var(--primary);">
+                                                <app-icon [iconName]="'userPen'" [iconWidth]="15" [iconHeight]="15"></app-icon>
+                                            </span>
+                                            <span *ngIf="(!employeeDetails.isSuperAdmin && !employeeDetails.isManager && periodInView.appraisalPeriodProgress == 0) || employeeDetails.isSuperAdmin || employeeDetails.isManager" (click)="deleteKpi(kpi)" class="icon delete ms-lg-3 ms-2" role="button"><i class="bi bi-trash3-fill"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <form *ngIf="periodInView && periodInView.appraisalPeriodProgress > 1" [formGroup]="kpiRatingForm" class="kpi-ratings">
+
+                <ng-container formArrayName="kpiGroups">
+
+                    <div *ngFor="let grp of groups().controls; let i=index" class="table-wrap">
+
+                        <ng-container [formGroupName]="i">
+
+                            <div class="inner-row hdr kpi d-flex justify-content-start align-items-center">
+                                <div class="card-title">{{kpiCriteria[i].groupName}} Kpis</div>
+                            </div>
+                
+                            <div class="inner-row">
+
+                                <table class="dataTable align-middle mb-0 bg-white">
+                                    <thead class="">
+                                        <tr>
+                                            <ng-container *ngFor="let col of tableColumns">
+                                                <th [ngStyle]="{'width': col.columnWidth}">{{col.label}}</th>
+                                            </ng-container>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody [formArrayName]="kpiCriteria[i].groupName">
+                                        <ng-container *ngFor="let kpi of grpKpis(i, kpiCriteria[i].groupName).controls; let j = index">
+                                            <ng-container [formGroupName]="j">
+                                                <tr [formGroupName]="kpiCriteria[i].groupKpis[j].kpiName">
+                                                    <td>
+                                                        <span class="major">{{kpiCriteria[i].groupKpis[j].kpiName}}</span>
+                                                        <span class="minor">{{kpiCriteria[i].groupKpis[j].kpiDescription}}</span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-capitalize">
+                                                            <!-- <span class="rating-icon pe-lg-1" *ngFor="let f of [].constructor(5); let j = index"><i (click)="rateEmployee(j)" class="bi bi-star-fill"></i></span> -->
+                                                            <input 
+                                                                type="number"
+                                                                [class.disabled]="periodInView?.appraisalPeriodProgress != 2"
+                                                                formControlName="employeeRating" 
+                                                                class="form-control form-control-sm" 
+                                                                placeholder="Achievement Score"
+                                                            >
+                                                            <!-- <mat-menu class="rd" #employeeRatingMenu="matMenu">
+                                                                <div (click)="ratingByEmployee(i, kpiCriteria[i].groupName, j, kpiCriteria[i].groupKpis[j].kpiName, item.ratingName)" *ngFor="let item of ratingScale['data']" class="menu-item d-flex justify-content-between" mat-menu-item>
+                                                                    {{item.ratingName}} - {{item.value}} <i class="bi bi-star-fill"></i>
+                                                                </div>
+                                                            </mat-menu> -->
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-capitalize">
+                                                            <textarea 
+                                                                autosize
+                                                                rows="1"
+                                                                [class.disabled]="periodInView?.appraisalPeriodProgress != 2"
+                                                                [readonly] = "!appraisalPending"
+                                                                formControlName="employeeComments" 
+                                                                class="form-control form-control-sm" 
+                                                                placeholder="Enter comments"
+                                                            >
+                                                            </textarea>
+                                                        </span>
+                                                    </td>
+                                                    
+                                                    <td>
+                                                        <span class="text-capitalize">
+                                                            <input 
+                                                                type="number"
+                                                                [class.disabled]="periodInView?.appraisalPeriodProgress != 3 || employeeInViewId == employeeDetails._id"
+                                                                formControlName="managerRating" 
+                                                                class="form-control form-control-sm" 
+                                                                placeholder="Achievement Score"
+                                                            >
+                                                            <mat-menu class="rd" #managerRatingMenu="matMenu">
+                                                                <div (click)="ratingByManager(i, kpiCriteria[i].groupName, j, kpiCriteria[i].groupKpis[j].kpiName, item.ratingName)" *ngFor="let item of ratingScale?.data" class="menu-item d-flex justify-content-between" mat-menu-item>
+                                                                    {{item.ratingName}} - {{item.value}} <i class="bi bi-star-fill"></i>
+                                                                </div>
+                                                            </mat-menu>
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-capitalize">
+                                                            <textarea
+                                                                autosize
+                                                                rows="1"
+                                                                [class.disabled]="periodInView?.appraisalPeriodProgress != 3 || employeeInViewId == employeeDetails._id"
+                                                                [readonly] = "periodInView?.appraisalPeriodProgress != 3 || employeeInViewId == employeeDetails._id"
+                                                                formControlName="managerComments" 
+                                                                class="form-control form-control-sm" 
+                                                                placeholder="Enter comments"
+                                                            >
+                                                            </textarea>
+                                                        </span>
+                                                    </td> 
+                                                </tr>
+                                            </ng-container>
+                                        </ng-container>
+                                    </tbody>
+                                </table>
+                                <!-- <table 
+                                    mat-table
+                                    [dataSource]="kpiCriteria[i].groupKpis"
+                                    class="dataTable mat-elevation-z0"
+                                    matSort
+                                >
+                                    <ng-container *ngFor="let column of tableColumns" [matColumnDef]="column.label">
+                
+                                        <ng-container *ngIf="column.key == 'employeeRating' || column.key == 'managerRating'">
+                                            <th [style.width]="column.columnWidth" mat-header-cell *matHeaderCellDef>{{ column.label }}</th>
+                                            <td style="white-space: nowrap;" mat-cell *matCellDef="let row">
+                                                <span class="rating-icon pe-lg-1" *ngFor="let f of [].constructor(5); let j = index"><i (click)="rateEmployee(j)" class="bi bi-star-fill"></i></span>
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container *ngIf="column.key == 'kpiDescription'">
+                                            <th [style.width]="column.columnWidth" mat-header-cell *matHeaderCellDef>{{ column.label }}</th>
+                                            <td style="white-space: nowrap; padding-right: 0.5rem;" mat-cell *matCellDef="let row">
+                                                <div class="major kpi">{{ row['kpiName'] }}</div>
+                                                <div class="minor kpi mt-1 pe-lg-2">{{ row['kpiDescription'] }}</div>
+                                            </td>
+                                        </ng-container>
+                        
+                                        <ng-container>
+                                            <th [style.width]="column.columnWidth" mat-header-cell *matHeaderCellDef>{{ column.label }}</th>
+                                            <td mat-cell *matCellDef="let row">{{ row[column.key] }}</td>
+                                        </ng-container>
+                                        
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let emprow; columns: displayedColumns"></tr>
+                                    
+                                </table> -->
+                            </div> 
+
+                        </ng-container>
+                    </div>
+
+                </ng-container>
+            </form>
+
+            <div *ngIf="periodInView && periodInView.appraisalPeriodProgress > 1" class="appraisal-info my-lg-4 mt-2">
+                <form [formGroup]="appraisalForm">
+
+                    <div class="appraisal-validation">
+                        <div *ngIf="!employeeDetails.isSuperAdmin && employeeInViewId == employeeDetails._id" class="validation">
+                            <div class="hdr">For Employees:</div>
+                            <div class="field-wrap align-items-start">
+                                <mat-form-field class="mb-lg-2" appearance="outline">
+                                    <mat-label class="text-capitalize">Employee Name</mat-label>
+                                    <input readonly matInput formControlName="employeeName" style="font-size: 1rem; color: green;">
+                                </mat-form-field>
+
+                                <mat-form-field class="mb-lg-2" appearance="outline">
+                                    <mat-label class="text-capitalize">Employee Signature</mat-label>
+                                    <input readonly matInput formControlName="employeeSignature" style="font-family:'Rouge Script'; font-size: 1.3rem; color: green;">
+                                </mat-form-field>
+
+                                <mat-form-field class="mb-lg-2" appearance="outline">
+                                    <mat-label class="text-capitalize">Employee Signature Date</mat-label>
+                                    <input readonly matInput formControlName="employeeSignDate" style="font-size: 1rem; color: green;">
+                                </mat-form-field>
+
+                                <div *ngIf="periodInView?.appraisalPeriodProgress == 2" (click)="submitAppraisalEntry(true)" class="cta primary-bkg icon lg" style="width: fit-content;"><i class="bi bi-check-circle-fill"></i> Submit Appraisal Entry</div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="periodInView?.appraisalPeriodProgress == 3 || periodInView?.managerId == employeeDetails?._id || employeeDetails.isSuperAdmin" class="validation mt-4">
+                            <div class="hdr">For Managers:</div>
+                            <div class="field-wrap align-items-start">
+                                <mat-form-field class="mb-lg-2" [style.width]="'22%'" appearance="outline">
+                                    <mat-label>Employee Potential</mat-label>
+                                    <mat-select
+                                        class="selectField"
+                                        disableOptionCentering
+                                        panelClass="matDropdown"
+                                        formControlName="employeePotential"
+                                    >
+                                        <mat-option *ngFor="let option of matrixSelectOptions | keyvalue" [value]="option.key">{{option.value}}</mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="appraisalForm.get('employeePotential')?.hasError('required')">Employee potential is required</mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field class="mb-lg-2" [style.width]="'22%'" appearance="outline">
+                                    <mat-label>Employee Performance</mat-label>
+                                    <mat-select
+                                        class="selectField"
+                                        disableOptionCentering
+                                        panelClass="matDropdown"
+                                        formControlName="employeePerformance"
+                                    >
+                                        <mat-option *ngFor="let option of matrixSelectOptions | keyvalue" [value]="option.key">{{option.value}}</mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="appraisalForm.get('employeePerformance')?.hasError('required')">Employee performance is required</mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field class="mb-lg-2" [style.width]="'48%'" appearance="outline">
+                                    <mat-label class="text-capitalize">Manager Summary</mat-label>
+                                    <input matInput formControlName="managerSummary">
+                                    <mat-error *ngIf="appraisalForm.get('managerSummary')?.hasError('required')">Manager Sunmmary is required</mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field class="mb-lg-2" appearance="outline">
+                                    <mat-label class="text-capitalize">Manager Name</mat-label>
+                                    <input readonly matInput formControlName="managerName" style="font-size: 1rem; color: green;">
+                                </mat-form-field>
+
+                                <mat-form-field class="mb-lg-2" appearance="outline">
+                                    <mat-label class="text-capitalize">Manager Signature</mat-label>
+                                    <input readonly matInput formControlName="managerSignature" style="font-family:'Rouge Script'; font-size: 1.3rem; color: green;">
+                                </mat-form-field>
+
+                                <mat-form-field class="mb-lg-2" appearance="outline">
+                                    <mat-label class="text-capitalize">Manager Signature Date</mat-label>
+                                    <input matInput formControlName="managerSignDate" style="font-size: 1rem; color: green;">
+                                </mat-form-field>
+
+                                <div *ngIf="periodInView?.appraisalPeriodProgress > 2" (click)="submitAppraisalReview(true)" class="cta primary-bkg icon lg"><i class="bi bi-check-circle-fill"></i> Submit Appraisal Review</div>
+                            </div>
+
+                        </div>
+                    </div>    
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
