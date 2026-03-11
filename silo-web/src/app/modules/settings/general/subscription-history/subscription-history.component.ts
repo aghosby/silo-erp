@@ -16,7 +16,7 @@ export class SubscriptionHistoryComponent implements OnInit {
   subscriptionPlans = [
     {
       id: 1,
-      name: "Starter Trial",
+      name: "Free Trial",
       price: 0,
       storage: "5GB",
       users: 5,
