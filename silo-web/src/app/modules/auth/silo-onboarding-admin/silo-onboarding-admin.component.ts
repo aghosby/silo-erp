@@ -30,14 +30,32 @@ export class SiloOnboardingAdminComponent implements OnInit {
     autoplay: true
   };
 
-  industryOptions = {
+  industryOptions =  {
     Technology: 'Technology',
+    Software: 'Software & SaaS',
+    Finance: 'Finance & Banking',
+    Insurance: 'Insurance',
+    FinTech: 'FinTech',
     Healthcare: 'Healthcare',
-    Finance: 'Finance',
+    Pharmaceuticals: 'Pharmaceuticals',
+    Biotechnology: 'Biotechnology',
     Education: 'Education',
+    ECommerce: 'E-Commerce',
     Retail: 'Retail',
     Manufacturing: 'Manufacturing',
-    Other: 'Other'
+    Construction: 'Construction',
+    RealEstate: 'Real Estate',
+    Transportation: 'Transportation & Logistics',
+    Automotive: 'Automotive',
+    Energy: 'Energy & Utilities',
+    OilAndGas: 'Oil & Gas',
+    Telecommunications: 'Telecommunications',
+    Media: 'Media & Entertainment',
+    Hospitality: 'Hospitality & Tourism',
+    Agriculture: 'Agriculture',
+    Government: 'Government & Public Sector',
+    NonProfit: 'Non-Profit / NGO',
+    ProfessionalServices: 'Professional Services'
   }
 
   companySizeOptions = {

@@ -74,6 +74,7 @@ import { QuillModule } from 'ngx-quill';
 import { CalendarComponent } from './components/blocks/calendar/calendar/calendar.component';
 import { CalendarEventPopupComponent } from './components/blocks/calendar/views/calendar-event-popup/calendar-event-popup.component';
 import { SwitchComponent } from './components/forms/switch/switch.component';
+import { SliderComponent } from './components/forms/slider/slider.component';
 
 const SHARED_COMP = [
   MatFormFieldModule,
@@ -135,6 +136,7 @@ const SHARED_COMP = [
     FormConfirmComponent,
     DynamicFormComponent,
     FileUploadComponent,
+    SliderComponent,
     SwitchComponent,
 
     // Modals
@@ -193,6 +195,7 @@ const SHARED_COMP = [
     FileUploadComponent,
     FormConfirmComponent,
     DynamicFormComponent,
+    SliderComponent,
     SwitchComponent,
 
     // Modals

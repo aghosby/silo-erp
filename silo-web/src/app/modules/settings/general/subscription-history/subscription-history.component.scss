@@ -1,0 +1,250 @@
+.settings-card {
+    width: 100%;
+    font-family: var(--font-regular);
+    background: white;
+    padding: 1.5rem 1.8rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--primary-light);
+    box-shadow: var(--box-shadow-1);
+
+    .top {
+        display: flex;
+        align-items: center;
+        padding-bottom: 1.5rem;
+        //margin-bottom: 1.5rem;
+        justify-content: space-between;
+        //border-bottom: 1px solid var(--border-2);
+
+        .name {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+
+            .img-wrap {
+                img {
+                    width: auto;
+                    height: 4rem;
+                }
+            }
+
+            .det {
+                font-size: 0.85rem;
+                letter-spacing: 0.03rem;
+                color: var(--black-tint);
+
+                .title {
+                    font-size: 1.4rem;
+                    letter-spacing: 0.04rem;
+                    font-family: var(--font-medium);
+                    margin-top: 0.4rem;
+                    color: var(--primary);
+                }
+            }
+        }
+
+        .auto-renew {
+            display: flex;
+            font-size: 0.85rem;
+            letter-spacing: 0.04rem;
+            gap: 0.5rem;
+            color: black;
+        }
+    }
+
+    .btm {
+        display: flex;
+        padding: 1.5rem 2rem;
+        align-items: center;
+        border: 1px solid var(--black-tint-sm);
+        border-radius: var(--radius-md);
+        background: var(--bkg-1);
+        justify-content: space-between;
+
+        .info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+            .label {
+                font-size: 0.85rem;
+                letter-spacing: 0.04rem;
+                display: flex;
+                gap: 0.8rem;
+                color: var(--text-dark-2);
+            }
+
+            .value {
+                font-size: 1rem;
+                letter-spacing: 0.06rem;
+                font-family: var(--font-medium);
+            }
+        }
+    }
+
+    .selector-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .name {
+            width: 30%;
+        }
+
+        .input-wrap {
+            margin-left: 2rem;
+        }
+        .det {
+
+            .label {
+                font-size: 0.8rem;
+                letter-spacing: 0.03rem;
+                font-family: var(--font-regular);
+                color: var(--black-tint);
+            }
+
+            .selected {
+                width: fit-content;
+                border-radius: var(--radius-md);
+                box-shadow: var(--box-shadow-1);
+                //background: var(--primary-lightest);
+                border: 1px solid var(--primary-light);
+                padding: 0.3rem 0.7rem;
+                span {
+                    color: var(--primary);
+                }
+            }
+        }
+
+        .img-wrap {
+            img {
+                width: auto;
+                height: 4rem;
+            }
+        }
+
+        .slider-wrap {
+            width: 55%;
+        }
+    }
+}
+
+.subscriptions-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1.5rem 0;
+
+    .subscription {
+        width: 19%;
+        padding: 1rem;
+        cursor: pointer;
+        background: white;
+        transition:  all 0.4s ease;
+        border-radius: var(--radius-md);
+        border: 2px solid var(--primary-light);
+
+        &.active {
+            border: 2px solid var(--primary);
+            background: var(--primary);
+
+            .name, .price, .features ul li {
+                color: white;
+
+                span {
+                    color: white;
+                }
+
+                .stat {
+                    color: var(--text-dark);
+                }
+            }
+        }
+
+        .name {
+            font-size: 0.9rem;
+            letter-spacing: 0.03rem;
+            font-family: var(--font-medium);
+            color: var(--text-dark-1);
+
+            .stat {
+                font-size: 0.7rem;
+                font-family: var(--font-regular);
+                line-height: 1;
+                margin-left: 0.4rem;
+                padding: 0.2rem 0.7rem;
+                border-radius: var(--radius-lg);
+                letter-spacing: 0.03rem;
+                background: var(--bkg-1);
+                border: 1px solid var(--primary-light);
+                color: var(--primary);
+            }
+        }
+
+        .price {
+            font-size: 1.1rem;
+            font-family: var(--font-medium);
+            margin-top: 0.4rem;
+
+            span {
+                font-size: 0.8rem;
+                font-family: var(--font-regular);
+                color: var(--black-tint);
+            }
+        }
+
+        .features {
+            margin-top: 0.6rem;
+            ul {
+                li {
+                    font-size: 0.75rem;
+                    letter-spacing: 0.04rem;
+                    font-family: var(--font-regular);
+                    color: var(--black-tint);
+                    list-style: none;
+                }
+            }
+        }
+    }
+}
+
+.subscribe {
+    width: 100%;
+    padding: 1rem 1.2rem;
+    //box-shadow: var(--box-shadow-1);
+    border: 1px solid var(--black-tint-sm);
+    border-radius: var(--radius-md);
+    background: var(--bkg-1);
+    
+    .action-info {
+
+        .info {
+            font-size: 0.85rem;
+            font-family: var(--font-regular);
+            letter-spacing: 0.04rem;
+            color: var(--black-tint);
+
+            .plan {
+                font-family: var(--font-medium);
+                color: var(--primary);
+            }
+
+            .diff {
+                color: black;
+                font-family: var(--font-medium);
+            }
+        }
+    }
+    
+    .action {
+        .price {
+            font-size: 1.1rem;
+            font-family: var(--font-medium);
+            margin-top: 0.4rem;
+
+            span {
+                font-size: 0.8rem;
+                font-family: var(--font-regular);
+                color: var(--black-tint);
+            }
+        }
+    }
+}

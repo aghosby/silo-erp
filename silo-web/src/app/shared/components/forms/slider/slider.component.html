@@ -1,0 +1,32 @@
+<div class="slider-wrapper" [class.disabled]="disabled">
+    <div class="slider-header" *ngIf="label || showValue">
+        <span class="slider-label" *ngIf="label">{{ label }}</span>
+        <span class="slider-value" *ngIf="showValue">{{ value }}</span>
+    </div>
+
+    <div
+        #track
+        class="slider-track"
+        tabindex="0"
+        role="slider"
+        [attr.aria-valuemin]="min"
+        [attr.aria-valuemax]="max"
+        [attr.aria-valuenow]="value"
+        [attr.aria-disabled]="disabled"
+        (click)="onTrackClick($event)"
+        (keydown)="onKeyDown($event)"
+    >
+        <div class="slider-fill" [style.width.%]="percentage"></div>
+
+        <div
+            class="slider-thumb"
+            [style.left.%]="percentage"
+            (mousedown)="onThumbMouseDown($event)"
+        ></div>
+    </div>
+
+    <div class="slider-meta">
+        <span>{{ min }}</span>
+        <span>{{ max }}</span>
+    </div>
+</div>
