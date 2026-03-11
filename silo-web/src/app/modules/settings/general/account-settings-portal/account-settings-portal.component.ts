@@ -12,10 +12,10 @@ export class AccountSettingsPortalComponent {
       routeLink: 'account-info',
       label: 'Account Information',
     },
-    {
-      routeLink: 'roles-permissions',
-      label: 'Modules, Roles & Permissions',
-    },
+    // {
+    //   routeLink: 'roles-permissions',
+    //   label: 'Modules, Roles & Permissions',
+    // },
     {
       routeLink: 'subscription/history',
       label: 'Subscriptions',
@@ -24,10 +24,10 @@ export class AccountSettingsPortalComponent {
       routeLink: 'billing',
       label: 'Billing',
     },
-    {
-      routeLink: 'audit-trails',
-      label: 'Audit Trail',
-    },
+    // {
+    //   routeLink: 'audit-trails',
+    //   label: 'Audit Trail',
+    // },
     // {
     //   routeLink: 'expenses',
     //   label: 'Expenses',

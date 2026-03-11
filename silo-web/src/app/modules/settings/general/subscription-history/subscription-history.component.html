@@ -1,1 +1,144 @@
-<p>subscription-history works!</p>
+<div class="row-section d-flex justify-content-between align-items-center mt-2">
+    <div class="page-header">Subscription Plans</div>
+    <!-- <div class="main-actions d-flex justify-content-start align-items-center">
+        <div class="cta cta-primary icon lg"><i class="bi bi-hdd-fill"></i>Save Changes</div>
+    </div> -->
+</div>
+
+<div class="row-section d-flex justify-content-between mt-4">
+    <div class="settings-card">
+        <div class="top">
+            <div class="name">
+                <div class="img-wrap">
+                    <img src="assets/img/project/illustrations/entity.png" alt="">
+                </div>
+                <div class="det">
+                    <div class="label d-flex gap-3">
+                        <span>Current Plan</span>
+                        <span class="status approved">Active</span>
+                    </div>
+                    <div class="title">{{currentPlan.name}}</div>
+                </div>
+            </div>
+            <div class="auto-renew">
+                <div class="label">Auto Renewal</div>
+                <app-switch [(ngModel)]="autoRenew"></app-switch>
+            </div>
+        </div>
+
+        <div class="btm">
+            <div class="info">
+                <div class="label">
+                    <span><app-icon [iconName]="'layers'" [iconStrokeWidth]="2" [iconWidth]="20" [iconHeight]="20"></app-icon></span>
+                    <span>Annual Price</span>
+                </div>
+                <div class="value">${{currentPlan.price | localeString}}/yr</div>
+            </div>
+            <div class="info">
+                <div class="label">
+                    <span><app-icon [iconName]="'recycle'" [iconStrokeWidth]="2" [iconWidth]="20" [iconHeight]="20"></app-icon></span>
+                    <span>Billing Cycle</span>
+                </div>
+                <div class="value">Yearly</div>
+            </div>
+            <div class="info">
+                <div class="label">
+                    <span><app-icon [iconName]="'users'" [iconStrokeWidth]="2" [iconWidth]="20" [iconHeight]="20"></app-icon></span>
+                    <span>Users</span>
+                </div>
+                <div class="value">{{currentPlan.users}} - {{currentPlan.users + (currentPlan.users/2)}}</div>
+            </div>
+            <div class="info">
+                <div class="label">
+                    <span><app-icon [iconName]="'calendarSync'" [iconStrokeWidth]="2" [iconWidth]="20" [iconHeight]="20"></app-icon></span>
+                    <span>{{autoRenew ? 'Renewal Date' : 'Expiry Date'}}</span>
+                </div>
+                <div class="value">1 July, 2026</div>
+            </div>
+            <div class="info">
+                <!-- <div class="label">
+                    <span>Actions</span>
+                </div> -->
+                <div class="value">
+                    <div class="cta cta-warning icon md"><app-icon [iconName]="'circlex'" [iconStrokeWidth]="2" [iconWidth]="20" [iconHeight]="20"></app-icon>Cancel Subscription</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row-section mt-4">
+    <div class="settings-card">
+        <div class="selector-wrap" [formGroup]="form">
+            <div class="name d-flex align-items-center gap-3">
+                <div class="img-wrap">
+                    <img src="assets/img/project/illustrations/user.webp" alt="">
+                </div>
+                <div class="det">
+                    <div class="label d-flex flex-column gap-1">
+                        <span>Which plan fits best ?</span>
+                        <span class="selected"><span>{{selectedPlan.name}}</span> plan</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slider-wrap">
+                <app-slider
+                    formControlName="noOfUsers"
+                    label="Select number of users"
+                    [min]="0"
+                    [max]="1000"
+                    [step]="5"
+                >
+                </app-slider>
+            </div>
+
+            <div class="input-wrap">
+                <mat-form-field class="compact-field lg no-base" appearance="outline" [style.width]="'5rem'" color="primary">
+                    <mat-label>Users</mat-label>
+                    <input matInput min="0" type="number" formControlName="noOfUsers">
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row-section subscribe my-5">
+    <div class="d-flex align-items-center justify-content-between">
+        <div class="action-info">
+            <div class="info">
+                <span *ngIf="planDifference !== 0">{{ planDifference > 0 ? 'Upgrade' : 'Downgrade'}} to <span class="plan">{{selectedPlan.name}}</span></span>
+                <span *ngIf="planDifference === 0">You're on the <span class="plan">{{selectedPlan.name}}</span> plan</span>
+            </div>
+            <div *ngIf="planDifference !== 0" class="info">
+                <span class="diff">
+                    {{ planDifference > 0 ? '+' : planDifference < 0 ? '-' : '' }} ${{ Math.abs(planDifference) | number:'1.0-0' }}
+                </span> 
+                <span>/ yr</span>
+            </div>
+            <div *ngIf="planDifference === 0" class="info">
+                <span>This is your current active plan</span>
+            </div>
+        </div>
+
+        <div class="action d-flex align-items-center gap-3">
+            <div class="price">{{'$'}} {{selectedPlan.price | localeString}} <span>/ yr</span></div>
+            <div class="cta cta-primary icon xl"><app-icon [iconName]="'userStar'" [iconStrokeWidth]="2" [iconWidth]="25" [iconHeight]="25"></app-icon> Subscribe to {{selectedPlan.name}} Plan</div>
+        </div>
+    </div>
+</div>
+
+<div class="row-section mt-5 pb-4">
+    <div class="subscriptions-wrap">
+        <div *ngFor="let plan of subscriptionPlans" class="subscription" [class.active]="plan.id === selectedPlan.id" (click)="selectPlan(plan)">
+            <div class="name">{{plan.name}} <span *ngIf="plan.popular" class="stat">Popular</span></div>
+            <div class="price">{{'$'}} {{plan.price | localeString}} <span>/ yr</span></div>
+            <div class="features">
+                <ul>
+                    <li>Up to {{plan.users}} Users</li>
+                    <li>{{plan.storage}} Storage</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

@@ -106,9 +106,9 @@ export class GeneralSettingsComponent implements OnInit {
 
     this.companyInfoForm = new FormGroup({
       companyLogo: new FormControl(this.loggedInUser.companyLogo),
-      companyName: new FormControl(this.loggedInUser.companyName),
-      industry: new FormControl(this.loggedInUser.industry),
-      companySize: new FormControl(this.loggedInUser.companySize),
+      companyName: new FormControl({value: this.loggedInUser.companyName, disabled:true}),
+      industry: new FormControl({value: this.loggedInUser.industry, disabled:false}),
+      companySize: new FormControl({value: this.loggedInUser.companySize, disabled:false}),
       companyWebsite: new FormControl(this.loggedInUser?.companyWebsite),
       address: new FormControl(''),
       city: new FormControl(''),

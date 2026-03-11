@@ -39,7 +39,6 @@
                             disableOptionCentering
                             panelClass="matDropdown compact-dropdown"
                             formControlName="industry"
-                            [disabled]="true"
                         >
                             <mat-option *ngFor="let option of industrySelectOptions | keyvalue: keepOrder" [value]="option.key">{{option.value}}</mat-option>
                         </mat-select>
@@ -55,7 +54,6 @@
                             disableOptionCentering
                             panelClass="matDropdown compact-dropdown"
                             formControlName="companySize"
-                            [disabled]="true"
                         >
                             <mat-option *ngFor="let option of companySizeOptions | keyvalue: keepOrder" [value]="option.key">{{option.value}}</mat-option>
                         </mat-select>
