@@ -96,6 +96,13 @@
         .accordion-body {
             padding: 0 1.4rem;
 
+            .desc {
+                font-size: 0.85rem;
+                letter-spacing: 0.04rem;
+                font-family: var(--font-regular);
+                color: var(--black-tint);
+            }
+
             // .role-wrap {
             //     width: 100%;
             //     display: flex;

@@ -1,0 +1,33 @@
+
+.form-cont {
+    height: 75vh;
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.account-info {
+    height: 75vh;
+}
+.accordion {
+
+    .accordion-item {
+        background-color: white;
+        border: 1px solid var(--primary-light);
+        box-shadow: 0 3px 6px -3px rgba(0, 0, 0, 0.09);
+        border-radius: var(--radius-md);
+    }
+}
+
+.field-wrap {
+
+    .hdr {
+        font-size: 1rem;
+        letter-spacing: 0.03rem;
+        font-family: var(--font-medium);
+        margin-bottom: 0.5rem;
+        color: var(--primary);
+    }
+}

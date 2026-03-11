@@ -5,4 +5,183 @@
     </div>
 </div>
 
-<div class="row-section"></div>
+<div class="row-section d-flex justify-content-between mt-4">
+    <div class="col-card form-cont anim-item card-xmlg pe-4 d-flex flex-column justify-content-between">
+        <form class="settings-form card-xxl" [formGroup]="companyInfoForm" novalidate autocomplete="off">
+            <div class="form-wrap d-flex flex-wrap justify-content-between w-100">
+                <div class="field-wrap w-100 mb-3">
+                    <div class="hdr">Company Information</div>
+                </div>
+                <div class="field-wrap w-100 mb-4">
+                    <div class="logo-wrap" style="width: fit-content;">
+                        <ng-container>
+                            <app-file-upload
+                                formControlName="companyLogo"
+                                [defaultImage]="'assets/img/project/illustrations/user.webp'"
+                                mode="profile"
+                            ></app-file-upload>
+                        </ng-container>
+                    </div>
+                </div>
+
+                <div class="field-wrap w-48">
+                    <mat-form-field class="field w-100" appearance="outline">
+                        <mat-label>Company Name</mat-label>
+                        <input matInput readonly="true" formControlName="companyName" id="companyName" name="companyName" placeholder="Enter company name">
+                    </mat-form-field>
+                </div>
+
+                <div class="field-wrap w-48">
+                    <mat-form-field class="field w-100 anim-item" appearance="outline">
+                        <mat-label>Industry</mat-label>
+                        <mat-select
+                            class="selectField"
+                            disableOptionCentering
+                            panelClass="matDropdown compact-dropdown"
+                            formControlName="industry"
+                            [disabled]="true"
+                        >
+                            <mat-option *ngFor="let option of industrySelectOptions | keyvalue: keepOrder" [value]="option.key">{{option.value}}</mat-option>
+                        </mat-select>
+                        <!-- <mat-error *ngIf="formCtrls['industry'].touched && formCtrls['industry'].hasError('required')">Industry is required</mat-error> -->
+                    </mat-form-field>
+                </div>
+
+                <div class="field-wrap w-48 mt-3">
+                    <mat-form-field class="field w-100 anim-item" appearance="outline">
+                        <mat-label>Company Size</mat-label>
+                        <mat-select
+                            class="selectField"
+                            disableOptionCentering
+                            panelClass="matDropdown compact-dropdown"
+                            formControlName="companySize"
+                            [disabled]="true"
+                        >
+                            <mat-option *ngFor="let option of companySizeOptions | keyvalue: keepOrder" [value]="option.key">{{option.value}}</mat-option>
+                        </mat-select>
+                        <!-- <mat-error *ngIf="formCtrls['companySize'].touched && formCtrls['companySize'].hasError('required')">Company size is required</mat-error> -->
+                    </mat-form-field>
+                </div>
+
+                <div class="field-wrap w-48 mt-3">
+                    <mat-form-field class="field w-100" appearance="outline">
+                        <mat-label>Company Website</mat-label>
+                        <input matInput formControlName="companyWebsite" id="companyWebsite" name="companyWebsite" placeholder="Enter company website">
+                    </mat-form-field>
+                </div>
+
+            </div>
+
+            <div class="form-wrap d-flex flex-wrap justify-content-between w-100 border-top mt-4 pt-4">
+                <div class="field-wrap w-100">
+                    <div class="hdr">Business Address</div>
+                </div>
+                <div class="field-wrap w-100 mt-3">
+                    <mat-form-field class="field w-100" appearance="outline">
+                        <mat-label>Company Address</mat-label>
+                        <input matInput formControlName="address" id="companyAddress" name="companyAddress" placeholder="Enter company address">
+                    </mat-form-field>
+                </div>
+
+                <div class="field-wrap w-48 mt-3">
+                    <mat-form-field class="field w-100" appearance="outline">
+                        <mat-label>City</mat-label>
+                        <input matInput formControlName="city" id="city" name="city" placeholder="Enter city">
+                    </mat-form-field>
+                </div>
+
+                <div class="field-wrap w-48 mt-3">
+                    <mat-form-field class="field w-100" appearance="outline">
+                        <mat-label>State</mat-label>
+                        <input matInput formControlName="state" id="state" name="state" placeholder="Enter state">
+                    </mat-form-field>
+                </div>
+
+                <div class="field-wrap w-48 mt-3">
+                    <mat-form-field class="field w-100 anim-item" appearance="outline">
+                        <mat-label>Country</mat-label>
+                        <mat-select
+                            class="selectField"
+                            disableOptionCentering
+                            panelClass="matDropdown compact-dropdown"
+                            formControlName="country"
+                            [disabled]="true"
+                        >
+                            <mat-option *ngFor="let option of countriesOptions | keyvalue: keepOrder" [value]="option.key">{{option.value}}</mat-option>
+                        </mat-select>
+                        <!-- <mat-error *ngIf="formCtrls['companySize'].touched && formCtrls['companySize'].hasError('required')">Company size is required</mat-error> -->
+                    </mat-form-field>
+                </div>
+
+                <div class="field-wrap w-48 mt-3">
+                    <mat-form-field class="field w-100" appearance="outline">
+                        <mat-label>Zip Code</mat-label>
+                        <input matInput formControlName="zipCode" id="zipCode" name="zipCode" placeholder="Enter zip code">
+                    </mat-form-field>
+                </div>
+
+            </div>
+
+            <div class="form-wrap d-flex flex-wrap justify-content-between w-100 border-top mt-4 pt-4">
+                <div class="field-wrap w-100">
+                    <div class="hdr">Localization</div>
+                </div>
+                <div class="field-wrap w-48 mt-3">
+                    <mat-form-field class="field w-100 anim-item" appearance="outline">
+                        <mat-label>Language</mat-label>
+                        <mat-select
+                            class="selectField"
+                            disableOptionCentering
+                            panelClass="matDropdown compact-dropdown"
+                            formControlName="language"
+                            [disabled]="true"
+                        >
+                            <mat-option *ngFor="let option of languageOptions | keyvalue: keepOrder" [value]="option.key">{{option.value}}</mat-option>
+                        </mat-select>
+                        <!-- <mat-error *ngIf="formCtrls['companySize'].touched && formCtrls['companySize'].hasError('required')">Company size is required</mat-error> -->
+                    </mat-form-field>
+                </div>
+
+                <div class="field-wrap w-48 mt-3">
+                    <mat-form-field class="field w-100 anim-item" appearance="outline">
+                        <mat-label>Currency</mat-label>
+                        <mat-select
+                            class="selectField"
+                            disableOptionCentering
+                            panelClass="matDropdown compact-dropdown"
+                            formControlName="currency"
+                            [disabled]="true"
+                        >
+                            <mat-option *ngFor="let option of currencyOptions | keyvalue: keepOrder" [value]="option.key">{{option.value}}</mat-option>
+                        </mat-select>
+                        <!-- <mat-error *ngIf="formCtrls['companySize'].touched && formCtrls['companySize'].hasError('required')">Company size is required</mat-error> -->
+                    </mat-form-field>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+    <div class="col-card anim-item card-xmd d-flex flex-column justify-content-between">
+        <div class="row-section account-info">
+            <div class="row-card h-100">
+                <div class="card-cont"></div>
+            </div>
+        </div>
+        <!-- <div class="accordion accordion-flush">
+            <div *ngFor="let item of accordionItems; let i = index" class="accordion-item">
+                <div class="accordion-header" id="{{'flush-heading-scale'+i}}">
+                    <button (click)="toggleAccordionInfo(i)" class="accordion-button collapsed d-flex justify-content-between" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#'+'flush-scale'+i" aria-expanded="false" [attr.aria-controls]="'flush-scale'+i">
+                        <div class="name">{{item.label}}</div>
+                    </button>
+                </div>
+
+                <div [class.show]="activeTab == i" id="{{'flush-level'+i}}" class="accordion-collapse collapse" [attr.aria-labelledby]="'flush-heading-scale'+i" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body pb-lg-4">
+                        
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+</div>
