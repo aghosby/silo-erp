@@ -5,7 +5,7 @@
     </div> -->
 </div>
 
-<div class="row-section d-flex justify-content-between mt-4">
+<div *ngIf="currentPlan" class="row-section d-flex justify-content-between mt-4">
     <div class="settings-card">
         <div class="top">
             <div class="name">
@@ -67,7 +67,7 @@
     </div>
 </div>
 
-<div class="row-section mt-4">
+<div *ngIf="selectedPlan" class="row-section mt-4">
     <div class="settings-card">
         <div class="selector-wrap" [formGroup]="form">
             <div class="name d-flex align-items-center gap-3">
@@ -87,7 +87,7 @@
                     formControlName="noOfUsers"
                     label="Select number of users"
                     [min]="0"
-                    [max]="1000"
+                    [max]="500"
                     [step]="5"
                 >
                 </app-slider>
@@ -103,7 +103,7 @@
     </div>
 </div>
 
-<div class="row-section subscribe my-5">
+<div *ngIf="selectedPlan" class="row-section subscribe my-5">
     <div class="d-flex align-items-center justify-content-between">
         <div class="action-info">
             <div class="info">
@@ -123,14 +123,14 @@
 
         <div class="action d-flex align-items-center gap-3">
             <div class="price">{{'$'}} {{selectedPlan.price | localeString}} <span>/ yr</span></div>
-            <div class="cta cta-primary icon xl"><app-icon [iconName]="'userStar'" [iconStrokeWidth]="2" [iconWidth]="25" [iconHeight]="25"></app-icon> Subscribe to {{selectedPlan.name}} Plan</div>
+            <div (click)="initSubscription()" class="cta cta-primary icon xl"><app-icon [iconName]="'userStar'" [iconStrokeWidth]="2" [iconWidth]="25" [iconHeight]="25"></app-icon> Subscribe to {{selectedPlan.name}} Plan</div>
         </div>
     </div>
 </div>
 
-<div class="row-section mt-5 pb-4">
+<div *ngIf="selectedPlan" class="row-section mt-5 pb-4">
     <div class="subscriptions-wrap">
-        <div *ngFor="let plan of subscriptionPlans" class="subscription" [class.active]="plan.id === selectedPlan.id" (click)="selectPlan(plan)">
+        <div *ngFor="let plan of subscriptionPlans" class="subscription" [class.active]="plan._id === selectedPlan._id" (click)="selectPlan(plan)">
             <div class="name">{{plan.name}} <span *ngIf="plan.popular" class="stat">Popular</span></div>
             <div class="price">{{'$'}} {{plan.price | localeString}} <span>/ yr</span></div>
             <div class="features">
