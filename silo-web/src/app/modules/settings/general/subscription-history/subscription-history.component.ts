@@ -29,7 +29,7 @@ export class SubscriptionHistoryComponent implements OnInit {
   regionOptions: any;
   keepOrder = () => 0;
 
-  subscriptionPlans:any = [
+  subscriptionPlans: any = [
     {
       id: "standard",
       name: "Standard",
@@ -37,13 +37,13 @@ export class SubscriptionHistoryComponent implements OnInit {
       usersLimit: 25,
       crmAgents: 5,
       regions: [
-        { regionId: "nigeria", pricePerMonth: 35000, pricePerYear: 420000 },
-        { regionId: "us", pricePerMonth: 23, pricePerYear: 276 },
-        { regionId: "canada", pricePerMonth: 31, pricePerYear: 372 },
-        { regionId: "uk", pricePerMonth: 18, pricePerYear: 216 },
-        { regionId: "other", pricePerMonth: 23, pricePerYear: 276 }
+        { regionId: "nigeria", pricePerMonth: 50000, pricePerYear: 540000 },
+        { regionId: "us", pricePerMonth: 36, pricePerYear: 389 },
+        { regionId: "canada", pricePerMonth: 50, pricePerYear: 540 },
+        { regionId: "uk", pricePerMonth: 27, pricePerYear: 292 },
+        { regionId: "other", pricePerMonth: 36, pricePerYear: 389 }
       ],
-      featuresOverview: 'Everything a growing team needs to manage people and stay organised',
+      featuresOverview: "Everything a growing team needs to manage people and stay organised",
       featuresPreamble: "What's included",
       features: [
         "Employee management",
@@ -60,7 +60,7 @@ export class SubscriptionHistoryComponent implements OnInit {
         "Deals pipeline (up to 2)",
         "Deal stages & status tracking",
         "Ticket creation & assignment",
-        "Basic crm report",
+        "Basic crm report"
       ]
     },
     {
@@ -70,13 +70,13 @@ export class SubscriptionHistoryComponent implements OnInit {
       usersLimit: 100,
       crmAgents: 20,
       regions: [
-        { regionId: "nigeria", pricePerMonth: 95000, pricePerYear: 1140000 },
-        { regionId: "us", pricePerMonth: 63, pricePerYear: 756 },
-        { regionId: "canada", pricePerMonth: 85, pricePerYear: 1020 },
-        { regionId: "uk", pricePerMonth: 49, pricePerYear: 588 },
-        { regionId: "other", pricePerMonth: 63, pricePerYear: 756 }
+        { regionId: "nigeria", pricePerMonth: 120000, pricePerYear: 1296000 },
+        { regionId: "us", pricePerMonth: 87, pricePerYear: 940 },
+        { regionId: "canada", pricePerMonth: 119, pricePerYear: 1285 },
+        { regionId: "uk", pricePerMonth: 65, pricePerYear: 702 },
+        { regionId: "other", pricePerMonth: 87, pricePerYear: 940 }
       ],
-      featuresOverview: 'Full HR Operations for scaling businesses that demand more control',
+      featuresOverview: "Full HR Operations for scaling businesses that demand more control",
       featuresPreamble: "Includes everything in Standard +",
       features: [
         "Document storage (100GB)",
@@ -97,7 +97,7 @@ export class SubscriptionHistoryComponent implements OnInit {
         "Email integration (Gmail)",
         "Internal notes & comments",
         "SMS integration",
-        "Agents management",
+        "Agents management"
       ]
     },
     {
@@ -107,13 +107,13 @@ export class SubscriptionHistoryComponent implements OnInit {
       usersLimit: "unlimited",
       crmAgents: "unlimited",
       regions: [
-        { regionId: "nigeria", pricePerMonth: 220000, pricePerYear: 2640000 },
-        { regionId: "us", pricePerMonth: 147, pricePerYear: 1764 },
-        { regionId: "canada", pricePerMonth: 198, pricePerYear: 2376 },
-        { regionId: "uk", pricePerMonth: 115, pricePerYear: 1380 },
-        { regionId: "other", pricePerMonth: 147, pricePerYear: 1764 }
+        { regionId: "nigeria", pricePerMonth: 280000, pricePerYear: 3024000 },
+        { regionId: "us", pricePerMonth: 202, pricePerYear: 2182 },
+        { regionId: "canada", pricePerMonth: 278, pricePerYear: 3002 },
+        { regionId: "uk", pricePerMonth: 152, pricePerYear: 1642 },
+        { regionId: "other", pricePerMonth: 202, pricePerYear: 2182 }
       ],
-      featuresOverview: 'A platform engineered for operational scale and deep customization',
+      featuresOverview: "A platform engineered for operational scale and deep customization",
       featuresPreamble: "Everything in premium +",
       features: [
         "Unlimited document storage",
