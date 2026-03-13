@@ -14,7 +14,7 @@ export class SettingsService {
   public readonly TOKEN_NAME = 'userToken';
 
   headerParams:any = {
-    'Authorization': `Bearer ${this.authService.token}`
+    'Authorization': this.authService.token
   }
   requestOptions = {                                                                                                                                                                                 
     headers: new HttpHeaders(this.headerParams)
@@ -32,8 +32,18 @@ export class SettingsService {
     return this.http.get<any>(`${this.baseUrl}/subscription/plans`, this.requestOptions);
   }
 
+  //Get User Subscription
+  public getUserSubscription(email: any): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/subscription/customer/${email}`, this.requestOptions);
+  }
+
   //Initiate Subscription
   public initSubscription(payload: any): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/subscription/initiate`, payload, this.requestOptions);
+  }
+
+  //Verify Subscription
+  public verifySubscription(refNo: any): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/subscription/verify?reference=${refNo}`, this.requestOptions);
   }
 }

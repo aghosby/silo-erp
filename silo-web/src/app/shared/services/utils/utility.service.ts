@@ -6,6 +6,7 @@ import { navMenuData } from '@sharedWeb/constants/nav-menu';
 import { Countries } from '@sharedWeb/constants/countries';
 import { catchError, Observable, retry, tap, throwError } from 'rxjs';
 import { NotificationService } from './notification.service';
+import { Regions } from '@sharedWeb/constants/regions';
 
 @Injectable({
   providedIn: 'root'
@@ -186,6 +187,15 @@ export class UtilityService {
   createCountryOptions(): Record<string, string> {
     const reqObj = Countries.reduce<Record<string, string>>((agg, item) => {
       agg[item.label] = item.label;
+      return agg;
+    }, {});
+
+    return reqObj;
+  }
+
+  createRegionOptions(): Record<string, string> {
+    const reqObj = Regions.reduce<Record<string, string>>((agg, item) => {
+      agg[item._id] = item.name;
       return agg;
     }, {});
 
