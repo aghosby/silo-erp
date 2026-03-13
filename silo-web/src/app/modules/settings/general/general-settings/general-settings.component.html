@@ -103,7 +103,6 @@
                             disableOptionCentering
                             panelClass="matDropdown compact-dropdown"
                             formControlName="country"
-                            [disabled]="true"
                         >
                             <mat-option *ngFor="let option of countriesOptions | keyvalue: keepOrder" [value]="option.key">{{option.value}}</mat-option>
                         </mat-select>
@@ -122,7 +121,21 @@
 
             <div class="form-wrap d-flex flex-wrap justify-content-between w-100 border-top mt-4 pt-4">
                 <div class="field-wrap w-100">
-                    <div class="hdr">Localization</div>
+                    <div class="hdr">Region</div>
+                </div>
+                <div class="field-wrap w-48 mt-3">
+                    <mat-form-field class="field w-100 anim-item" appearance="outline">
+                        <mat-label>Region</mat-label>
+                        <mat-select
+                            class="selectField"
+                            disableOptionCentering
+                            panelClass="matDropdown compact-dropdown"
+                            formControlName="region"
+                        >
+                            <mat-option *ngFor="let option of regionOptions | keyvalue: keepOrder" [value]="option.key">{{option.value}}</mat-option>
+                        </mat-select>
+                        <!-- <mat-error *ngIf="formCtrls['companySize'].touched && formCtrls['companySize'].hasError('required')">Company size is required</mat-error> -->
+                    </mat-form-field>
                 </div>
                 <div class="field-wrap w-48 mt-3">
                     <mat-form-field class="field w-100 anim-item" appearance="outline">
@@ -132,7 +145,6 @@
                             disableOptionCentering
                             panelClass="matDropdown compact-dropdown"
                             formControlName="language"
-                            [disabled]="true"
                         >
                             <mat-option *ngFor="let option of languageOptions | keyvalue: keepOrder" [value]="option.key">{{option.value}}</mat-option>
                         </mat-select>
@@ -148,7 +160,6 @@
                             disableOptionCentering
                             panelClass="matDropdown compact-dropdown"
                             formControlName="currency"
-                            [disabled]="true"
                         >
                             <mat-option *ngFor="let option of currencyOptions | keyvalue: keepOrder" [value]="option.key">{{option.value}}</mat-option>
                         </mat-select>

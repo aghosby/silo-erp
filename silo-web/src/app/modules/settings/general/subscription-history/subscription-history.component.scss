@@ -127,20 +127,109 @@
     }
 }
 
+.form-trigger-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .inner {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12rem;
+        border: 1px solid var(--primary-light);
+        position: relative;
+
+        .perk {
+            font-size: 0.9rem;
+            color: var(--primary);
+            font-family: var(--font-medium);
+            white-space: nowrap;
+            position: absolute;
+            transform: translateY(-50%);
+            left: 105%;
+            top: 50%;
+        }
+
+        .bkg-switch {
+            width: 49%;
+            height: 90%;
+            position: absolute;
+            transition: all 0.4s ease;
+            background-color: var(--primary);
+            transform: translateY(-50%);
+            border-radius: 8rem;
+            left: 0.8%;
+            top: 50%;
+            z-index: 1;
+
+            &.shiftRight {
+                left: 50.2%;
+            }
+        }
+
+        .trigger {
+            width: 50%;
+            font-size: 0.9rem;
+            // font-weight: 600;
+            font-family: var(--font-medium);
+            transition: all 0.4s ease;
+            letter-spacing: 0.04rem;
+            text-align: center;
+            padding: 0.35rem 0;
+            cursor: pointer;
+            color: var(--dark);
+            z-index: 2;
+
+            &.active {
+                color: white;
+                //background-color: rgba($secondary, 0.5);
+            }
+        }
+    }
+}
+
 .subscriptions-wrap {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 1.5rem 0;
+    //justify-content: space-between;
+    //gap: 1.5rem 0;
 
     .subscription {
-        width: 19%;
-        padding: 1rem;
-        cursor: pointer;
+        width: 32%;
+        //padding: 1rem;
         background: white;
         transition:  all 0.4s ease;
         border-radius: var(--radius-md);
-        border: 2px solid var(--primary-light);
+        border: 1px solid var(--primary-light);
+        overflow: hidden;
+
+        &:nth-child(1) {
+            border-right: 0px;
+            border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+        }
+
+        &:nth-child(2) {
+            border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+        }
+
+        &:last-child {
+            border: 3px solid var(--primary);
+            border-radius: var(--radius-lg);
+            margin-left: auto;
+
+            .name {
+                font-size: 1.5rem;
+                letter-spacing: 0.07rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-transform: capitalize;
+                height: 7.6rem;
+                gap: 0.4rem;
+            }
+        }
 
         &.active {
             border: 2px solid var(--primary);
@@ -160,10 +249,15 @@
         }
 
         .name {
-            font-size: 0.9rem;
-            letter-spacing: 0.03rem;
+            font-size: 0.85rem;
+            letter-spacing: 0.1rem;
+            background: var(--bkg-1);
+            padding: 1rem;
+            border-bottom: 1px solid var(--primary-light);
             font-family: var(--font-medium);
             color: var(--text-dark-1);
+            text-transform: uppercase;
+            text-align: center;
 
             .stat {
                 font-size: 0.7rem;
@@ -180,9 +274,18 @@
         }
 
         .price {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-family: var(--font-medium);
-            margin-top: 0.4rem;
+            background: var(--bkg-1);
+            padding: 1.2rem;
+            text-align: center;
+
+            .amount {
+                font-size: 1.6rem;
+                font-family: var(--font-medium);
+                letter-spacing: 0.06rem;
+                color: black;
+            }
 
             span {
                 font-size: 0.8rem;
@@ -191,15 +294,41 @@
             }
         }
 
+        .preview {
+            font-size: 0.8rem;
+            letter-spacing: 0.04rem;
+            font-family: var(--font-regular);
+            text-align: center;
+            padding: 1rem;
+        }
+
         .features {
-            margin-top: 0.6rem;
+            padding: 1rem;
+
             ul {
                 li {
-                    font-size: 0.75rem;
+                    width: 100%;
+                    display: inline-flex;
+                    align-items: center;
+                    font-size: 0.8rem;
                     letter-spacing: 0.04rem;
                     font-family: var(--font-regular);
                     color: var(--black-tint);
+                    position: relative;
                     list-style: none;
+                    gap: 0.3rem;
+
+                    &:first-child {
+                        font-size: 0.85rem;
+                        font-family: var(--font-medium);
+                        margin-bottom: 0.2rem;
+                        letter-spacing: 0.03rem;
+                        color: black;
+                    }
+
+                    .icon {
+                        color: var(--primary);
+                    }
                 }
             }
         }

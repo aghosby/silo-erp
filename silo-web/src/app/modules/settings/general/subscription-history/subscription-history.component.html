@@ -32,7 +32,7 @@
                     <span><app-icon [iconName]="'layers'" [iconStrokeWidth]="2" [iconWidth]="20" [iconHeight]="20"></app-icon></span>
                     <span>Annual Price</span>
                 </div>
-                <div class="value">${{currentPlan.price | localeString}}/yr</div>
+                <div class="value">${{currentPlan.amount | localeString}}/yr</div>
             </div>
             <div class="info">
                 <div class="label">
@@ -46,14 +46,14 @@
                     <span><app-icon [iconName]="'users'" [iconStrokeWidth]="2" [iconWidth]="20" [iconHeight]="20"></app-icon></span>
                     <span>Users</span>
                 </div>
-                <div class="value">{{currentPlan.users}} - {{currentPlan.users + (currentPlan.users/2)}}</div>
+                <div class="value">{{loggedInUser.companySize}}</div>
             </div>
             <div class="info">
                 <div class="label">
                     <span><app-icon [iconName]="'calendarSync'" [iconStrokeWidth]="2" [iconWidth]="20" [iconHeight]="20"></app-icon></span>
                     <span>{{autoRenew ? 'Renewal Date' : 'Expiry Date'}}</span>
                 </div>
-                <div class="value">1 July, 2026</div>
+                <div class="value">{{currentPlan.next_payment_date | date: 'd MMM, yyyy'}}</div>
             </div>
             <div class="info">
                 <!-- <div class="label">
@@ -67,7 +67,7 @@
     </div>
 </div>
 
-<div *ngIf="selectedPlan" class="row-section mt-4">
+<!-- <div *ngIf="selectedPlan" class="row-section mt-4">
     <div class="settings-card">
         <div class="selector-wrap" [formGroup]="form">
             <div class="name d-flex align-items-center gap-3">
@@ -101,9 +101,9 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
-<div *ngIf="selectedPlan" class="row-section subscribe my-5">
+<!-- <div *ngIf="selectedPlan" class="row-section subscribe my-5">
     <div class="d-flex align-items-center justify-content-between">
         <div class="action-info">
             <div class="info">
@@ -126,17 +126,54 @@
             <div (click)="initSubscription()" class="cta cta-primary icon xl"><app-icon [iconName]="'userStar'" [iconStrokeWidth]="2" [iconWidth]="25" [iconHeight]="25"></app-icon> Subscribe to {{selectedPlan.name}} Plan</div>
         </div>
     </div>
+</div> -->
+
+<div class="row-section mt-5 d-flex justify-content-between align-items-center">
+    <div class="form-trigger-wrap" style="width: 16rem;">
+        <div class="inner">
+            <div [class.shiftRight]="!billingCycleMonthly" id="" class="bkg-switch"></div>
+            <div (click)="billingCycleMonthly = true" [class.active]="billingCycleMonthly" class="trigger monthly">Monthly</div>
+            <div (click)="billingCycleMonthly = false" [class.active]="!billingCycleMonthly" class="trigger yearly">Yearly</div>
+            <div class="perk">(10% off)</div>
+        </div>
+    </div>
+
+    <div class="region-wrap">
+        <mat-form-field class="field compact-field lg no-base" appearance="outline" [style.width]="'15rem'">
+            <mat-label>Select Region</mat-label>
+            <mat-select
+                class="selectField"
+                disableOptionCentering
+                panelClass="compact-dropdown"
+                [(ngModel)]="selectedRegion"
+                style="font-size: 0.7rem;"
+            >
+                <mat-option *ngFor="let option of regionOptions | keyvalue: keepOrder" [value]="option.key">{{option.value}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
 </div>
 
-<div *ngIf="selectedPlan" class="row-section mt-5 pb-4">
+<div class="row-section mt-4 pb-4">
     <div class="subscriptions-wrap">
-        <div *ngFor="let plan of subscriptionPlans" class="subscription" [class.active]="plan._id === selectedPlan._id" (click)="selectPlan(plan)">
-            <div class="name">{{plan.name}} <span *ngIf="plan.popular" class="stat">Popular</span></div>
-            <div class="price">{{'$'}} {{plan.price | localeString}} <span>/ yr</span></div>
+        <div *ngFor="let plan of subscriptionPlans; let i = index" class="subscription">
+            <div class="name">{{plan.name}} <span *ngIf="i == 2">Edition</span></div>
+            <div *ngIf="i < 2" class="price">
+                {{ getSubscriptionCurrency() }}
+                <span class="amount">{{ getSubscriptionPrice(plan) | localeString }}</span>
+                <span> per {{ billingCycleMonthly ? 'month' : 'year' }}</span>
+            </div>            
+            <div class="preview">
+                <div class="content">{{plan.featuresOverview}}</div>
+                <div (click)="initSubscription()" *ngIf="i < 2" class="cta cta-primary lg w-100 mt-3">Subscribe</div>
+                <div *ngIf="i == 2" class="cta cta-primary lg w-100 mt-3">Contact Sales</div>
+            </div>
             <div class="features">
                 <ul>
-                    <li>Up to {{plan.users}} Users</li>
-                    <li>{{plan.storage}} Storage</li>
+                    <li>{{plan.featuresPreamble}}</li>
+                    <li *ngFor="let feature of plan.features; let j = index">
+                        <span class="icon"><i class="bi bi-check-lg"></i></span> {{feature}}
+                    </li>
                 </ul>
             </div>
         </div>

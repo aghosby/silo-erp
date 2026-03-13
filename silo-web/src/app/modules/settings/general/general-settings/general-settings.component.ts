@@ -5,6 +5,7 @@ import { HrService } from '@services/hr/hr.service';
 import { AuthService } from '@services/utils/auth.service';
 import { NotificationService } from '@services/utils/notification.service';
 import { UtilityService } from '@services/utils/utility.service';
+import { Regions } from '@sharedWeb/constants/regions';
 
 @Component({
   selector: 'app-general-settings',
@@ -57,6 +58,8 @@ export class GeneralSettingsComponent implements OnInit {
     5: '200+ Employees'
   }
 
+  regionOptions: any;
+
   languageOptions = {
     english: 'English',
     french: 'French',
@@ -65,10 +68,11 @@ export class GeneralSettingsComponent implements OnInit {
   }
 
   currencyOptions = {
-    '$': 'Dollars (USD)',
-    '€': 'Euros (EUR)',
-    '£': 'Pounds (GBP)',
-    '₦': 'Naira (NGN)',
+    'USD': 'Dollars ($)',
+    'CAD': 'Canadian Dollars ($)',
+    'EUR': 'Euros (€)',
+    'GBP': 'Pounds (£)',
+    'NGN': 'Naira (₦)',
   }
 
   constructor(
@@ -80,6 +84,7 @@ export class GeneralSettingsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loggedInUser = this.authService.loggedInUser;
+    this.regionOptions = this.utils.createRegionOptions();
     this.countriesOptions = this.utils.createCountryOptions();
     this.accordionItems = [
       {
@@ -115,11 +120,16 @@ export class GeneralSettingsComponent implements OnInit {
       state: new FormControl(''),
       country: new FormControl(''),
       zipCode: new FormControl(''),
+      region: new FormControl('nigeria'),
       language: new FormControl('english'),
-      currency: new FormControl('$')
+      currency: new FormControl('')
     });
-  }
 
+    this.companyInfoForm.controls['region'].valueChanges.subscribe(val => {
+      const currency = Regions.find(x => x._id === val)?.currencyCode;
+      this.companyInfoForm.controls['currency'].setValue(currency)
+    })
+  }
 
   toggleAccordionInfo(index: number) {
     this.activeTab = this.activeTab === index ? -1 : index;

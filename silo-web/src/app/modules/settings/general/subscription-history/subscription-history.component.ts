@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SettingsService } from '@services/settings/settings.service';
 import { AuthService } from '@services/utils/auth.service';
+import { NotificationService } from '@services/utils/notification.service';
+import { UtilityService } from '@services/utils/utility.service';
+import { Regions } from '@sharedWeb/constants/regions';
 
 @Component({
   selector: 'app-subscription-history',
@@ -18,7 +21,186 @@ export class SubscriptionHistoryComponent implements OnInit {
   Math = Math;
   form!: FormGroup;
   pageUrl:string = '';
-  subscriptionPlans:any = [];
+  billingCycleMonthly:boolean = true;
+  //subscriptionPlans:any = [];
+  regions = Regions;
+
+  selectedRegion:string = 'nigeria';
+  regionOptions: any;
+  keepOrder = () => 0;
+
+  subscriptionPlans:any = [
+    {
+      id: "standard",
+      name: "Standard",
+      popular: false,
+      usersLimit: 25,
+      crmAgents: 5,
+      regions: [
+        { regionId: "nigeria", pricePerMonth: 35000, pricePerYear: 420000 },
+        { regionId: "us", pricePerMonth: 23, pricePerYear: 276 },
+        { regionId: "canada", pricePerMonth: 31, pricePerYear: 372 },
+        { regionId: "uk", pricePerMonth: 18, pricePerYear: 216 },
+        { regionId: "other", pricePerMonth: 23, pricePerYear: 276 }
+      ],
+      featuresOverview: 'Everything a growing team needs to manage people and stay organised',
+      featuresPreamble: "What's included",
+      features: [
+        "Employee profiles & records",
+        "Department & role management",
+        "Document storage (10GB)",
+        "Clock-in / clock-out",
+        "Leave requests & approvals",
+        "Shift scheduling",
+        "Basic payroll processing",
+        "Payslip generation",
+        "Multi-currency payroll",
+        "Company announcements",
+        "Shared team calendar",
+        "Meeting scheduler",
+        "Basic attendance & leave reports",
+        "Advanced analytics dashboard",
+        "Lead capture & management",
+        "Contact profiles & history",
+        "Basic lead scoring",
+        "Lead source attribution",
+        "Deal pipeline (up to 2)",
+        "Deal stages & status tracking",
+        "Deal forecasting",
+        "Ticket creation & assignment",
+        "Basic ticket statuses",
+        "SLA management",
+        "Email integration (Gmail)",
+        "Internal notes & comments",
+        "SMS integration",
+        "Basic sales summary report",
+        "Funnel & conversion analytics"
+      ]
+    },
+    {
+      id: "premium",
+      name: "Premium",
+      popular: true,
+      usersLimit: 100,
+      crmAgents: 20,
+      regions: [
+        { regionId: "nigeria", pricePerMonth: 95000, pricePerYear: 1140000 },
+        { regionId: "us", pricePerMonth: 63, pricePerYear: 756 },
+        { regionId: "canada", pricePerMonth: 85, pricePerYear: 1020 },
+        { regionId: "uk", pricePerMonth: 49, pricePerYear: 588 },
+        { regionId: "other", pricePerMonth: 63, pricePerYear: 756 }
+      ],
+      featuresOverview: 'Full HR Operations for scaling businesses that demand more control',
+      featuresPreamble: "Includes everything in Standard +",
+      features: [
+        "Includes everything in Standard +",
+        "Employee profiles & records",
+        "Department & role management",
+        "Document storage (100GB)",
+        "Onboarding & offboarding flows",
+        "Expense submissions & approvals",
+        "Receipt uploads & categorisation",
+        "Reimbursement tracking",
+        "Multi-currency payroll",
+        "Bank transfer integration",
+        "Payroll history & audit trail",
+        "Job postings & applicant tracking",
+        "Offer letter generation",
+        "Shift scheduling",
+        "Overtime & absence management",
+        "Meeting scheduler & agendas",
+        "Google & Outlook integration",
+        "Recurring meeting templates",
+        "Advanced analytics dashboard",
+        "Export to Excel & PDF",
+        "Headcount & turnover reports",
+        "Lead source attribution",
+        "Custom fields & tags",
+        "Lead import (CSV / Excel)",
+        "Company / account management",
+        "Unlimited pipelines",
+        "Custom pipeline stages",
+        "Deal forecasting & probability",
+        "SLA management & tracking",
+        "Ticket escalations",
+        "Agent workload management",
+        "Agent performance tracking",
+        "SMS integration",
+        "Email integration (Gmail)",
+        "Meeting booking links",
+        "Conversion & funnel analytics",
+        "Agent performance dashboard",
+        "Revenue reports & forecasts",
+        "Export to PDF & Excel"
+      ]
+    },
+    {
+      id: "enterprise",
+      name: "Enterprise",
+      popular: false,
+      usersLimit: "unlimited",
+      crmAgents: "unlimited",
+      regions: [
+        { regionId: "nigeria", pricePerMonth: 220000, pricePerYear: 2640000 },
+        { regionId: "us", pricePerMonth: 147, pricePerYear: 1764 },
+        { regionId: "canada", pricePerMonth: 198, pricePerYear: 2376 },
+        { regionId: "uk", pricePerMonth: 115, pricePerYear: 1380 },
+        { regionId: "other", pricePerMonth: 147, pricePerYear: 1764 }
+      ],
+      featuresOverview: 'A platform engineered for operational scale and deep customization',
+      featuresPreamble: "Helps enterprises handle",
+      features: [
+        "Employee profiles & records",
+        "Unlimited document storage",
+        "Multi-branch & subsidiary support",
+        "Role-based access control (RBAC)",
+        "Employee self-service portal",
+        "360° performance reviews",
+        "KPI tracking & goal setting",
+        "Performance improvement plans",
+        "Appraisal cycle automation",
+        "Custom payroll rules & deductions",
+        "Pension & benefits management",
+        "Payroll approval workflows",
+        "AI-assisted CV screening",
+        "Recruitment pipeline analytics",
+        "Multi-stage interview workflows",
+        "GPS & biometric integration",
+        "Geofenced clock-in",
+        "Real-time workforce insights",
+        "Scheduled automated reports",
+        "AI lead scoring & prioritisation",
+        "AI deal outcome prediction",
+        "AI-generated email drafts",
+        "Smart follow-up reminders",
+        "Sentiment analysis on tickets",
+        "AI chatbot for support",
+        "Conversation summarisation",
+        "AI-enriched contact profiles",
+        "Behaviour-based segmentation",
+        "Lead routing automation",
+        "AI deal health scoring",
+        "Revenue intelligence & insights",
+        "Multi-currency deal tracking",
+        "Contract & proposal management",
+        "Auto-response suggestions",
+        "Omnichannel inbox (email, chat)",
+        "Knowledge base builder",
+        "Advanced email automation workflows",
+        "Social media integration",
+        "Custom report builder",
+        "Real-time analytics & live dashboards",
+        "Multi-team & multi-branch reporting",
+        "Scheduled automated reports",
+        "API access & webhooks",
+        "Custom integrations support",
+        "Dedicated account manager",
+        "Custom onboarding & training",
+        "SLA & priority support"
+      ]
+    }
+  ];
+
 
   // subscriptionPlans = [
   //   {
@@ -105,8 +287,11 @@ export class SubscriptionHistoryComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
+    private utils: UtilityService,
     private authService: AuthService,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+    private notifyService: NotificationService
   ) {
     this.form = new FormGroup({
       noOfUsers: new FormControl(null)
@@ -115,7 +300,26 @@ export class SubscriptionHistoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.loggedInUser = this.authService.loggedInUser;
-    this.getSubscriptionPlans();    
+    this.regionOptions = this.utils.createRegionOptions();
+    
+    //this.getSubscriptionPlans();
+    this.getUserSubscription();
+    const params = this.route.snapshot.queryParamMap;
+
+    if (params.keys.length > 0) {
+      const reference = params.get('reference');
+      if (reference) {
+        //console.log('Payment reference:', reference);
+        this.verifySubscription(reference)
+      }
+    }
+  }
+
+  getUserSubscription() {
+    this.settingsService.getUserSubscription(this.loggedInUser.email).subscribe(res => {
+      console.log('Response', res)
+      this.currentPlan = res.data.subscriptions[0];
+    })
   }
 
   getSubscriptionPlans() {
@@ -123,10 +327,11 @@ export class SubscriptionHistoryComponent implements OnInit {
       console.log('Plans', res.data);
       this.subscriptionPlans = res.data;
       this.subscriptionPlans.map((x:any) => {
-        x['price'] = x.amountNaira
-      })
-      this.currentPlan = this.subscriptionPlans.find((x:any) => x.name === 'Growth');
-      this.selectedPlan = this.currentPlan;
+        x['price'] = x.amount
+      });
+      this.currentPlan = res.data.subscriptions[0]
+      //this.currentPlan = this.subscriptionPlans.find((x:any) => x.name === 'Growth');
+      //this.selectedPlan = this.currentPlan;
 
       this.form.controls['noOfUsers'].setValue(this.currentPlan.users)
 
@@ -139,6 +344,21 @@ export class SubscriptionHistoryComponent implements OnInit {
   }
   get planDifference() {
     return this.selectedPlan?.price - this.currentPlan?.price;
+  }
+
+  getSubscriptionCurrency(): string {
+    const region = this.regions.find(x => x._id === this.selectedRegion);
+    return region?.currencySymbol || '$';
+  }
+
+  getSubscriptionPrice(plan: any): number {
+    const regionPricing = plan?.regions?.find((x: any) => x.regionId === this.selectedRegion);
+
+    if (!regionPricing) return 0;
+
+    return this.billingCycleMonthly
+      ? regionPricing.pricePerMonth
+      : regionPricing.pricePerYear;
   }
 
   updateSelectedPlanFromUsers(value: number) {
@@ -166,6 +386,20 @@ export class SubscriptionHistoryComponent implements OnInit {
       redirect_url_fail: `${window.location.origin}${this.pageUrl}`
     }
 
-    this.settingsService.initSubscription(payload).subscribe(() => {})
+    this.settingsService.initSubscription(payload).subscribe({
+      next: res => {
+        window.location.href = res.data.authorization_url;
+      },
+      error: err => {}
+    })
+  }
+
+  verifySubscription(refNo:string) {
+    this.settingsService.verifySubscription(refNo).subscribe({
+      next: res => {
+        if(res.success) this.notifyService.showSuccess('Your payment has been verified and your subscription wass successful')
+      },
+      error: err => {}
+    })
   }
 }
