@@ -447,7 +447,7 @@ export class LoginComponent implements OnInit {
                 // if(!res.data.activeStatus) this.router.navigate(['app/settings']);
                 // else this.router.navigate(['/app']);
               }
-              else if(res.data.email == 'siloerp@silo-inc.com') {
+              else if(res.data.email == 'superadmin@siloerp.com') {
                 this.isLoading = false
                 this.router.navigate(['app/silo']);
               }

@@ -61,7 +61,7 @@ export class AuthService {
     if (user) {
       this.setUserContext({
         //role: user.roles,
-        role: user.isSuperAdmin ? ['superAdmin'] : user.isManager ? ['manager'] : ['employee'],
+        role: user.email === 'superadmin@siloerp.com' ? ['systemAdmin'] : user.isSuperAdmin ? ['superAdmin'] : user.isManager ? ['manager'] : ['employee'],
         permissions: this.userPermissions
       });
     }
