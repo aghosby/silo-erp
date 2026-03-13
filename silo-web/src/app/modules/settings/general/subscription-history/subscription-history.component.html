@@ -128,7 +128,7 @@
     </div>
 </div> -->
 
-<div class="row-section mt-5 d-flex justify-content-between align-items-center">
+<div *ngIf="currentPlan" class="row-section mt-5 d-flex justify-content-between align-items-center">
     <div class="form-trigger-wrap" style="width: 16rem;">
         <div class="inner">
             <div [class.shiftRight]="!billingCycleMonthly" id="" class="bkg-switch"></div>
@@ -154,7 +154,7 @@
     </div>
 </div>
 
-<div class="row-section mt-4 pb-4">
+<div *ngIf="currentPlan" class="row-section mt-4 pb-4">
     <div class="subscriptions-wrap">
         <div *ngFor="let plan of subscriptionPlans; let i = index" class="subscription">
             <div class="name">{{plan.name}} <span *ngIf="i == 2">Edition</span></div>
