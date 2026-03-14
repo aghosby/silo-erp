@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuItem } from '@models/general/menu-item';
+import { navbarDataAdmin } from '@sharedWeb/constants/nav-menu';
 import { AuthService } from '@sharedWeb/services/utils/auth.service';
 import { NotificationService } from '@sharedWeb/services/utils/notification.service';
 import { UtilityService } from '@sharedWeb/services/utils/utility.service';
@@ -32,7 +33,7 @@ export class MenuComponent implements OnInit {
   }
 
   initMenu() {
-    this.navMenuInfo = this.utilityService.userMenu;
+    this.navMenuInfo = this.userDetails.email === 'superadmin@siloerp.com' ? navbarDataAdmin : this.utilityService.userMenu;
     //console.log('User', this.userDetails)
   }
 

@@ -187,3 +187,46 @@ export const navMenuData: MenuItem[] = [
         ]
     }
 ];
+
+//Silo Admin Menu Items
+export const navbarDataAdmin = [
+    {
+        routeLink: '/silo',
+        icon: 'building',
+        label: 'Silo Admin',
+        mobileLabel: 'HR Module',
+        roles: ['systemAdmin'],
+        subMenu: [
+            {
+                routeLink: 'silo/dashboard',
+                icon: 'bi bi-grid-fill',
+                label: 'Dashboard'
+            },
+            {
+                routeLink: 'silo/companies',
+                icon: 'bi bi-building-fill',
+                label: 'Companies'
+            },
+            {
+                routeLink: 'silo/modules',
+                icon: 'bi bi-box-fill',
+                label: 'SiloErp Modules'
+            },
+            {
+                routeLink: 'silo/subscriptions',
+                icon: 'bi bi-people-fill',
+                label: 'Subscriptions'
+            },
+            {
+                routeLink: 'silo/invoices',
+                icon: 'bi bi-receipt',
+                label: 'Invoices'
+            },
+            {
+                routeLink: 'silo/reports',
+                icon: 'bi bi-clipboard-data-fill',
+                label: 'Reports'
+            },
+        ]
+    },
+]
