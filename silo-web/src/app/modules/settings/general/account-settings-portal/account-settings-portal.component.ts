@@ -12,10 +12,10 @@ export class AccountSettingsPortalComponent {
       routeLink: 'account-info',
       label: 'Account Information',
     },
-    // {
-    //   routeLink: 'roles-permissions',
-    //   label: 'Modules, Roles & Permissions',
-    // },
+    {
+      routeLink: 'roles-permissions',
+      label: 'Modules, Roles & Permissions',
+    },
     {
       routeLink: 'subscription/history',
       label: 'Subscriptions',

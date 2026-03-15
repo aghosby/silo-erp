@@ -46,4 +46,19 @@ export class SettingsService {
   public verifySubscription(refNo: any): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/subscription/verify?reference=${refNo}`, this.requestOptions);
   }
+
+  //Create Role
+  public createRole(payload: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/createRole`, payload, this.requestOptions);
+  }
+
+  //Update Role
+  public updateRole(payload: any, roleId:string): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/updateRole/${roleId}`, payload, this.requestOptions);
+  }
+
+  //Get company roles
+  public getCompanyRoles(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/roles`, this.requestOptions);
+  }
 }

@@ -194,37 +194,36 @@ export const navbarDataAdmin = [
         routeLink: '/silo',
         icon: 'building',
         label: 'Silo Admin',
-        mobileLabel: 'HR Module',
-        roles: ['systemAdmin'],
+        mobileLabel: '',
         subMenu: [
             {
                 routeLink: 'silo/dashboard',
-                icon: 'bi bi-grid-fill',
+                icon: 'layoutDashboard',
                 label: 'Dashboard'
             },
             {
                 routeLink: 'silo/companies',
-                icon: 'bi bi-building-fill',
+                icon: 'landmark',
                 label: 'Companies'
             },
             {
                 routeLink: 'silo/modules',
-                icon: 'bi bi-box-fill',
+                icon: 'layers',
                 label: 'SiloErp Modules'
             },
             {
                 routeLink: 'silo/subscriptions',
-                icon: 'bi bi-people-fill',
+                icon: 'userStar',
                 label: 'Subscriptions'
             },
             {
                 routeLink: 'silo/invoices',
-                icon: 'bi bi-receipt',
+                icon: 'newspaper',
                 label: 'Invoices'
             },
             {
                 routeLink: 'silo/reports',
-                icon: 'bi bi-clipboard-data-fill',
+                icon: 'chart',
                 label: 'Reports'
             },
         ]
