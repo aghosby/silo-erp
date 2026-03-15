@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { forkJoin } from 'rxjs';
 import { AdminService } from '@services/admin/admin.service';
 import { SettingsService } from '@services/settings/settings.service';
 import { AuthService } from '@services/utils/auth.service';
@@ -10,14 +11,14 @@ import { ModalService } from '@services/utils/modal.service';
 @Component({
   selector: 'app-roles-permission-management',
   templateUrl: './roles-permission-management.component.html',
-  styleUrl: './roles-permission-management.component.scss'
+  styleUrls: ['./roles-permission-management.component.scss']
 })
 export class RolesPermissionManagementComponent implements OnInit {
-  loggedInUser:any;
-  activeTab!:string;
-  systemModules!:any[];
-  companyRoles!:any[];
-  permissionsForm:FormGroup = new FormGroup({});
+  loggedInUser: any;
+  activeTab: string = '';
+  systemModules: any[] = [];
+  companyRoles: any[] = [];
+  permissionsForm: FormGroup = new FormGroup({});
 
   constructor(
     private authService: AuthService,
@@ -29,140 +30,167 @@ export class RolesPermissionManagementComponent implements OnInit {
 
   ngOnInit(): void {
     this.loggedInUser = this.authService.loggedInUser;
-    this.getSystemModules();
+    this.loadPageData();
   }
 
-  getSystemModules() {
-    this.adminService.getSystemModules().subscribe(res => {
-      this.systemModules = res.data;
-      console.log(this.systemModules);
-      this.generateFormGroup();
+  loadPageData(): void {
+    forkJoin({
+      modules: this.adminService.getSystemModules(),
+      roles: this.settingsService.getCompanyRoles()
+    }).subscribe({
+      next: ({ modules, roles }) => {
+        this.systemModules = modules?.data || [];
+        this.companyRoles = roles?.data || [];
+        this.buildPermissionsForm();
+      },
+      error: (err) => {
+        console.error(err);
+      }
     });
   }
 
-  getSystemRoles() {}
-
-  toggleModuleInfo(moduleName:string) {
-    this.activeTab == moduleName ? this.activeTab = '' : this.activeTab = moduleName
+  getSystemRoles(): void {
+    this.settingsService.getCompanyRoles().subscribe({
+      next: (res) => {
+        this.companyRoles = res?.data || [];
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    });
   }
 
-  modulePermissions(moduleKey:string) {
+  toggleModuleInfo(moduleKey: string): void {
+    this.activeTab = this.activeTab === moduleKey ? '' : moduleKey;
+  }
+
+  modulePermissions(moduleKey: string): FormArray {
     return this.permissionsForm.get(moduleKey) as FormArray;
   }
 
-  generateFormGroup() {
-    this.loggedInUser.companyFeatures.modules.forEach((module:any) => {
-      this.addModuleToFormGroup(module);
-      this.generateModuleRolesFormGroup(module);
-    })
-    //console.log(this.permissionsForm.value)
-  }
+  buildPermissionsForm(): void {
+    this.permissionsForm = new FormGroup({});
 
-  addModuleToFormGroup(moduleData:any) {
-    const formArr = new FormArray([]);
-    this.permissionsForm.addControl(moduleData.key, formArr)
-  }
+    this.systemModules.forEach((module: any) => {
+      const roleArray:any = new FormArray([]);
 
-  generateModuleRolesFormGroup(moduleData:any) {
-    this.settingsService.getCompanyRoles().subscribe(res => {
-      console.log('Roles', res.data);
-    })
-    this.companyRoles.map(role => {
-      const features = new FormGroup({});
-      moduleData.moduleFeatures.map((feature:any) => {
-        feature.featurePermissions.map((p:any) => {
-          let reqVal = role.rolePermissions
-          .find((x:any) => x.key == moduleData.key).moduleFeatures
-          .find((y:any) => y.featureKey == feature.featureKey).featurePermissions
-          .find((v:any) => v.key == p.key).value;
-          const formControl = new FormControl(reqVal)
-          features.addControl(p.key, formControl)
-        })
+      this.companyRoles.forEach((role: any) => {
+        const roleGroup:any = new FormGroup({});
+
+        module.moduleFeatures?.forEach((feature: any) => {
+          feature.featurePermissions?.forEach((permission: any) => {
+            const permissionValue = this.getPermissionValue(role, module.key, feature.featureKey, permission.key);
+            roleGroup.addControl(permission.key, new FormControl(permissionValue));
+          });
+        });
+
+        roleArray.push(roleGroup);
       });
 
-      this.modulePermissions(moduleData.key).push(features)
-    })
+      this.permissionsForm.addControl(module.key, roleArray);
+    });
+
+    console.log('FORM BUILT', this.permissionsForm.value);
   }
 
-  saveChanges() {
+  getPermissionValue(
+    role: any,
+    moduleKey: string,
+    featureKey: string,
+    permissionKey: string
+  ): boolean {
+    const roleModule = role?.rolePermissions?.find((m: any) => m.key === moduleKey);
+    if (!roleModule) return false;
+
+    const roleFeature = roleModule?.moduleFeatures?.find((f: any) => f.featureKey === featureKey);
+    if (!roleFeature) return false;
+
+    const rolePermission = roleFeature?.featurePermissions?.find((p: any) => p.key === permissionKey);
+    return !!rolePermission?.value;
+  }
+
+  saveChanges(): void {
     console.log('BEFORE TRANSFORMATION', this.permissionsForm.value);
-    let permissionsVal = this.permissionsForm.value;
 
-    Object.keys(permissionsVal).forEach((moduleKey) => {
-      let modulePermissions:any[] = permissionsVal[moduleKey];
-      let newModulePermissions:any[] = []
+    const formValue = this.permissionsForm.value;
+    const transformedModules: any = {};
 
-      //Generate an array that combines the features and permissionKeys under each module
-      let arrayfeatIdPermKeys:any[] = []
-      let moduleFeat:any[] = this.systemModules.find(module => module.key == moduleKey).moduleFeatures;
-      moduleFeat.map(feat => {
-        feat.featurePermissions.find((permission:any) => {
-          let combineData = {
-            featureId: feat.featureId,
-            permissionKey: permission.key
-          }
-          arrayfeatIdPermKeys.push(combineData)
-        })
-      })
+    Object.keys(formValue).forEach((moduleKey) => {
+      const moduleRolesFormValues = formValue[moduleKey];
+      const currentModule = this.systemModules.find((module: any) => module.key === moduleKey);
 
-      //Loop through each role in a module and transform the data to have required Ids
-      this.companyRoles.map((role, roleIndex) => {
-        let rolePermissionsArr:any[] = []
-        Object.keys(modulePermissions[roleIndex]).map(permissionKey => {
-          let newPermissionVal:any = {
-            featureId: arrayfeatIdPermKeys.find(x => x.permissionKey == permissionKey).featureId,
-          }
-          newPermissionVal[permissionKey] = modulePermissions[roleIndex][permissionKey]
-          rolePermissionsArr.push(newPermissionVal)
-        })
-        
-        let reqTransData = {
-          roleId: role['_id'],
+      transformedModules[moduleKey] = this.companyRoles.map((role: any, roleIndex: number) => {
+        const roleFormGroupValue = moduleRolesFormValues[roleIndex];
+        const rolePermissionsArr: any[] = [];
+
+        currentModule?.moduleFeatures?.forEach((feature: any) => {
+          feature.featurePermissions?.forEach((permission: any) => {
+            rolePermissionsArr.push({
+              featureId: feature.featureId,
+              [permission.key]: !!roleFormGroupValue[permission.key]
+            });
+          });
+        });
+
+        return {
+          roleId: role._id,
           rolePermissions: rolePermissionsArr
-        }
-        newModulePermissions.push(reqTransData)
-      })
+        };
+      });
+    });
 
-      //Assign original module key value to new value
-      permissionsVal[moduleKey] = newModulePermissions
+    console.log('AFTER TRANSFORMATION', transformedModules);
 
-    })
-    console.log('AFTER TRANSFORMATION', permissionsVal)
-
-    let payload = {
-      companyId: this.loggedInUser._id,
-      modules: permissionsVal
-    }
+    const payload = {
+      companyId: this.loggedInUser.companyId || this.loggedInUser._id,
+      modules: transformedModules
+    };
 
     this.adminService.updatePermissions(payload).subscribe({
-      next: res => {
-        // console.log(res);
-        if(res.success) {
-          this.notifyService.showSuccess('Your permissions have been updated successfully')
-          this.getSystemModules()
+      next: (res) => {
+        if (res.success) {
+          this.notifyService.showSuccess('Your permissions have been updated successfully');
+          this.loadPageData();
         }
       },
-      error: err => {
-        console.log(err)
-      } 
-    })
+      error: (err) => {
+        console.error(err);
+      }
+    });
   }
 
-  openRoleModal(modalData?:any) {
-    const modalConfig:any = {
-      isExisting: modalData ? true : false,
+  isModuleActive(moduleKey: string): boolean {
+    return !!this.loggedInUser?.companyFeatures?.modules?.find((m: any) => m.key === moduleKey)?.active;
+  }
+
+  onModuleToggle(moduleKey: string, event: Event): void {
+    const checked = (event.target as HTMLInputElement).checked;
+
+    const targetModule = this.loggedInUser?.companyFeatures?.modules?.find(
+      (m: any) => m.key === moduleKey
+    );
+
+    if (targetModule) {
+      targetModule.active = checked;
+    }
+
+    console.log('Updated companyFeatures.modules', this.loggedInUser.companyFeatures.modules);
+  }
+
+  openRoleModal(modalData?: any): void {
+    const modalConfig: any = {
+      isExisting: !!modalData,
       width: '40%',
       data: modalData,
       modules: this.systemModules,
-    }
+    };
+
     this.modalService.open(
-      CompanyRoleInfoComponent, 
+      CompanyRoleInfoComponent,
       modalConfig
-    )
-    .subscribe(result => {
-      if (result.action === 'submit' && result.dirty) {
-        this.getSystemRoles();
-        this.getSystemModules();
+    ).subscribe((result) => {
+      if (result?.action === 'submit' && result?.dirty) {
+        this.loadPageData();
       }
     });
   }

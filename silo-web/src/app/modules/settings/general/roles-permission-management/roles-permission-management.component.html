@@ -4,7 +4,8 @@
         <div (click)="openRoleModal()" class="cta cta-trans icon lg">
             <app-icon [iconName]="'userPen'" [iconStrokeWidth]="2" [iconWidth]="25" [iconHeight]="25"></app-icon> New Role
         </div>
-        <div class="cta cta-primary icon lg">
+
+        <div (click)="saveChanges()" class="cta cta-primary icon lg">
             <i class="bi bi-hdd-fill"></i> Save Changes
         </div>
     </div>
@@ -12,46 +13,78 @@
 
 <div class="row-section">
     <form [formGroup]="permissionsForm">
-        <div *ngIf="systemModules" class="module-wrap">
-            <div class="accordion accordion-flush mt-lg-3">
-                <div *ngFor="let module of systemModules; let i = index" class="accordion-item" [formArrayName]="module.key">
-                    <div class="accordion-header" id="{{'flush-heading'+module.key}}">
-                        <button (click)="toggleModuleInfo(module.key)" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#'+'flush-'+module.key" aria-expanded="false" [attr.aria-controls]="'flush-'+module.key">
-                            <div class="name">{{module.moduleName}}</div>
-                            <div class="app-switch">
-                                <input type="checkbox">
+        <div *ngIf="systemModules?.length" class="module-wrap">
+            <div id="accordionFlushExample" class="accordion accordion-flush mt-lg-3">
+
+                <div
+                    *ngFor="let module of systemModules; let i = index"
+                    class="accordion-item"
+                    [formArrayName]="module.key"
+                >
+                    <div class="accordion-header" [id]="'flush-heading' + module.key">
+                        <button
+                            (click)="toggleModuleInfo(module.key)"
+                            class="accordion-button collapsed"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            [attr.data-bs-target]="'#flush-' + module.key"
+                            aria-expanded="false"
+                            [attr.aria-controls]="'flush-' + module.key"
+                        >
+                            <div class="name">{{ module.moduleName }}</div>
+
+                            <div class="app-switch ms-auto">
+                                <input
+                                    type="checkbox"
+                                    [disabled]="module.key === 'hr' || module.key === 'settings'"
+                                    [checked]="isModuleActive(module.key)"
+                                    (click)="$event.stopPropagation()"
+                                    (change)="onModuleToggle(module.key, $event)"
+                                >
                             </div>
                         </button>
                     </div>
-                    <div [class.show]="activeTab == module.key" id="{{'flush-'+module.key}}" class="accordion-collapse collapse" [attr.aria-labelledby]="'flush-heading'+module.key" data-bs-parent="#accordionFlushExample">
+
+                    <div
+                        [class.show]="activeTab === module.key"
+                        [id]="'flush-' + module.key"
+                        class="accordion-collapse collapse"
+                        [attr.aria-labelledby]="'flush-heading' + module.key"
+                        data-bs-parent="#accordionFlushExample"
+                    >
                         <div class="accordion-body pb-lg-4">
                             <div class="role-wrap">
                                 <div class="role-hld"></div>
-                                <div *ngFor="let role of companyRoles; let roleIndex = index" class="role-hld">{{role.roleName}}</div>
+                                <div *ngFor="let role of companyRoles; let roleIndex = index" class="role-hld">
+                                {{ role.roleName }}
+                                </div>
                             </div>
 
                             <div class="features-wrap">
                                 <div *ngFor="let feature of module.moduleFeatures; let featureIndex = index" class="feature-hld">
-                                    <div class="feature-hdr">{{feature.featureName}}</div>
+                                    <div class="feature-hdr">{{ feature.featureName }}</div>
+
                                     <div class="permissions-wrap">
                                         <div *ngFor="let permission of feature.featurePermissions; let permissionIndex = index" class="permission-hld">
-                                            <div class="permission-col">{{permission.name}}</div>
+                                            <div class="permission-col">{{ permission.name }}</div>
+
                                             <div *ngFor="let role of companyRoles; let roleIndex = index" class="permission-col">
                                                 <ng-container [formGroupName]="roleIndex">
                                                     <mat-checkbox
-                                                    
-                                                        [formControlName]="systemModules[i].moduleFeatures[featureIndex].featurePermissions[permissionIndex].key"
-                                                        color="primary" 
-                                                    >
+                                                        class="table-checkbox"
+                                                        [formControlName]="permission.key"
+                                                        color="primary">
                                                     </mat-checkbox>
                                                 </ng-container>
-                                                
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
+                                <div *ngIf="!module.moduleFeatures?.length" class="text-muted py-3">
+                                    No features available for this module.
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
