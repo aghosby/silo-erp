@@ -10,10 +10,6 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'dashboard',
-    //component: SiloDashboardComponent
-  },
-  {
     path: 'modules',
     component: SiloModulesComponent
   },

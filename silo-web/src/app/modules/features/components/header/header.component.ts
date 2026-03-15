@@ -17,6 +17,7 @@ export class HeaderComponent implements OnInit {
   profilePhoto!: string;
   sideModalOpened:boolean = false;
   currentLink = 'Human Resources';
+  systemAdminLoggedIn: boolean = false;
 
   constructor(
     private router: Router,
@@ -25,13 +26,14 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.systemAdminLoggedIn = this.userDetails.email === 'superadmin@siloerp.io';
     if(this.userDetails.isSuperAdmin) {
       this.userName = this.userDetails.companyName;
       this.userRole = 'Super Admin';
       console.log('Logged In User', this.userDetails);
     }
-    else if(this.userDetails.email == 'siloerp@silo-inc.com') {
-      this.userName = this.userDetails.data.companyName;
+    else if(this.systemAdminLoggedIn) {
+      this.userName = this.userDetails.companyName;
       this.userRole = 'Silo Admin';
     }
     else {

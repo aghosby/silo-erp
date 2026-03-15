@@ -40,7 +40,7 @@
                     <div class="list-header">{{item.label}}</div>
                     <ul class="list">
                         <ng-container *ngFor="let link of item.subMenu">
-                            <li *ngIf="link.permission">
+                            <li *ngIf="link.permission || systemAdminLoggedIn">
                                 <a [routerLink]="[link.routeLink]" routerLinkActive="active">
                                     <app-icon [iconName]="link.icon" [iconWidth]="20" [iconHeight]="20"></app-icon>
                                     <span>{{link.label}}</span>
@@ -48,14 +48,14 @@
                             </li>
                         </ng-container>
 
-                        <li *ngIf="!userDetails.isSuperAdmin" (click)="logOut()" class="logout">
+                        <li (click)="logOut()" class="logout">
                             <span>
                                 <app-icon [iconName]="'logOut'" [iconWidth]="20" [iconHeight]="20"></app-icon>
                             </span>   
                             <span>Logout</span>
                         </li>
 
-                        <li *ngIf="userDetails.isSuperAdmin"></li>
+                        <!-- <li *ngIf="userDetails.isSuperAdmin"></li> -->
 
                     </ul>
                 </ng-container>

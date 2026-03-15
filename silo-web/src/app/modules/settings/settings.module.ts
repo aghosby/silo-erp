@@ -20,10 +20,12 @@ import { RolesPermissionManagementComponent } from './general/roles-permission-m
 import { SubscriptionHistoryComponent } from './general/subscription-history/subscription-history.component';
 import { SubscriptionOverviewComponent } from './general/subscription-overview/subscription-overview.component';
 import { CrmSettingsComponent } from './crm/crm-settings/crm-settings.component';
+import { CompanyRoleInfoComponent } from './general/company-role-info/company-role-info.component';
 
 
 @NgModule({
   declarations: [
+    CompanyRoleInfoComponent,
     CrmSettingsComponent,
     GeneralSettingsComponent,
     HrSettingsComponent,

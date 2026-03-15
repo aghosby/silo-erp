@@ -17,8 +17,9 @@ export class MenuComponent implements OnInit {
   @Input() userDetails:any;
   collapsed = false;
   navMenuInfo:MenuItem[] = [];
+  systemAdminLoggedIn: boolean = false;
 
-  currentLink = 'Human Resources';
+  currentLink: string = '';
 
   constructor(
     private route: Router,
@@ -28,13 +29,15 @@ export class MenuComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.systemAdminLoggedIn = this.userDetails.email === 'superadmin@siloerp.io';
+    this.currentLink = this.systemAdminLoggedIn ? 'Silo Admin' : 'Human Resources';
     this.initMenu();
     this.menuLinksConfig();    
   }
 
   initMenu() {
-    this.navMenuInfo = this.userDetails.email === 'superadmin@siloerp.com' ? navbarDataAdmin : this.utilityService.userMenu;
-    //console.log('User', this.userDetails)
+    this.navMenuInfo = this.systemAdminLoggedIn ? navbarDataAdmin : this.utilityService.userMenu;
+    console.log('Menu', this.navMenuInfo)
   }
 
   menuLinksConfig() {

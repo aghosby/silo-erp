@@ -1,1 +1,57 @@
-<p>silo-modules works!</p>
+<div class="content-wrap">
+    <div class="inner-wrap">
+        <div class="row-section d-flex justify-content-between align-items-center">
+            <div class="page-header">Modules & Permissions Info</div>
+            <div class="main-actions d-flex justify-content-start align-items-center">
+                <div (click)="openPermissionModal()" class="cta cta-primary icon lg"><app-icon [iconName]="'userPen'" [iconStrokeWidth]="2" [iconWidth]="25" [iconHeight]="25"></app-icon> New Permission</div>
+            </div>
+        </div>
+
+        <div class="row-section mt-lg-3 mb-lg-4">
+            <div class="row-card bg-transparent shadow-none">
+                <form>
+                    <div class="module-wrap">
+                        <div class="accordion accordion-flush mt-lg-3">
+                            <div *ngFor="let module of systemModules; let i = index" class="accordion-item">
+                                <div class="accordion-header" id="{{'flush-heading'+module.key}}">
+                                    <button (click)="toggleModuleInfo(module.key)" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#'+'flush-'+module.key" aria-expanded="false" [attr.aria-controls]="'flush-'+module.key">
+                                        <div class="name">{{module.moduleName}}</div>
+                                        <div class="app-switch">
+                                            <input type="checkbox">
+                                        </div>
+                                    </button>
+                                </div>
+                                <div [class.show]="activeTab == module.key" id="{{'flush-'+module.key}}" class="accordion-collapse collapse" [attr.aria-labelledby]="'flush-heading'+module.key" data-bs-parent="#accordionFlushExample">
+                                    <div class="accordion-body pb-lg-4">
+                                        <!-- <div class="action-wrap">
+                                            <div class="action-hld"></div>
+                                            <div class="action-hld">Permission Key</div>
+                                            <div class="action-hld"></div>
+                                        </div> -->
+
+                                        <div class="features-wrap">
+                                            <div *ngFor="let feature of module.moduleFeatures; let featureIndex = index" class="feature-hld">
+                                                <div class="feature-hdr">{{feature.featureName}}</div>
+                                                <div class="permissions-wrap">
+                                                    <div *ngFor="let permission of feature.featurePermissions; let permissionIndex = index" class="permission-hld">
+                                                        <div class="permission-col">{{permission.name}}</div>
+                                                        <div class="permission-col">{{permission.key}}</div>
+                                                        <div class="permission-col text-capitalize">{{permission.permissionType}}</div>
+                                                        <div class="permission-col">
+                                                            <span class="table-icon edit"><i class="bi bi-pen-fill"></i></span>
+                                                            <span class="table-icon delete"><i class="bi bi-trash3-fill"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

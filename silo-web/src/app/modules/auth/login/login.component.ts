@@ -434,7 +434,11 @@ export class LoginComponent implements OnInit {
           console.log(res);
           if(res.status == 200) {
             this.loggedInUser = res.data;
-            if(!res.onboardingCompleted) {
+            if(res.data.email == 'superadmin@siloerp.io') {
+              this.isLoading = false
+              this.router.navigate(['app/silo']);
+            }
+            else if(!res.onboardingCompleted) {
               this.isLoading = false;
               this.router.navigate(['/onboarding']);
             }
@@ -446,10 +450,6 @@ export class LoginComponent implements OnInit {
                 // else this.router.navigate(['/app']);
                 // if(!res.data.activeStatus) this.router.navigate(['app/settings']);
                 // else this.router.navigate(['/app']);
-              }
-              else if(res.data.email == 'superadmin@siloerp.com') {
-                this.isLoading = false
-                this.router.navigate(['app/silo']);
               }
               else {
                 this.isLoading = false

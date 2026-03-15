@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DynamicField } from '@models/general/dynamic-field';
+import { AdminService } from '@services/admin/admin.service';
 import { HrService } from '@services/hr/hr.service';
 import { AuthService } from '@services/utils/auth.service';
 import { NotificationService } from '@services/utils/notification.service';
@@ -79,7 +80,8 @@ export class GeneralSettingsComponent implements OnInit {
     private authService: AuthService,
     private utils: UtilityService,
     private hrService: HrService,
-    private notify: NotificationService
+    private notify: NotificationService,
+    private adminService: AdminService
   ) {}
 
   ngOnInit(): void {
