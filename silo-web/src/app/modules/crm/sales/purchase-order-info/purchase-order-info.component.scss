@@ -1,0 +1,44 @@
+.form-container {
+    gap: 0.7rem;
+    padding: 0.3rem 0;
+    max-height: 38rem;
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.order-wrap {
+    width: 100%;
+    height: auto;
+    max-height: 12rem;
+    overflow-y: auto;
+    padding: 0.4rem 0;
+}
+
+.order-hld {
+    width: 100%;
+    display: inline-flex;
+    gap: 2%;
+
+    .remove {
+        width: 2rem;
+        height: 1.7rem;
+        margin-top: 0.4rem;
+        //background: white;
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--red-theme);
+    }
+}
+
+.order-hdr {
+    font-size: 1rem;
+    font-family: var(--font-medium);
+    margin: 0.4rem 0 0.4rem 0;
+    letter-spacing: 0.03rem;
+}

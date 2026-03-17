@@ -5,7 +5,7 @@ export interface DynamicField {
     controlType: 'text' | 'textarea' | 'number' | 'select' | 'mutipleSelect' | 'date' | 'time' | 'file' | 'quillEditor',
     controlLabel: string,
     controlWidth: string,
-    initialValue: any,
+    initialValue?: any,
     placeholder?: string,
     disabled?: boolean,
     hidden?: boolean,

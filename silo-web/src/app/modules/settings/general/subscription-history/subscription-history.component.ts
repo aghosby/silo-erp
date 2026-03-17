@@ -243,7 +243,7 @@ export class SubscriptionHistoryComponent implements OnInit {
     this.loggedInUser = this.authService.loggedInUser;
     this.regionOptions = this.utils.createRegionOptions();
     
-    //this.getSubscriptionPlans();
+    this.getSubscriptionPlans();
     this.getUserSubscription();
     const params = this.route.snapshot.queryParamMap;
 
@@ -266,21 +266,21 @@ export class SubscriptionHistoryComponent implements OnInit {
   getSubscriptionPlans() {
     this.settingsService.getSubscriptionPlans().subscribe(res => {
       console.log('Plans', res.data);
-      this.subscriptionPlans = res.data;
-      this.subscriptionPlans.map((x:any) => {
-        x['price'] = x.amount
-      });
-      this.currentPlan = res.data.subscriptions[0]
-      //this.currentPlan = this.subscriptionPlans.find((x:any) => x.name === 'Growth');
-      //this.selectedPlan = this.currentPlan;
+      // this.subscriptionPlans = res.data;
+      // this.subscriptionPlans.map((x:any) => {
+      //   x['price'] = x.amount
+      // });
+      // this.currentPlan = res.data.subscriptions[0]
+      // //this.currentPlan = this.subscriptionPlans.find((x:any) => x.name === 'Growth');
+      // //this.selectedPlan = this.currentPlan;
 
-      this.form.controls['noOfUsers'].setValue(this.currentPlan.users)
+      // this.form.controls['noOfUsers'].setValue(this.currentPlan.users)
 
-      this.form.get('noOfUsers')?.valueChanges.subscribe(value => {
-        if (value != null) {
-          this.updateSelectedPlanFromUsers(value);
-        }
-      });
+      // this.form.get('noOfUsers')?.valueChanges.subscribe(value => {
+      //   if (value != null) {
+      //     this.updateSelectedPlanFromUsers(value);
+      //   }
+      // });
     })
   }
   get planDifference() {

@@ -130,11 +130,11 @@ export const navMenuData: MenuItem[] = [
                 icon: 'tags', 
                 label: 'Deals Pipeline' 
             },
-            // { 
-            //     routeLink: 'crm/sales', 
-            //     icon: 'scrollText', 
-            //     label: 'Sales Orders' 
-            // },
+            { 
+                routeLink: 'crm/sales', 
+                icon: 'scrollText', 
+                label: 'Sales Orders' 
+            },
             { 
                 routeLink: 'crm/calendar', 
                 icon: 'calendarRange', 

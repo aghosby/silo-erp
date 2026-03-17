@@ -21,6 +21,10 @@ import { DealsReportComponent } from './reports/deals-report/deals-report.compon
 import { ActivityInfoComponent } from './calendar/activity-info/activity-info.component';
 import { CalendarEventsComponent } from './calendar/calendar-events/calendar-events.component';
 import { CalendarComponent } from '@sharedWeb/components/blocks/calendar/calendar/calendar.component';
+import { SalesOverviewComponent } from './sales/sales-overview/sales-overview.component';
+import { QuotationInfoComponent } from './sales/quotation-info/quotation-info.component';
+import { InvoiceInfoComponent } from './sales/invoice-info/invoice-info.component';
+import { PurchaseOrderInfoComponent } from './sales/purchase-order-info/purchase-order-info.component';
 
 
 @NgModule({
@@ -36,10 +40,14 @@ import { CalendarComponent } from '@sharedWeb/components/blocks/calendar/calenda
     DealsCardComponent,
     DealInfoComponent,
     DealsReportComponent,
+    InvoiceInfoComponent,
     LeadsInfoComponent,
     LeadsOverviewComponent,
     LeadsReportComponent,
+    PurchaseOrderInfoComponent,
+    QuotationInfoComponent,
     ReportsPortalComponent,
+    SalesOverviewComponent,
     SalesPipelineComponent,
     SupportOverviewComponent,
     TicketInfoComponent
