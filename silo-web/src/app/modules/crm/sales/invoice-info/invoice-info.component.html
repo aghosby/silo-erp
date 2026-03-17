@@ -1,0 +1,127 @@
+<div class="modal-wrap">
+    <section class="modal-header">
+        <div class="illustration">
+            <div class="img-wrap">
+                <img src="assets/img/project/illustrations/orders.png" alt="">
+            </div>
+        </div>
+
+        <div class="details">
+            <div class="title">{{ data.isExisting ? 'Edit Invoice' : 'Create Invoice' }}</div>
+            <div class="preamble">Enter the invoice information</div>        
+        </div>                
+    </section>
+
+    <section class="modal-body">
+        <div class="form-wrap">
+            <form [formGroup]="form" class="form-container d-flex flex-wrap justify-content-between">
+
+                <ng-container class="d-flex" *ngFor="let field of formFields">
+                    <ng-container *ngIf="!field.hidden" [ngSwitch]="field.controlType">
+
+                        <!-- Text Input -->
+                        <mat-form-field *ngSwitchCase="'text'" appearance="outline" [style.width]="field.controlWidth || '100%'" color="primary">
+                            <mat-label>{{ field.controlLabel }}</mat-label>
+                            <input matInput [formControlName]="field.controlName" [readonly]="field.readonly">
+                            <mat-error *ngIf="form.get(field.controlName)?.hasError('required')">{{ field.controlLabel }} is required</mat-error>
+                            <mat-error *ngIf="form.get(field.controlName)?.hasError('email')">Please enter a valid email</mat-error>
+                        </mat-form-field>
+
+                        <!-- Text Area -->
+                        <mat-form-field *ngSwitchCase="'textarea'" appearance="outline" [style.width]="field.controlWidth" color="primary">
+                            <mat-label>{{field.controlLabel}}</mat-label>
+                            <textarea type="field.controlType" rows="3" matInput [formControlName]="field.controlName"></textarea>
+                            <mat-error *ngIf="form.get(field.controlName)?.hasError('required')">{{field.controlLabel}} is required</mat-error>
+                        </mat-form-field>
+
+                        <!-- Number -->
+                        <mat-form-field *ngSwitchCase="'number'" appearance="outline" [style.width]="field.controlWidth" color="primary">
+                            <mat-label>{{field.controlLabel}}</mat-label>
+                            <input matInput min="0" type="number" [formControlName]="field.controlName">
+                            <mat-error *ngIf="form.get(field.controlName)?.hasError('required')">{{field.controlLabel}} is required</mat-error>
+                        </mat-form-field>
+
+                        <!-- Single Select -->
+                        <mat-form-field *ngSwitchCase="'select'" appearance="outline" [style.width]="field.controlWidth || '100%'" color="primary">
+                            <mat-label>{{ field.controlLabel }}</mat-label>
+                            <mat-select [formControlName]="field.controlName" panelClass="compact-dropdown lg">
+                                <mat-option *ngFor="let opt of field.selectOptions | keyvalue: keepOrder" [value]="opt.key">{{ opt.value }}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="form.get(field.controlName)?.hasError('required')">{{ field.controlLabel }} is required</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field *ngSwitchCase="'date'" color="accent" class="mb-lg-2" [style.width]="field.controlWidth" appearance="outline">
+                            <mat-label>{{field.controlLabel}}</mat-label>
+                            <input matInput [matDatepicker]="picker" readonly [formControlName]="field.controlName">
+                            <mat-hint>DD/MM/YYYY</mat-hint>
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker color="accent" disabled="false"></mat-datepicker>
+                            <mat-error *ngIf="form.get(field.controlName)?.hasError('required')">{{field.controlLabel}} is required</mat-error>
+                            <mat-error *ngIf="form.get(field.controlName)?.hasError('date')">{{field.controlLabel}} is invalid</mat-error>
+                        </mat-form-field>
+
+                    </ng-container>
+                </ng-container>
+
+                <ng-container formArrayName="orderItemDetails">
+                    <div class="order-hdr">Item Details</div>
+                    <div class="order-wrap">
+                        <div *ngFor="let _ of formArrayDetails.controls; index as i" class="order-hld">
+                            <ng-container [formGroupName]="i">
+                                <mat-form-field color="accent" class="mb-lg-2" [style.width]="'35%'" appearance="outline">
+                                    <mat-label>Item Description</mat-label>
+                                    <input matInput formControlName="description">
+                                    <!-- <mat-error *ngIf="form.get(field.controlName)?.hasError('required')">Item description is required</mat-error> -->
+                                </mat-form-field>
+
+                                <mat-form-field color="accent" class="mb-lg-2" [style.width]="'10%'" appearance="outline">
+                                    <mat-label>Qty</mat-label>
+                                    <input type="number" (change)="calcOrderItemTotal(i)" matInput formControlName="quantity">
+                                    <!-- <mat-error *ngIf="form.get(field.controlName)?.hasError('required')">Item description is required</mat-error> -->
+                                </mat-form-field>
+
+                                <mat-form-field color="accent" class="mb-lg-2" [style.width]="'14%'" appearance="outline">
+                                    <mat-label>Unit Price</mat-label>
+                                    <input type="number" (change)="calcOrderItemTotal(i)" matInput formControlName="unitPrice">
+                                    <!-- <mat-error *ngIf="form.get(field.controlName)?.hasError('required')">Item description is required</mat-error> -->
+                                </mat-form-field>
+
+                                <mat-form-field color="accent" class="mb-lg-2" [style.width]="'12%'" appearance="outline">
+                                    <mat-label>Tax (%)</mat-label>
+                                    <input type="number" (change)="calcOrderItemTotal(i)" matInput formControlName="tax">
+                                    <!-- <mat-error *ngIf="form.get(field.controlName)?.hasError('required')">Item description is required</mat-error> -->
+                                </mat-form-field>
+
+                                <mat-form-field color="accent" class="mb-lg-2" [style.width]="'15%'" appearance="outline">
+                                    <mat-label>Sub Total</mat-label>
+                                    <input readonly matInput formControlName="subTotal">
+                                    <!-- <mat-error *ngIf="form.get(field.controlName)?.hasError('required')">Item description is required</mat-error> -->
+                                </mat-form-field>
+
+                                <span *ngIf="i > 0" (click)="removeOrderItem(i)" class="remove">
+                                    <app-icon [iconName]="'trash'" [iconStrokeWidth]="2" [iconWidth]="20" [iconHeight]="20"></app-icon>
+                                </span>
+                            </ng-container>
+                        </div>
+                    </div>
+            
+                </ng-container>
+
+                <div class="summary w-100 d-flex justify-content-between align-items-center">
+                    <div (click)="addOrderItem()" class="cta cta-trans md">Add Item</div>
+
+                    <mat-form-field color="accent" class="mb-lg-1" [style.width]="'20%'" appearance="outline">
+                        <mat-label>Total Price</mat-label>
+                        <input readonly matInput formControlName="orderTotal">
+                        <!-- <mat-error *ngIf="form.get(field.controlName)?.hasError('required')">Item description is required</mat-error> -->
+                    </mat-form-field>
+                </div>
+
+            </form>
+
+            <div class="btn-hld d-flex justify-content-end mt-lg-3 w-100">
+                <div class="cta cta-primary lg w-100 text-uppercase" type="submit">Save</div>
+            </div>
+        </div>
+    </section>
+</div>
