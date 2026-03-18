@@ -1,0 +1,132 @@
+
+.legend {
+
+    .desc {
+        font-size: 0.85rem;
+        letter-spacing: 0.03rem;
+    }
+
+    .status-hld {
+        display: flex;
+        margin-left: 1rem;
+        gap: 10px;
+
+        span {
+            font-size: 0.75rem;
+            letter-spacing: 0.03rem;
+            padding: 0.1rem 0.7rem;
+            color: var(--dark);
+        }
+    }
+}
+
+.job-wrap {
+    font-family: var(--font-regular);
+
+    .job-hld {
+        display: flex;
+        padding: 1.5rem 3%;
+        align-items: center;
+        border-radius: var(--radius-md);
+        background-color: white;
+        box-shadow: var(--card-shadow);
+
+        &:nth-child(n+2) {
+            margin-top: 1rem;
+        }
+
+        .active-status {
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 50%;
+            background-color: var(--approved);
+            display: inline-block;
+            transform: scale(1);
+            animation: live-pulse 1.5s infinite;
+            box-shadow: 0 0 0 0 var(--approved);
+
+            &.closed {
+                background-color: var(--warning);
+                box-shadow: unset;
+                animation: unset;
+            }
+        }
+
+        .title {
+            width: 20%;
+            font-size: 1rem;
+            margin-left: 3%;
+            
+            .text {
+                font-family: var(--font-medium);
+                letter-spacing: 0.03rem;
+            }
+
+            .start {
+                font-size: 0.75rem;
+                letter-spacing: 0.04rem;
+            }
+        }
+
+        .dept {
+            width: 18%;
+            font-size: 0.9rem;
+            letter-spacing: 0.03rem;
+            margin-left: 0%;
+        }
+
+        
+
+        .lead {
+            width: 15%;
+            margin-left: 5%;
+
+            .hdr {
+                font-size: 0.7rem;
+                letter-spacing: 0.04rem;
+            }
+            
+            .name {
+                font-size: 0.9rem;
+                font-weight: 600;
+            }
+        }
+
+        .stages {
+            width: 15%;
+            display: flex;
+            gap: 0.7rem;
+
+            span {
+                font-size: 0.75rem;
+                width: 1.5rem;
+                height: 1.5rem;
+                border-radius: var(--radius-sm);
+                display: inline-flex;
+                justify-content: center;
+                align-items: center;
+                color: var(--dark);
+            }
+        }
+
+        .actions {
+            margin-left: auto;
+
+            span {
+                cursor: pointer;
+            }
+
+            .edit {
+                color: var(--primary);
+            }
+
+            .delete {
+                color: var(--warning);
+            }
+
+            .more {
+                font-size: 1rem;
+            }
+        }
+    }
+}

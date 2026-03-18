@@ -1,0 +1,55 @@
+
+.col-card {
+
+    &.stats {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr 1fr;
+        gap: 1rem;
+
+        .row-card {
+
+        }
+    }
+}
+
+.chart-wrap {
+    position: relative;
+
+    .chart-info {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        margin-top: 0.5rem;
+        transform: translate(-50%, -50%);
+        left: 50%;
+        top: 50%;
+        gap: 0.3rem;
+
+        span {
+            line-height: 1.5;
+            text-align: center;
+            letter-spacing: 0.04rem;
+            font-family: var(--font-regular);
+
+            &:first-child {
+                font-size: 1rem;
+                font-family: var(--font-medium);
+            }
+
+            &:nth-child(2) {
+                font-size: 0.75rem;
+            }
+        }
+
+        button {
+            font-size: 0.75rem;
+            letter-spacing: 0.04rem;
+            font-family: var(--font-regular);
+            color: var(--primary);
+            border: none;
+            background: transparent;
+            outline: none;
+        }
+    }
+}

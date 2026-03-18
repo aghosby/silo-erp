@@ -43,6 +43,9 @@ import { AppraisalKpisComponent } from './appraisal/appraisal-kpis/appraisal-kpi
 import { AppraisalKpiGroupInfoComponent } from './appraisal/appraisal-kpi-group-info/appraisal-kpi-group-info.component';
 import { AppraisalKpiInfoComponent } from './appraisal/appraisal-kpi-info/appraisal-kpi-info.component';
 import { AppraisalFormComponent } from './appraisal/appraisal-form/appraisal-form.component';
+import { RecruitmentPortalComponent } from './recruitment/recruitment-portal/recruitment-portal.component';
+import { RecruitmentOverviewComponent } from './recruitment/recruitment-overview/recruitment-overview.component';
+import { RecruitmentJobBoardComponent } from './recruitment/recruitment-job-board/recruitment-job-board.component';
 
 
 @NgModule({
@@ -82,6 +85,9 @@ import { AppraisalFormComponent } from './appraisal/appraisal-form/appraisal-for
     PayrollPeriodInfoComponent,
     PayslipComponent,
     PayrollSummaryComponent,
+    RecruitmentJobBoardComponent,
+    RecruitmentOverviewComponent,
+    RecruitmentPortalComponent,
     ReportsPortalComponent,
     VisitorInfoComponent,
     VisitorsLogComponent,

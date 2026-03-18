@@ -50,7 +50,7 @@
                             <mat-error *ngIf="form.get(field.controlName)?.hasError('required')">{{ field.controlLabel }} is required</mat-error>
                         </mat-form-field>
 
-                        <mat-form-field *ngSwitchCase="'date'" color="accent" class="mb-lg-2" [style.width]="field.controlWidth" appearance="outline">
+                        <mat-form-field *ngSwitchCase="'date'" class="mb-lg-2" [style.width]="field.controlWidth" appearance="outline">
                             <mat-label>{{field.controlLabel}}</mat-label>
                             <input matInput [matDatepicker]="picker" readonly [formControlName]="field.controlName">
                             <mat-hint>DD/MM/YYYY</mat-hint>
@@ -68,31 +68,31 @@
                     <div class="order-wrap">
                         <div *ngFor="let _ of formArrayDetails.controls; index as i" class="order-hld">
                             <ng-container [formGroupName]="i">
-                                <mat-form-field color="accent" class="mb-lg-2" [style.width]="'35%'" appearance="outline">
+                                <mat-form-field class="compact-field md mb-lg-2" [style.width]="'35%'" appearance="outline">
                                     <mat-label>Item Description</mat-label>
                                     <input matInput formControlName="description">
                                     <!-- <mat-error *ngIf="form.get(field.controlName)?.hasError('required')">Item description is required</mat-error> -->
                                 </mat-form-field>
 
-                                <mat-form-field color="accent" class="mb-lg-2" [style.width]="'10%'" appearance="outline">
+                                <mat-form-field class="compact-field md mb-lg-2" [style.width]="'10%'" appearance="outline">
                                     <mat-label>Qty</mat-label>
                                     <input type="number" (change)="calcOrderItemTotal(i)" matInput formControlName="quantity">
                                     <!-- <mat-error *ngIf="form.get(field.controlName)?.hasError('required')">Item description is required</mat-error> -->
                                 </mat-form-field>
 
-                                <mat-form-field color="accent" class="mb-lg-2" [style.width]="'14%'" appearance="outline">
+                                <mat-form-field class="compact-field md mb-lg-2" [style.width]="'14%'" appearance="outline">
                                     <mat-label>Unit Price</mat-label>
                                     <input type="number" (change)="calcOrderItemTotal(i)" matInput formControlName="unitPrice">
                                     <!-- <mat-error *ngIf="form.get(field.controlName)?.hasError('required')">Item description is required</mat-error> -->
                                 </mat-form-field>
 
-                                <mat-form-field color="accent" class="mb-lg-2" [style.width]="'12%'" appearance="outline">
+                                <mat-form-field class="compact-field md mb-lg-2" [style.width]="'12%'" appearance="outline">
                                     <mat-label>Tax (%)</mat-label>
                                     <input type="number" (change)="calcOrderItemTotal(i)" matInput formControlName="tax">
                                     <!-- <mat-error *ngIf="form.get(field.controlName)?.hasError('required')">Item description is required</mat-error> -->
                                 </mat-form-field>
 
-                                <mat-form-field color="accent" class="mb-lg-2" [style.width]="'15%'" appearance="outline">
+                                <mat-form-field class="compact-field md mb-lg-2" [style.width]="'15%'" appearance="outline">
                                     <mat-label>Sub Total</mat-label>
                                     <input readonly matInput formControlName="subTotal">
                                     <!-- <mat-error *ngIf="form.get(field.controlName)?.hasError('required')">Item description is required</mat-error> -->
@@ -110,7 +110,7 @@
                 <div class="summary w-100 d-flex justify-content-between align-items-center">
                     <div (click)="addOrderItem()" class="cta cta-trans md">Add Item</div>
 
-                    <mat-form-field color="accent" class="mb-lg-1" [style.width]="'20%'" appearance="outline">
+                    <mat-form-field class="compact-field md mb-lg-1" [style.width]="'20%'" appearance="outline">
                         <mat-label>Total Price</mat-label>
                         <input readonly matInput formControlName="orderTotal">
                         <!-- <mat-error *ngIf="form.get(field.controlName)?.hasError('required')">Item description is required</mat-error> -->
