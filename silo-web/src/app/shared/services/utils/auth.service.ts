@@ -81,6 +81,7 @@ export class AuthService {
       tap((res: any) => {
         this._isLoggedin$.next(true);
         sessionStorage.setItem(this.TOKEN_NAME, res.token);
+        console.log('Login Token', this.token);
         sessionStorage.setItem('loggedInUser', JSON.stringify(res.data));
         sessionStorage.setItem('userCheckedIn', JSON.stringify(false));
         sessionStorage.setItem('currency', JSON.stringify('$'));

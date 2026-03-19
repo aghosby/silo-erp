@@ -262,6 +262,11 @@ export class SiloOnboardingAdminComponent implements OnInit {
 
   sendEmployeeInvites() {
     this.isLoading = true;
+    if(!this.form.value.employees.length) {
+      this.notifyService.showError('Please add at least one employee');
+      this.isLoading = false;
+      return;
+    }
     const payload = {
       employees: this.form.value.employees
     }
