@@ -26,6 +26,10 @@ import { AppraisalFormComponent } from './appraisal/appraisal-form/appraisal-for
 import { AppraisalPortalComponent } from './appraisal/appraisal-portal/appraisal-portal.component';
 import { AppraisalOverviewComponent } from './appraisal/appraisal-overview/appraisal-overview.component';
 import { AppraisalKpisComponent } from './appraisal/appraisal-kpis/appraisal-kpis.component';
+import { RecruitmentPortalComponent } from './recruitment/recruitment-portal/recruitment-portal.component';
+import { RecruitmentOverviewComponent } from './recruitment/recruitment-overview/recruitment-overview.component';
+import { RecruitmentJobBoardComponent } from './recruitment/recruitment-job-board/recruitment-job-board.component';
+import { RecruitmentMasterListComponent } from './recruitment/recruitment-master-list/recruitment-master-list.component';
 
 const routes: Routes = [
   {
@@ -103,6 +107,29 @@ const routes: Routes = [
   {
     path: 'appraisals/:id',
     component: AppraisalFormComponent
+  },
+  {
+    path: 'recruitment',
+    component: RecruitmentPortalComponent,
+    children: [
+      {
+        path: '',
+        redirectTo: 'overview',
+        pathMatch: 'full'
+      },
+      {
+        path : 'overview',
+        component: RecruitmentOverviewComponent
+      },
+      {
+        path : 'jobs',
+        component: RecruitmentJobBoardComponent
+      },
+      {
+        path : 'master-list',
+        component: RecruitmentMasterListComponent
+      }
+    ]
   },
   {
     path: 'notice-board',

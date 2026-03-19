@@ -1,0 +1,64 @@
+<div class="row-section d-flex justify-content-between align-items-center">
+    <div class="page-header">Job Listings</div>
+    <div class="main-actions d-flex justify-content-start align-items-center gap-3">
+        <div (click)="openJobInfoForm()" class="cta cta-primary icon lg">
+            <app-icon [iconName]="'briefcase'" [iconStrokeWidth]="2" [iconWidth]="20" [iconHeight]="20"></app-icon> New Job Post
+        </div>
+    </div>
+</div>
+
+<div *ngIf="jobRoles && !jobRoles.length" class="row-section mt-4">
+    <div class="row-card w-100">
+        <div class="card-cont">
+            <app-no-data 
+                [height]="'20rem'"
+                [message]="'No Job roles have been created'" 
+                [imageUrl]="'assets/img/project/illustrations/folder.webp'" 
+                [messageFontSize]="'1rem'"
+            ></app-no-data>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="jobRoles && jobRoles.length" class="row-section mt-4">
+    <div class="legend d-flex justify-content-start align-items-center mt-lg-4">
+        <span class="desc">Reference :</span>
+        <div class="status-hld">
+            <span class="status started light">Applications</span>
+            <span class="status considered light">Screening</span>
+            <span class="status pending light">Interviews</span>
+            <span class="status approved light">Negotiations</span>
+        </div>
+    </div>
+
+    <div class="job-wrap">
+        <div *ngFor="let item of jobRoles" class="job-hld">
+            <div *ngIf="item.status == 'active'" class="active-status"></div>
+            <div *ngIf="item.status == 'inactive' || item.status == 'expired'" class="active-status closed"></div>
+            <div class="title">
+                <div class="text">{{item.jobTitle}}</div>
+                <!-- <div class="start">Feb 12, 2023</div> -->
+            </div>
+            <div class="dept">{{item.departmentName}}</div>
+            <div class="stages">
+                <span class="status started light">{{item.applicants ? item.applicants : 0 }}</span>
+                <span class="status considered light">{{item.shortlisted ? item.applicants : 0}}</span>
+                <span class="status pending light">{{item.interviews ? item.applicants : 0}}</span>
+                <span class="status approved light">{{item.selected ? item.selected : 0}}</span>
+            </div>
+            <div class="lead">
+                <div class="hdr">Hiring Manager</div>
+                <div class="name">{{item.hiringManager}}</div>
+            </div>
+            <div class="publish">
+                <input type="checkbox" value="1" class="switch" />
+                <span>Publish</span>
+            </div>
+            <div class="actions">
+                <span class="edit"><i class="bi bi-pen-fill"></i></span>
+                <span class="delete ms-lg-3"><i class="bi bi-trash3-fill"></i></span>
+                <span class="more ms-lg-2"><i class="bi bi-three-dots-vertical"></i></span>
+            </div>
+        </div>
+    </div>
+</div>

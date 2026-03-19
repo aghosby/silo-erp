@@ -644,6 +644,33 @@ export class HrService {
     return this.http.delete<any>(`${this.baseUrl}/announcements/${noticeId}`, this.requestOptions);
   }
 
+  /*************** RECRUITMENT RELATED ACTIONS ***************/
+
+  //Create a new job role
+  public createJobRole(info: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/createJobListing`, info, this.requestOptions);
+  }
+
+  //Delete Job Post
+  public deleteJobRole(roleId: any): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/deleteJobListing/${roleId}`, this.requestOptions);
+  }
+
+  //Get the list of all Job Roles
+  public getJobRoles(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/fetchJobListings`, this.requestOptions);
+  }
+
+  //Get the list of all applicants
+  public getMasterList(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/masterList`, this.requestOptions);
+  }
+
+  //Publish a job post
+  public publishJobPost(info: any, jobId: any): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/publishJob/${jobId}`, info, this.requestOptions);
+  }
+
 
 
 }

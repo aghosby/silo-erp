@@ -1,0 +1,177 @@
+<div class="row-section d-flex justify-content-between align-items-center">
+    <div class="page-header">Recruitment</div>
+    <div class="main-actions d-flex justify-content-start align-items-center gap-3">
+        <div (click)="openJobInfoForm()" class="cta cta-primary icon lg">
+            <app-icon [iconName]="'briefcase'" [iconStrokeWidth]="2" [iconWidth]="20" [iconHeight]="20"></app-icon> New Job Post
+        </div>
+    </div>
+</div>
+
+<div class="row-section d-flex justify-content-between mt-3">
+    <div class="col-card stats card-xsm card-ylg">
+        <div class="row-card card-theme-blue">
+            <div class="card-cont rd-pad d-flex flex-column">
+                <div class="top d-flex align-items-end">
+                    <div class="card-title">Active Job Posts</div>
+                    <!-- <span class="percent-diff increase"><i class="bi bi-arrow-up-right"></i> 10%</span> -->
+                </div>
+                <div class="btm d-flex justify-content-between align-items-end mt-auto">
+                    <div class="card-icon">
+                        <app-icon [iconName]="'briefcase'" [iconStrokeWidth]="2" [iconWidth]="25" [iconHeight]="25"></app-icon>
+                    </div>
+                    <div class="card-count ms-auto">10 <span>Job Posts</span></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row-card card-theme-yellow">
+            <div class="card-cont rd-pad d-flex flex-column">
+                <div class="top d-flex align-items-end">
+                    <div class="card-title">Total Applicants</div>
+                    <!-- <span class="percent-diff increase"><i class="bi bi-arrow-up-right"></i> 10%</span> -->
+                </div>
+                <div class="btm d-flex justify-content-between align-items-end mt-auto">
+                    <div class="card-icon">
+                        <app-icon [iconName]="'users'" [iconStrokeWidth]="2" [iconWidth]="25" [iconHeight]="25"></app-icon>
+                    </div>
+                    <div class="card-count ms-auto">100 <span>Applicants</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row-card card-theme-green">
+            <div class="card-cont rd-pad d-flex flex-column">
+                <div class="top d-flex align-items-end">
+                    <div class="card-title">Hired Candidates</div>
+                    <!-- <span class="percent-diff increase"><i class="bi bi-arrow-up-right"></i> 10%</span> -->
+                </div>
+                <div class="btm d-flex justify-content-between align-items-end mt-auto">
+                    <div class="card-icon">
+                        <app-icon [iconName]="'userStar'" [iconStrokeWidth]="2" [iconWidth]="25" [iconHeight]="25"></app-icon>
+                    </div>
+                    <div class="card-count ms-auto">1 <span>Candidate</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row-card anim-item card-xmd h-auto">
+        <div class="card-cont d-flex flex-column justify-content-center align-items-center position-relative">
+            <div class="chart-wrap">
+                <app-pie-chart
+                    [chartSize]="[270, 270]"
+                    [chartData]="chartData"
+                    [colorScheme]="chartColorScheme"
+                    [doughnut]="true"
+                ></app-pie-chart>
+
+                <div class="chart-info">
+                    <span>Applications by Departments</span>
+                </div>
+            </div>
+
+            <ul class="chart-legend d-flex justify-content-center">
+                <ng-container>
+                    <li *ngFor="let item of chartData; let i = index"> 
+                        <span class="code" [style.background]="chartColorScheme['domain'][i]"></span>{{item.name}}
+                    </li>
+                </ng-container>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row-card anim-item card-xmd card-ylg">
+        <div class="card-cont">
+            <div class="top">
+                <div class="card-title sm color-theme-primary">Upcoming Interviews</div>
+            </div>
+            <div class="btm">
+                <div class="listed-items mt-lg-3">
+                    <div class="item">
+                        <div class="content">
+                            <div class="det">
+                                <div class="major bd">Senior Frontend Engineer</div>
+                                <div class="minor">Ibrahim Babatunde</div>
+                            </div>
+                            <div class="det right">
+                                <div class="major">Apr 20</div>
+                                <div class="minor sm">12:30pm - 12:45pm</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="item">
+                        <div class="content">
+                            <div class="det">
+                                <div class="major bd">Marketing Manager</div>
+                                <div class="minor">Remi Olubode</div>
+                            </div>
+                            <div class="det right">
+                                <div class="major">May 21</div>
+                                <div class="minor sm">1:10pm - 2:45pm</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="item">
+                        <div class="content">
+                            <div class="det">
+                                <div class="major bd">Finance Analyst</div>
+                                <div class="minor">Matt Greg</div>
+                            </div>
+                            <div class="det right">
+                                <div class="major">May 26</div>
+                                <div class="minor sm">4:10pm - 4:25pm</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="item">
+                        <div class="content">
+                            <div class="det">
+                                <div class="major bd">Technology Consultant</div>
+                                <div class="minor">Rita Mreace</div>
+                            </div>
+                            <div class="det right">
+                                <div class="major">May 30</div>
+                                <div class="minor sm">9:30am - 10:45am</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="item">
+                        <div class="content">
+                            <div class="det">
+                                <div class="major bd">HR Consultant</div>
+                                <div class="minor">Spence Holderyne</div>
+                            </div>
+                            <div class="det right">
+                                <div class="major">Jun 4</div>
+                                <div class="minor sm">10:30am - 10:45am</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row-section mt-4">
+    <app-dynamic-table
+        [columns]="tableColumns"
+        [showCheckbox]="true"
+        [displayFilters]="false"
+        [data]="tableData"
+        [paging]="paging"
+        [filters]="tableFilters"
+        [loading]="isLoading"
+        [emptyDataMessage]="'No job posts were found.'"
+        [emptyDataImage]="'assets/img/project/illustrations/folder.webp'"
+        (rowClick)="viewRow($event)"
+        (pagingChange)="onPagingChange($event)"
+        (searchChange)="onSearchChange($event)"
+        (filterChange)="onFilterChange($event)"
+        (selectionChange)="onSelectionChange($event)"
+    ></app-dynamic-table>
+</div>

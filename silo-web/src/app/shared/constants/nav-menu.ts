@@ -73,12 +73,12 @@ export const navMenuData: MenuItem[] = [
                 label: 'Appraisal Requests',
                 roles: ['manager', 'employee'] 
             },
-            // { 
-            //     routeLink: 'hr/recruitment', 
-            //     icon: 'briefcase', 
-            //     label: 'Recruitment',
-            //     roles: ['superAdmin'] 
-            // },
+            { 
+                routeLink: 'hr/recruitment', 
+                icon: 'briefcase', 
+                label: 'Recruitment',
+                roles: ['superAdmin'] 
+            },
             { 
                 routeLink: 'hr/calendar', 
                 icon: 'calendarRange', 
