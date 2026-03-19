@@ -28,119 +28,120 @@ export class SubscriptionHistoryComponent implements OnInit {
   selectedRegion:string = 'nigeria';
   regionOptions: any;
   keepOrder = () => 0;
+  subscriptionPlans:any;
 
-  subscriptionPlans: any = [
-    {
-      id: "standard",
-      name: "Standard",
-      popular: false,
-      usersLimit: 25,
-      crmAgents: 5,
-      regions: [
-        { regionId: "nigeria", pricePerMonth: 50000, pricePerYear: 540000 },
-        { regionId: "us", pricePerMonth: 36, pricePerYear: 389 },
-        { regionId: "canada", pricePerMonth: 50, pricePerYear: 540 },
-        { regionId: "uk", pricePerMonth: 27, pricePerYear: 292 },
-        { regionId: "other", pricePerMonth: 36, pricePerYear: 389 }
-      ],
-      featuresOverview: "Everything a growing team needs to manage people and stay organised",
-      featuresPreamble: "What's included",
-      features: [
-        "Employee management",
-        "Document storage (10GB)",
-        "Attendance Check In",
-        "Leave requests & approvals",
-        "Basic payroll processing",
-        "Shared team calendar",
-        "Meeting scheduler",
-        "Basic attendance & leave reports",
-        "Lead capture & management",
-        "Contact profiles & history",
-        "Basic lead scoring",
-        "Deals pipeline (up to 2)",
-        "Deal stages & status tracking",
-        "Ticket creation & assignment",
-        "Basic crm report"
-      ]
-    },
-    {
-      id: "premium",
-      name: "Premium",
-      popular: true,
-      usersLimit: 100,
-      crmAgents: 20,
-      regions: [
-        { regionId: "nigeria", pricePerMonth: 120000, pricePerYear: 1296000 },
-        { regionId: "us", pricePerMonth: 87, pricePerYear: 940 },
-        { regionId: "canada", pricePerMonth: 119, pricePerYear: 1285 },
-        { regionId: "uk", pricePerMonth: 65, pricePerYear: 702 },
-        { regionId: "other", pricePerMonth: 87, pricePerYear: 940 }
-      ],
-      featuresOverview: "Full HR Operations for scaling businesses that demand more control",
-      featuresPreamble: "Includes everything in Standard +",
-      features: [
-        "Document storage (100GB)",
-        "Payroll history",
-        "Payslip generation",
-        "Company announcements",
-        "Analytics dashboard",
-        "Expense submissions & approvals",
-        "Meeting scheduler & agendas",
-        "Google & Outlook integration",
-        "Export to Excel & PDF",
-        "Lead source attribution",
-        "Lead import (CSV / Excel)",
-        "Company / account management",
-        "Unlimited pipelines",
-        "Custom pipeline stages",
-        "Ticket escalations",
-        "Email integration (Gmail)",
-        "Internal notes & comments",
-        "SMS integration",
-        "Agents management"
-      ]
-    },
-    {
-      id: "enterprise",
-      name: "Enterprise",
-      popular: false,
-      usersLimit: "unlimited",
-      crmAgents: "unlimited",
-      regions: [
-        { regionId: "nigeria", pricePerMonth: 280000, pricePerYear: 3024000 },
-        { regionId: "us", pricePerMonth: 202, pricePerYear: 2182 },
-        { regionId: "canada", pricePerMonth: 278, pricePerYear: 3002 },
-        { regionId: "uk", pricePerMonth: 152, pricePerYear: 1642 },
-        { regionId: "other", pricePerMonth: 202, pricePerYear: 2182 }
-      ],
-      featuresOverview: "A platform engineered for operational scale and deep customization",
-      featuresPreamble: "Everything in premium +",
-      features: [
-        "Unlimited document storage",
-        "Multi-branch support",
-        "Role-based access control (RBAC)",
-        "Appraisal Management",
-        "Payroll approval workflows",
-        "Recruitment pipeline analytics",
-        "GPS Check In",
-        "Scheduled automated reports",
-        "AI lead scoring & prioritisation",
-        "AI deal outcome prediction",
-        "AI generated email drafts",
-        "Smart follow-up reminders",
-        "AI chatbot for support",
-        "Deal forecasting & probability",
-        "Multi-currency deal tracking",
-        "Contract & proposal management",
-        "Omnichannel inbox (email, chat)",
-        "Social media integration",
-        "Adavanced analytics dashboards",
-        "Custom integrations support",
-        "Custom onboarding & training",
-        "Audit Trails"
-      ]
-    }
-  ];
+  // subscriptionPlans: any = [
+  //   {
+  //     id: "standard",
+  //     name: "Standard",
+  //     popular: false,
+  //     usersLimit: 25,
+  //     crmAgents: 5,
+  //     regions: [
+  //       { regionId: "nigeria", pricePerMonth: 50000, pricePerYear: 540000 },
+  //       { regionId: "us", pricePerMonth: 36, pricePerYear: 389 },
+  //       { regionId: "canada", pricePerMonth: 50, pricePerYear: 540 },
+  //       { regionId: "uk", pricePerMonth: 27, pricePerYear: 292 },
+  //       { regionId: "other", pricePerMonth: 36, pricePerYear: 389 }
+  //     ],
+  //     featuresOverview: "Everything a growing team needs to manage people and stay organised",
+  //     featuresPreamble: "What's included",
+  //     features: [
+  //       "Employee management",
+  //       "Document storage (10GB)",
+  //       "Attendance Check In",
+  //       "Leave requests & approvals",
+  //       "Basic payroll processing",
+  //       "Shared team calendar",
+  //       "Meeting scheduler",
+  //       "Basic attendance & leave reports",
+  //       "Lead capture & management",
+  //       "Contact profiles & history",
+  //       "Basic lead scoring",
+  //       "Deals pipeline (up to 2)",
+  //       "Deal stages & status tracking",
+  //       "Ticket creation & assignment",
+  //       "Basic crm report"
+  //     ]
+  //   },
+  //   {
+  //     id: "premium",
+  //     name: "Premium",
+  //     popular: true,
+  //     usersLimit: 100,
+  //     crmAgents: 20,
+  //     regions: [
+  //       { regionId: "nigeria", pricePerMonth: 120000, pricePerYear: 1296000 },
+  //       { regionId: "us", pricePerMonth: 87, pricePerYear: 940 },
+  //       { regionId: "canada", pricePerMonth: 119, pricePerYear: 1285 },
+  //       { regionId: "uk", pricePerMonth: 65, pricePerYear: 702 },
+  //       { regionId: "other", pricePerMonth: 87, pricePerYear: 940 }
+  //     ],
+  //     featuresOverview: "Full HR Operations for scaling businesses that demand more control",
+  //     featuresPreamble: "Includes everything in Standard +",
+  //     features: [
+  //       "Document storage (100GB)",
+  //       "Payroll history",
+  //       "Payslip generation",
+  //       "Company announcements",
+  //       "Analytics dashboard",
+  //       "Expense submissions & approvals",
+  //       "Meeting scheduler & agendas",
+  //       "Google & Outlook integration",
+  //       "Export to Excel & PDF",
+  //       "Lead source attribution",
+  //       "Lead import (CSV / Excel)",
+  //       "Company / account management",
+  //       "Unlimited pipelines",
+  //       "Custom pipeline stages",
+  //       "Ticket escalations",
+  //       "Email integration (Gmail)",
+  //       "Internal notes & comments",
+  //       "SMS integration",
+  //       "Agents management"
+  //     ]
+  //   },
+  //   {
+  //     id: "enterprise",
+  //     name: "Enterprise",
+  //     popular: false,
+  //     usersLimit: "unlimited",
+  //     crmAgents: "unlimited",
+  //     regions: [
+  //       { regionId: "nigeria", pricePerMonth: 280000, pricePerYear: 3024000 },
+  //       { regionId: "us", pricePerMonth: 202, pricePerYear: 2182 },
+  //       { regionId: "canada", pricePerMonth: 278, pricePerYear: 3002 },
+  //       { regionId: "uk", pricePerMonth: 152, pricePerYear: 1642 },
+  //       { regionId: "other", pricePerMonth: 202, pricePerYear: 2182 }
+  //     ],
+  //     featuresOverview: "A platform engineered for operational scale and deep customization",
+  //     featuresPreamble: "Everything in premium +",
+  //     features: [
+  //       "Unlimited document storage",
+  //       "Multi-branch support",
+  //       "Role-based access control (RBAC)",
+  //       "Appraisal Management",
+  //       "Payroll approval workflows",
+  //       "Recruitment pipeline analytics",
+  //       "GPS Check In",
+  //       "Scheduled automated reports",
+  //       "AI lead scoring & prioritisation",
+  //       "AI deal outcome prediction",
+  //       "AI generated email drafts",
+  //       "Smart follow-up reminders",
+  //       "AI chatbot for support",
+  //       "Deal forecasting & probability",
+  //       "Multi-currency deal tracking",
+  //       "Contract & proposal management",
+  //       "Omnichannel inbox (email, chat)",
+  //       "Social media integration",
+  //       "Adavanced analytics dashboards",
+  //       "Custom integrations support",
+  //       "Custom onboarding & training",
+  //       "Audit Trails"
+  //     ]
+  //   }
+  // ];
 
 
   // subscriptionPlans = [
@@ -266,7 +267,7 @@ export class SubscriptionHistoryComponent implements OnInit {
   getSubscriptionPlans() {
     this.settingsService.getSubscriptionPlans().subscribe(res => {
       console.log('Plans', res.data);
-      // this.subscriptionPlans = res.data;
+      this.subscriptionPlans = res.data;
       // this.subscriptionPlans.map((x:any) => {
       //   x['price'] = x.amount
       // });

@@ -119,7 +119,7 @@ export class SiloOnboardingAdminComponent implements OnInit {
   private initFormGroup(): void {
     this.form = new FormGroup(
       {
-        companyName: new FormControl('SILO Technologies', Validators.required),
+        companyName: new FormControl('', Validators.required),
         industry: new FormControl('', Validators.required),
         companySize: new FormControl('', Validators.required),
         modules: new FormControl([], Validators.required),
