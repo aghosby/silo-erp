@@ -74,7 +74,7 @@ export class EmployeeInfoComponent implements OnInit {
         controlType: 'text',
         controlLabel: 'Company Email Address',
         controlWidth: '48%',
-        readonly: true,
+        readonly: !this.loggedInUser.isSuperAdmin,
         initialValue: this.data.isExisting ? this.data.data?.email : null,
         validators: [Validators.required, Validators.email],
         order: 3
