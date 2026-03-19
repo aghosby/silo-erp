@@ -386,7 +386,7 @@ export class LoginComponent implements OnInit {
         //console.log(res);
         if (res.status == 200) {
           this.isLoading = false;
-          this.changeState('change')
+          this.changeState('verify')
           this.notifyService.showSuccess(res.message);
           this.resendingOtp = false; 
         }
