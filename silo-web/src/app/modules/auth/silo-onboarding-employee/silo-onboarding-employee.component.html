@@ -1,6 +1,6 @@
 <div class="pg-hld" @authPageStagger>
     <div class="pg-hdr d-flex flex-column anim-item text-center text-primary">
-        <img *ngIf="currentStep != 4" routerLink="/" class="logo anim-item" src="assets/img/brand/silo-logo.svg" alt="silo">
+        <img *ngIf="currentStep != 4" routerLink="/" role="button" class="logo anim-item" src="assets/img/brand/silo-logo.svg" alt="silo">
         <div *ngIf="currentStep == 1" class="step-info mb-4">
             <h3 class="anim-item"> Welcome, {{loggedInUser?.firstName}} <img class="pb-lg-2" src="https://silo-inc.com/wp-content/themes/wp-silo/dist/img/waving_hand.gif" alt=""></h3>
             <p class="anim-item">Let's set up your personal information so your team can recognize you.</p>
