@@ -379,6 +379,7 @@ export class LoginComponent implements OnInit {
     // const userRegDetails = JSON.parse(sessionStorage.getItem('userRegDetails')!)
     // if(userRegDetails) this.authForm.controls['email'].setValue(userRegDetails.email)
     let email = sessionStorage.getItem('userEmail') ?? this.authForm.value.email;
+    sessionStorage.setItem('userEmail', email);
     //sessionStorage.setItem('userRegDetails', JSON.stringify(payload));
     //console.log('payload', payload)
     this.authService.verifyEmail(email).subscribe({
