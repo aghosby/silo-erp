@@ -112,7 +112,7 @@ export class SiloOnboardingEmployeeComponent implements OnInit {
         lastName: new FormControl(this.loggedInUser.lastName, Validators.required),
         email: new FormControl(this.loggedInUser.email, [Validators.required, Validators.email]),
         phone: new FormControl(''),
-        companyName: new FormControl(this.loggedInUser ? this.loggedInUser.companyName : 'SILO', Validators.required),
+        companyName: new FormControl(this.loggedInUser ? this.loggedInUser.companyName : '', Validators.required),
         dateOfBirth: new FormControl('', Validators.required),
         gender: new FormControl(''),
         branch: new FormControl(''),

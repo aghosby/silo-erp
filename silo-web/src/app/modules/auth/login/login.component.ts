@@ -57,6 +57,7 @@ export class LoginComponent implements OnInit {
   verifyingOtp:boolean = false;
   verificationToken!:string;
   userEmail:string = '';
+  companyId:any;
 
   resendingOtp:boolean = false;
   resetToken:string = '';
@@ -137,6 +138,7 @@ export class LoginComponent implements OnInit {
   getEmailQuery(): void {
     this.route.queryParamMap.pipe(take(1)).subscribe(params => {
       const emailParam = params.get('email');
+      this.companyId = params.get('companyId') ?? null;
       console.log(emailParam);
 
       if (emailParam) {
@@ -376,7 +378,7 @@ export class LoginComponent implements OnInit {
     this.resendingOtp = true;
     // const userRegDetails = JSON.parse(sessionStorage.getItem('userRegDetails')!)
     // if(userRegDetails) this.authForm.controls['email'].setValue(userRegDetails.email)
-    const email = sessionStorage.getItem('userEmail')
+    let email = sessionStorage.getItem('userEmail') ?? this.authForm.value.email;
     //sessionStorage.setItem('userRegDetails', JSON.stringify(payload));
     //console.log('payload', payload)
     this.authService.verifyEmail(email).subscribe({
@@ -482,7 +484,8 @@ export class LoginComponent implements OnInit {
       this.isLoading = true;
       let payload = {
         verificationToken: token,
-        password: this.authForm.value.password
+        password: this.authForm.value.password,
+        companyId: this.companyId
       }
       this.authService.setPassword(payload).subscribe({
         next: res => {

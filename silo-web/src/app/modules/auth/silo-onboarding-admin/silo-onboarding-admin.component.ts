@@ -68,6 +68,7 @@ export class SiloOnboardingAdminComponent implements OnInit {
 
   siloModules = [
     {
+      moduleKey: 'hr',
       moduleName: 'HR Module',
       icon: 'bi-people-fill',
       moduleFeatures: [
@@ -84,6 +85,7 @@ export class SiloOnboardingAdminComponent implements OnInit {
       ]
     },
     {
+      moduleKey: 'crm',
       moduleName: 'CRM Module',
       icon: 'bi-headset',
       moduleFeatures: [
@@ -119,7 +121,7 @@ export class SiloOnboardingAdminComponent implements OnInit {
   private initFormGroup(): void {
     this.form = new FormGroup(
       {
-        companyName: new FormControl('SILO Technologies', Validators.required),
+        companyName: new FormControl('', Validators.required),
         industry: new FormControl('', Validators.required),
         companySize: new FormControl('', Validators.required),
         modules: new FormControl([], Validators.required),
@@ -235,10 +237,10 @@ export class SiloOnboardingAdminComponent implements OnInit {
     this.isLoading = true;
     const payload = {
       modules: {
-        HumanResources: {
+        hr: {
           active: this.isModuleSelected('HR Module')
         },
-        CRM: {
+        crm: {
           active: this.isModuleSelected('CRM Module')
         }
       }
