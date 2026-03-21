@@ -46,6 +46,10 @@ export class RecruitmentJobInfoComponent implements OnInit {
     }); 
   }
 
+  goBack() {
+    this.utils.goBack();
+  }
+
   setUpForm() {
     this.formFields = [
       {
@@ -116,7 +120,7 @@ export class RecruitmentJobInfoComponent implements OnInit {
       {
         controlName: 'hiringManager',
         controlType: 'select',
-        controlLabel: 'Employees',
+        controlLabel: 'Hiring Manager',
         controlWidth: '48%',
         initialValue: this.data.isExisting ? this.data.data.hiringManager : null,
         selectOptions: this.utils.arrayToObject(this.employees, 'fullName'),
@@ -126,7 +130,7 @@ export class RecruitmentJobInfoComponent implements OnInit {
       {
         controlName: 'noOfOpenings',
         controlType: 'number',
-        controlLabel: 'No of Openings',
+        controlLabel: 'Number of Openings',
         controlWidth: '48%',
         initialValue: this.data.isExisting ? this.data.data.noOfOpenings : null,
         validators: [],
@@ -137,7 +141,7 @@ export class RecruitmentJobInfoComponent implements OnInit {
         controlType: 'select',
         controlLabel: 'Job Status',
         controlWidth: '48%',
-        initialValue: this.data.isExisting ? this.data.data.jobStatus : null,
+        initialValue: this.data.isExisting ? this.data.data.jobStatus : 'draft',
         selectOptions: {
           draft: 'Draft',
           open: 'Open',
