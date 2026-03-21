@@ -1,7 +1,7 @@
 <div class="tab-wrap">
     <ul class="tab-list">
         <li *ngFor="let link of tabMenu">
-            <a [routerLink]="[link.routeLink]" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+            <a [routerLink]="[link.routeLink]" routerLinkActive="active" [routerLinkActiveOptions]="{exact:false}">
                 <!-- <i class="{{link.icon}}"></i> -->
                 <!-- <mat-icon class="material-icons-round">{{item.icon}}</mat-icon> -->
                 <span>{{link.label}}</span>

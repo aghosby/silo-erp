@@ -46,6 +46,7 @@ import { AppraisalFormComponent } from './appraisal/appraisal-form/appraisal-for
 import { RecruitmentPortalComponent } from './recruitment/recruitment-portal/recruitment-portal.component';
 import { RecruitmentOverviewComponent } from './recruitment/recruitment-overview/recruitment-overview.component';
 import { RecruitmentJobBoardComponent } from './recruitment/recruitment-job-board/recruitment-job-board.component';
+import { RecruitmentJobInfoComponent } from './recruitment/recruitment-job-info/recruitment-job-info.component';
 
 
 @NgModule({
@@ -86,6 +87,7 @@ import { RecruitmentJobBoardComponent } from './recruitment/recruitment-job-boar
     PayslipComponent,
     PayrollSummaryComponent,
     RecruitmentJobBoardComponent,
+    RecruitmentJobInfoComponent,
     RecruitmentOverviewComponent,
     RecruitmentPortalComponent,
     ReportsPortalComponent,

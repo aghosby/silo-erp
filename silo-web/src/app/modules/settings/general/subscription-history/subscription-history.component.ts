@@ -288,6 +288,14 @@ export class SubscriptionHistoryComponent implements OnInit {
     return this.selectedPlan?.price - this.currentPlan?.price;
   }
 
+  getPlanCode(planRegions:any[]) {
+    const selectedRegion:any = planRegions.find(p => p.regionId === selectedRegion);
+
+    if (!selectedRegion) return null;
+
+    return this.billingCycleMonthly ? selectedRegion.monthly?.plan_code : selectedRegion.annually?.plan_code;
+  }
+
   getSubscriptionCurrency(): string {
     const region = this.regions.find(x => x._id === this.selectedRegion);
     return region?.currencySymbol || '$';
@@ -298,9 +306,7 @@ export class SubscriptionHistoryComponent implements OnInit {
 
     if (!regionPricing) return 0;
 
-    return this.billingCycleMonthly
-      ? regionPricing.pricePerMonth
-      : regionPricing.pricePerYear;
+    return this.billingCycleMonthly ? regionPricing.pricePerMonth : regionPricing.pricePerYear;
   }
 
   updateSelectedPlanFromUsers(value: number) {
@@ -315,14 +321,14 @@ export class SubscriptionHistoryComponent implements OnInit {
     this.form.get('noOfUsers')?.setValue(plan.users, { emitEvent: false });
   }
 
-  initSubscription() {
+  initSubscription(plan:any) {
     this.pageUrl = this.router.url;
     console.log('Plan', this.selectedPlan)
     const payload = {
       name: this.loggedInUser.companyName,
       email: this.loggedInUser.email,
       // "company": "Acme Ltd",
-      plan_code: this.selectedPlan.plan_code,
+      plan_code: this.getPlanCode(plan.regions),
       recurring_payment: this.autoRenew,
       redirect_url: `${window.location.origin}${this.pageUrl}`,
       redirect_url_fail: `${window.location.origin}${this.pageUrl}`

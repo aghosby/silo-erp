@@ -75,6 +75,7 @@ import { CalendarComponent } from './components/blocks/calendar/calendar/calenda
 import { CalendarEventPopupComponent } from './components/blocks/calendar/views/calendar-event-popup/calendar-event-popup.component';
 import { SwitchComponent } from './components/forms/switch/switch.component';
 import { SliderComponent } from './components/forms/slider/slider.component';
+import { RangeSliderComponent } from './components/forms/range-slider/range-slider.component';
 
 const SHARED_COMP = [
   MatFormFieldModule,
@@ -136,6 +137,7 @@ const SHARED_COMP = [
     FormConfirmComponent,
     DynamicFormComponent,
     FileUploadComponent,
+    RangeSliderComponent,
     SliderComponent,
     SwitchComponent,
 
@@ -195,6 +197,7 @@ const SHARED_COMP = [
     FileUploadComponent,
     FormConfirmComponent,
     DynamicFormComponent,
+    RangeSliderComponent,
     SliderComponent,
     SwitchComponent,
 

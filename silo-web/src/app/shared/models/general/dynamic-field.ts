@@ -2,7 +2,7 @@ import { ValidatorFn } from "@angular/forms";
 
 export interface DynamicField {
     controlName: string,
-    controlType: 'text' | 'textarea' | 'number' | 'select' | 'mutipleSelect' | 'date' | 'time' | 'file' | 'quillEditor',
+    controlType: 'text' | 'textarea' | 'number' | 'select' | 'mutipleSelect' | 'date' | 'time' | 'file' | 'quillEditor' | 'rangeSlider',
     controlLabel: string,
     controlWidth: string,
     initialValue?: any,
@@ -14,6 +14,12 @@ export interface DynamicField {
     validators?: ValidatorFn[] | null,
     order: number,
     onBlur?: (value: any, field: DynamicField) => void;
+
+    rangeMin?: number,
+    rangeMax?: number,
+    rangeStep?: number,
+    rangePrefix?: string,
+    rangeSuffix?: string
 }
 
 export interface DynamicFormButton {

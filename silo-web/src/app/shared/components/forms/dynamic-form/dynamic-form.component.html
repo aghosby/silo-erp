@@ -66,6 +66,19 @@
                     </mat-error>
                 </mat-form-field>
 
+                <!-- Range Slider -->
+                <ng-container *ngSwitchCase="'rangeSlider'">
+                    <app-range-slider
+                        [formControlName]="field.controlName"
+                        [label]="field.controlLabel"
+                        [min]="field.rangeMin"
+                        [max]="field.rangeMax"
+                        [step]="field.rangeStep"
+                        [prefix]="field.rangePrefix"
+                        [suffix]="field.rangeSuffix"
+                    ></app-range-slider>
+                </ng-container>
+
                 <!-- Quill Editor -->
                 <ng-container *ngSwitchCase="'quillEditor'">
                     <label class="quill-label">{{field.controlLabel}}</label>
