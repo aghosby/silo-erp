@@ -9,7 +9,7 @@
 
 .table-wrapper {
     overflow: auto;
-    max-height: 55vh;
+    max-height: 40rem;
 }
 
 table {
@@ -41,7 +41,7 @@ th, td {
     border-bottom: 1px solid var(--black-tint-sm);
 }
 td {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-family: var(--font-regular);
     letter-spacing: 0.03rem;
 }

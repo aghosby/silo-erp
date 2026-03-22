@@ -288,14 +288,6 @@ export class SubscriptionHistoryComponent implements OnInit {
     return this.selectedPlan?.price - this.currentPlan?.price;
   }
 
-  getPlanCode(planRegions:any[]) {
-    const selectedRegion:any = planRegions.find(p => p.regionId === selectedRegion);
-
-    if (!selectedRegion) return null;
-
-    return this.billingCycleMonthly ? selectedRegion.monthly?.plan_code : selectedRegion.annually?.plan_code;
-  }
-
   getSubscriptionCurrency(): string {
     const region = this.regions.find(x => x._id === this.selectedRegion);
     return region?.currencySymbol || '$';
@@ -340,6 +332,15 @@ export class SubscriptionHistoryComponent implements OnInit {
       },
       error: err => {}
     })
+  }
+
+  getPlanCode(planRegions:any[]) {
+    console.log('Region', this.selectedRegion)
+    const selectedRegion:any = planRegions.find(p => p.regionId === this.selectedRegion);
+
+    if (!selectedRegion) return null;
+
+    return this.billingCycleMonthly ? selectedRegion.monthly?.plan_code : selectedRegion.annually?.plan_code;
   }
 
   verifySubscription(refNo:string) {
