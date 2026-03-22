@@ -1,0 +1,56 @@
+<div class="slider-wrapper" [class.disabled]="disabled">
+    <div class="slider-header" *ngIf="label || showValue">
+        <span class="slider-label" *ngIf="label">{{ label }}</span>
+
+        <span class="slider-value" *ngIf="showValue">
+        {{ displayValue }}
+        </span>
+    </div>
+
+    <div
+        #track
+        class="slider-track"
+        (click)="onTrackClick($event)"
+    >
+        <div
+            class="slider-fill"
+            [style.left.%]="fillLeft"
+            [style.width.%]="fillWidth"
+        ></div>
+
+        <div
+            class="slider-thumb"
+            tabindex="0"
+            role="slider"
+            [style.left.%]="minPercentage"
+            [attr.aria-label]="label ? label + ' minimum' : 'Minimum value'"
+            [attr.aria-valuemin]="min"
+            [attr.aria-valuemax]="maxValue"
+            [attr.aria-valuenow]="minValue"
+            [attr.aria-valuetext]="formatValue(minValue)"
+            [attr.aria-disabled]="disabled"
+            (mousedown)="onThumbMouseDown($event, 'min')"
+            (keydown)="onKeyDown($event, 'min')"
+        ></div>
+
+        <div
+            class="slider-thumb"
+            tabindex="0"
+            role="slider"
+            [style.left.%]="maxPercentage"
+            [attr.aria-label]="label ? label + ' maximum' : 'Maximum value'"
+            [attr.aria-valuemin]="minValue"
+            [attr.aria-valuemax]="max"
+            [attr.aria-valuenow]="maxValue"
+            [attr.aria-valuetext]="formatValue(maxValue)"
+            [attr.aria-disabled]="disabled"
+            (mousedown)="onThumbMouseDown($event, 'max')"
+            (keydown)="onKeyDown($event, 'max')"
+        ></div>
+    </div>
+
+    <div class="slider-meta">
+        <span>{{ formatValue(min) }}</span>
+        <span>{{ formatValue(max) }}</span>
+    </div>
+</div>

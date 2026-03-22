@@ -30,6 +30,7 @@ import { RecruitmentPortalComponent } from './recruitment/recruitment-portal/rec
 import { RecruitmentOverviewComponent } from './recruitment/recruitment-overview/recruitment-overview.component';
 import { RecruitmentJobBoardComponent } from './recruitment/recruitment-job-board/recruitment-job-board.component';
 import { RecruitmentMasterListComponent } from './recruitment/recruitment-master-list/recruitment-master-list.component';
+import { RecruitmentJobInfoComponent } from './recruitment/recruitment-job-info/recruitment-job-info.component';
 
 const routes: Routes = [
   {
@@ -124,6 +125,10 @@ const routes: Routes = [
       {
         path : 'jobs',
         component: RecruitmentJobBoardComponent
+      },
+      {
+        path : 'jobs/new',
+        component: RecruitmentJobInfoComponent
       },
       {
         path : 'master-list',

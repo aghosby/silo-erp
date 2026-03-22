@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HrService } from '@services/hr/hr.service';
 import { ModalService } from '@services/utils/modal.service';
 import { NotificationService } from '@services/utils/notification.service';
@@ -13,6 +14,8 @@ export class RecruitmentJobBoardComponent implements OnInit {
   jobRoles!:any[];
 
   constructor(
+    private router: Router,
+    private route: ActivatedRoute,
     private modalService: ModalService,
     private hrService: HrService,
     private notify: NotificationService
@@ -27,6 +30,6 @@ export class RecruitmentJobBoardComponent implements OnInit {
   }
 
   openJobInfoForm() {
-
+    this.router.navigate(['new'], { relativeTo: this.route });
   }
 }

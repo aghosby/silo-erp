@@ -647,8 +647,13 @@ export class HrService {
   /*************** RECRUITMENT RELATED ACTIONS ***************/
 
   //Create a new job role
-  public createJobRole(info: any): Observable<any> {
+  public createJobPost(info: any): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/createJobListing`, info, this.requestOptions);
+  }
+
+  //Update Job Post
+  public updateJobPost(data: any, jobId: any): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/updateJobListing/${jobId}`, data, this.requestOptions);
   }
 
   //Delete Job Post

@@ -130,7 +130,7 @@ export class RecruitmentOverviewComponent implements OnInit {
   ) {}
 
   openJobInfoForm() {
-
+    this.router.navigate(['../jobs/new'], { relativeTo: this.route });
   }
 
   ngOnInit(): void {
