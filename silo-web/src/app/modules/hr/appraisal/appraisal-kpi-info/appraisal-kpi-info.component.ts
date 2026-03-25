@@ -119,7 +119,7 @@ export class AppraisalKpiInfoComponent implements OnInit {
     console.log("Default submit:", payload);
     payload = {
       ...payload,
-      group: this.data.data.groupId,
+      group: this.data.data._id,
     }
     this.data.isExisting ? 
     this.hrService.updateKpi(payload, this.data.data._id).subscribe({
