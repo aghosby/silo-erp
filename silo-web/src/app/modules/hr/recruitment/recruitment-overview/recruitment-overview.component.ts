@@ -6,7 +6,7 @@ import { AuthService } from '@services/utils/auth.service';
 import { ModalService } from '@services/utils/modal.service';
 import { NotificationService } from '@services/utils/notification.service';
 import { UtilityService } from '@services/utils/utility.service';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, catchError, combineLatest, debounceTime, of, Subject, switchMap, takeUntil, tap } from 'rxjs';
 
 @Component({
   selector: 'app-recruitment-overview',
@@ -46,7 +46,7 @@ export class RecruitmentOverviewComponent implements OnInit {
       sortable: false
     },
     {
-      key: "department",
+      key: "departmentName",
       label: "Department",
       order: 2,
       columnWidth: "12%",
@@ -62,7 +62,7 @@ export class RecruitmentOverviewComponent implements OnInit {
       sortable: true
     },
     {
-      key: "datePosted",
+      key: "openingDate",
       label: "Date Posted",
       order: 4,
       columnWidth: "12%",
@@ -79,7 +79,7 @@ export class RecruitmentOverviewComponent implements OnInit {
       sortable: true
     },
     {
-      key: "deadline",
+      key: "closingDate",
       label: "Deadline",
       order: 6,
       columnWidth: "10%",
@@ -135,7 +135,33 @@ export class RecruitmentOverviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.getDepartments();
-    this.tableData = [];
+    
+    // Reactive pipeline
+    const tableData$ = combineLatest([
+      this.search$.pipe(
+        debounceTime(300)
+      ), 
+      this.filters$, 
+      this.paging$
+      ]
+    ).pipe(
+      takeUntil(this.unsubscribe$),
+      tap(() => (this.isLoading = true)),
+      switchMap(([search, filters, paging]) =>
+        this.hrService.getJobRoles(paging.page, paging.pageSize, search, filters).pipe(
+          catchError(() => of({ data: [], total: 0 })) // fallback if API fails
+        )
+      )
+    )
+      
+    tableData$.subscribe(res => {
+      console.log('Requests', res)
+      this.tableData = res.data;
+      this.paging.total = res.totalRecords;
+      this.isLoading = false;
+    });
+
+    this.search$.next('');
   }
 
   ngOnDestroy() {
