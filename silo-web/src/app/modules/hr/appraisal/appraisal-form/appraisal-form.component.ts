@@ -276,9 +276,17 @@ export class AppraisalFormComponent implements OnInit {
       if(this.appraisalPeriods.length > 0) {
         this.currentPeriodId = this.appraisalPeriods[0]._id;
         if(this.currentPeriodId) this.getPageData();
+        this.periodOptions = this.utils.arrayToObject(this.appraisalPeriods, 'appraisalPeriodName');
       } 
     }) 
   }
+
+  onPeriodChange(newPeriod: string) {
+    // Call your function to update chart data
+    this.currentPeriodId = newPeriod;
+    this.getAppraisalPeriodDetails(this.currentPeriodId);
+  }
+
 
   getPageData = async () => {
     // KPI Rating Form Declaration
@@ -286,7 +294,11 @@ export class AppraisalFormComponent implements OnInit {
       kpiGroups: this.fb.array([])
     });
 
-    const periodinView$ = this.hrService.getEmployeeAppraisalDetails(this.employeeInViewId, this.currentPeriodId).subscribe(res => {
+    this.getAppraisalPeriodDetails(this.currentPeriodId);
+  }
+
+  getAppraisalPeriodDetails(periodId:string) {
+    const periodinView$ = this.hrService.getEmployeeAppraisalDetails(this.employeeInViewId, periodId).subscribe(res => {
       this.periodInView = res.data;
       console.log(this.periodInView)
       this.appraisalPending = this.periodInView?.status == 'Pending';
@@ -311,7 +323,6 @@ export class AppraisalFormComponent implements OnInit {
         this.appraisalForm.get('employeePotential')?.setValue(String(this.periodInView.matrixScore[1]));
       }
     })
-    
   }
 
   populateGrps() {
