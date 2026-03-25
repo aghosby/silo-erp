@@ -26,6 +26,14 @@
                 <div class="title">Submissions</div>
             </div>
             <div class="request-container">
+                <div *ngIf="appraisalRequests && !appraisalRequests.length" class="request wrap w-100 justify-content-center">
+                    <app-no-data 
+                        [height]="'15rem'"
+                        [message]="'There are no appraisal requests'" 
+                        [imageUrl]="'assets/img/project/illustrations/entity.png'" 
+                        [messageFontSize]="'1rem'"
+                    ></app-no-data>
+                </div>
                 <div class="request-wrap">
                     <div *ngFor="let employee of appraisalRequests" class="request-hld">
                         <div class="inner pending"
@@ -60,9 +68,6 @@
             </div>
 
             <div class="card-cont py-3 px-3 d-flex justify-content-end">
-                
-                
-                
                 
                 <div class="matrix-wrap">
                     <div *ngFor="let slot of matrixSlots; let i = index" class="cont matrix-hld">
