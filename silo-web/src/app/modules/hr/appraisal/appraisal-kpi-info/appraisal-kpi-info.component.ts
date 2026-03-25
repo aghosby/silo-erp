@@ -93,7 +93,7 @@ export class AppraisalKpiInfoComponent implements OnInit {
         controlType: 'textarea',
         controlLabel: 'Description',
         controlWidth: '100%',
-        initialValue: this.data.isExisting ? this.data.data.description : null,
+        initialValue: this.data.isExisting ? this.data.data.kpiDescription : null,
         validators: null,
         order: 8
       }
@@ -116,7 +116,7 @@ export class AppraisalKpiInfoComponent implements OnInit {
   handleFormAction(event: any) {
     this.isLoading = true;
     let payload = event.value;
-    console.log("Default submit:", payload);
+    console.log("Default submit:", payload, this.data);
     payload = {
       ...payload,
       group: this.data.data._id,
