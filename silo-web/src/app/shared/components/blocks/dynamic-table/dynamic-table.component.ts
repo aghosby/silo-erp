@@ -30,9 +30,11 @@ export class DynamicTableComponent implements OnInit {
   @Input() exportingData = false;
   @Input() bulkActions: { label: string; action: string; icon: any }[] = [];
   @Input() statusConfig: { [key: string]: { label: string; class: string } } = {
-    pending: { label: 'Pending', class: 'table-status status-pending' },
     active: { label: 'Active', class: 'table-status status-active' },
+    approved: { label: 'Approved', class: 'table-status status-active' },
+    declined: { label: 'Declined', class: 'table-status status-inactive' },
     inactive: { label: 'Inactive', class: 'table-status status-inactive' },
+    pending: { label: 'Pending', class: 'table-status status-pending' },
   };
 
   @Output() pagingChange = new EventEmitter<IPaging>();

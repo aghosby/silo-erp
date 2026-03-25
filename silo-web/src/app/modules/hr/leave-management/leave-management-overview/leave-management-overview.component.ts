@@ -195,7 +195,7 @@ export class LeaveManagementOverviewComponent implements OnInit {
     )
       
     leaveHistory$.subscribe(res => {
-      console.log('Requests', res)
+      //console.log('Requests', res)
       this.requestedApprovals = res.data;
       this.approvedRequests = this.requestedApprovals.filter(item => {
         return item.status === 'Approved';

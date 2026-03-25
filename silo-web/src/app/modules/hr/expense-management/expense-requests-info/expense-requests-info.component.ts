@@ -146,7 +146,7 @@ export class ExpenseRequestsInfoComponent implements OnInit {
       Object.keys(formValue).forEach(k => formData.append(k, formValue[k] ?? ''));
 
       this.data.isExisting ? 
-      this.hrService.updateLeaveRequest(formData, this.data.data._id).subscribe({
+      this.hrService.updateExpenseRequest(formData, this.data.data._id).subscribe({
         next: res => {
           //console.log('Update Response', res)
           if(res.success) this.notify.showSuccess('Your leave application has been updated successfully');
@@ -158,7 +158,7 @@ export class ExpenseRequestsInfoComponent implements OnInit {
         }
       }) 
       :
-      this.hrService.createLeaveRequest(formData).subscribe({
+      this.hrService.createExpenseRequest(formData).subscribe({
         next: res => {
           console.log('Create Response', res)
           if(res.success) this.notify.showSuccess('Your leave application has been sent successfully');

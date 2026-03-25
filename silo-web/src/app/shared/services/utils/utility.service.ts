@@ -70,7 +70,7 @@ export class UtilityService {
     return {
       // string values
       'Active': 'active',
-      'Approved': 'active',
+      'Approved': 'approved',
       'Pending': 'pending',
       'Declined': 'declined',
 
