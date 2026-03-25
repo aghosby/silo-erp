@@ -122,11 +122,6 @@ export class HrService {
   public getEmployees(pageNo?:number, pageSize?:number, searchParam?:string, filters?:any): Observable<any> {
     const url = `${this.baseUrl}/fetchEmployees`;
     return this.getPagedData$(url, pageNo, pageSize, searchParam, filters);
-    // const params: { [k: string]: any } = { page: pageNo ?? 1, limit: pageSize ?? 10 }; 
-    // if (searchParam) params['search'] = searchParam; 
-    // Object.assign(params, filters || {});
-    // const url = buildUrlWithParams(`${this.baseUrl}/fetchEmployees`, params);
-    // return this.http.get<any>(url, this.requestOptions);
   }
 
   //Get an employee details
