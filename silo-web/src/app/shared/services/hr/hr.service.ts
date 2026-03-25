@@ -657,13 +657,18 @@ export class HrService {
   }
 
   //Delete Job Post
-  public deleteJobRole(roleId: any): Observable<any> {
+  public deleteJobPost(roleId: any): Observable<any> {
     return this.http.delete<any>(`${this.baseUrl}/deleteJobListing/${roleId}`, this.requestOptions);
   }
 
   //Get the list of all Job Roles
   public getJobRoles(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/fetchJobListings`, this.requestOptions);
+  }
+
+  //Get job post details
+  public getJobPostdetails(jobId: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/fetchJobListing/${jobId}`, this.requestOptions);
   }
 
   //Get the list of all applicants

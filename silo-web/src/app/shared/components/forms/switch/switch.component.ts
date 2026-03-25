@@ -1,7 +1,9 @@
 import {
   Component,
+  EventEmitter,
   forwardRef,
-  Input
+  Input,
+  Output
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -21,22 +23,23 @@ import {
   ]
 })
 export class SwitchComponent implements ControlValueAccessor {
-
   @Input() disabled = false;
-  value = false;
+  @Input() value = false;
 
-  onChange: any = () => {};
-  onTouched: any = () => {};
+  @Output() valueChange = new EventEmitter<boolean>();
+
+  onChange: (value: boolean) => void = () => {};
+  onTouched: () => void = () => {};
 
   writeValue(value: boolean): void {
     this.value = !!value;
   }
 
-  registerOnChange(fn: any): void {
+  registerOnChange(fn: (value: boolean) => void): void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: any): void {
+  registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
   }
 
@@ -44,10 +47,14 @@ export class SwitchComponent implements ControlValueAccessor {
     this.disabled = isDisabled;
   }
 
-  toggle(event: Event) {
+  toggle(event: Event): void {
+    if (this.disabled) return;
+
     const checked = (event.target as HTMLInputElement).checked;
     this.value = checked;
+
     this.onChange(checked);
     this.onTouched();
+    this.valueChange.emit(checked);
   }
 }

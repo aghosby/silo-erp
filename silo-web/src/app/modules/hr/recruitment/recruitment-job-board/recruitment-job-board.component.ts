@@ -32,4 +32,41 @@ export class RecruitmentJobBoardComponent implements OnInit {
   openJobInfoForm() {
     this.router.navigate(['new'], { relativeTo: this.route });
   }
+
+  onSwitchChange(checked: boolean, jobInfo:any): void {
+    console.log('New value:', checked);
+  }
+
+  viewRow(row: any) {
+    //console.log('View', row);
+    this.router.navigate([row._id], { relativeTo: this.route });
+    //this.router.navigate(['/app/hr/employees', row._id]);
+  }
+
+  //Delete a job post
+  deleteRow(row: any) {
+    //console.log('Delete', row);
+    this.notify.confirmAction({
+      title: 'Remove Job Post',
+      message: 'Are you sure you want to remove this job post?',
+      confirmText: 'Remove Job Post',
+      cancelText: 'Cancel',
+    }).subscribe((confirmed) => {
+      if (confirmed) {
+        this.hrService.deleteJobPost(row._id).subscribe({
+          next: res => {
+            // console.log(res);
+            if(res.status == 200) {
+              this.notify.showInfo('This job post has been deleted successfully');
+            }
+            this.getJobRoles();
+            //this.search$.next('');
+          },
+          error: err => {
+            //console.log(err)
+          } 
+        })
+      }
+    });
+  }
 }
