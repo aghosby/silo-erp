@@ -20,6 +20,7 @@ export class AppraisalOverviewComponent implements OnInit {
 
   payrollCredits:any;
   payrollDebits:any;
+  isLoading:boolean = false;
 
   keepOrder = () => 0;
 
@@ -40,14 +41,22 @@ export class AppraisalOverviewComponent implements OnInit {
   }
 
   getAppraisalRequests(periodId:string) {
+    this.isLoading = true;
     this.hrService.getAppraisalRequests(periodId).subscribe({
       next: res => {
-        this.appraisalRequests = res.data
+        this.appraisalRequests = res.data;
+        this.isLoading = false;
       },
       error: err => {
         this.appraisalRequests = [];
+        this.isLoading = false;
       }
     });
+  }
+
+  onPeriodChange(newPeriod: string) {
+    // Call your function to update chart data
+    this.getAppraisalRequests(newPeriod);
   }
 
 

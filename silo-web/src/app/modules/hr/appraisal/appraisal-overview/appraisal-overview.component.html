@@ -8,6 +8,7 @@
                 disableOptionCentering
                 panelClass="compact-dropdown"
                 [(ngModel)]="periodName"
+                (ngModelChange)="onPeriodChange($event)"
                 style="font-size: 0.7rem;"
             >
                 <mat-option *ngFor="let option of periodOptions | keyvalue: keepOrder" [value]="option.key">{{option.value}}</mat-option>
@@ -26,7 +27,11 @@
                 <div class="title">Submissions</div>
             </div>
             <div class="request-container">
-                <div *ngIf="appraisalRequests && !appraisalRequests.length" class="request wrap w-100 justify-content-center">
+                <!-- LOADER -->
+                <div *ngIf="isLoading" class="request-wrap w-100 d-flex justify-content-center">
+                    <app-data-loading></app-data-loading>
+                </div>
+                <div *ngIf="!isLoading && appraisalRequests && !appraisalRequests.length" class="request wrap w-100 justify-content-center">
                     <app-no-data 
                         [height]="'15rem'"
                         [message]="'There are no appraisal requests'" 
@@ -34,12 +39,13 @@
                         [messageFontSize]="'1rem'"
                     ></app-no-data>
                 </div>
-                <div class="request-wrap">
+                <div *ngIf="!isLoading && appraisalRequests && appraisalRequests.length" class="request-wrap">
                     <div *ngFor="let employee of appraisalRequests" class="request-hld">
                         <div class="inner pending"
                             [ngClass]="{
                                 'inReview': employee.status == 'Awaiting Manager Review',
-                                'reviewed': employee.status == 'Manager reviewed'
+                                'reviewed': employee.status == 'Manager reviewed',
+                                'pending': employee.status === 'Pending'
                             }"
                         >
                             <div class="det">
@@ -47,12 +53,12 @@
                                 <div class="info">
                                     <div class="title">{{employee.fullName}}</div>
                                     <div class="role">
-                                        <span>{{employee.designationName}}</span>
+                                        <span>{{employee.designation}}</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="det mt-3">
-                                <span class="date">{{employee.employmentStartDate | date: 'dd MMMM, yyyy | hh:mm a'}}</span>
+                                <span class="date">{{employee.employeeSubmissionDate | date: 'dd MMMM, yyyy | hh:mm a'}}</span>
                             </div>
                         </div>
                     </div>

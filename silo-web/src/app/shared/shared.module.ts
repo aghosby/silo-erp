@@ -77,6 +77,7 @@ import { SwitchComponent } from './components/forms/switch/switch.component';
 import { SliderComponent } from './components/forms/slider/slider.component';
 import { RangeSliderComponent } from './components/forms/range-slider/range-slider.component';
 import { LocaleDatePipe } from './pipes/locale-date.pipe';
+import { DataLoadingComponent } from './components/blocks/data-loading/data-loading.component';
 
 const SHARED_COMP = [
   MatFormFieldModule,
@@ -120,6 +121,7 @@ const SHARED_COMP = [
     ToastComponent,
     LottieAnimationComponent,
     AreaChartComponent,
+    DataLoadingComponent,
     DateScrollSelectionComponent,
     PieChartComponent,
     BarChartComponent,
@@ -170,6 +172,7 @@ const SHARED_COMP = [
     ReactiveFormsModule,
     ...SHARED_COMP,
     CalendarEventPopupComponent,
+    DataLoadingComponent,
     DateScrollSelectionComponent,
     LottieAnimationComponent,
     ConfirmationModalComponent,
