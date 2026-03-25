@@ -327,8 +327,9 @@ export class HrService {
   }
 
   //Get the list of all expense applications
-  public getExpenseRequests(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/fetchExpenseRequests`, this.requestOptions);
+  public getExpenseRequests(pageNo?:number, pageSize?:number, searchParam?:string, filters?:any): Observable<any> {
+    const url = `${this.baseUrl}/fetchExpenseRequests`;
+    return this.getPagedData$(url, pageNo, pageSize, searchParam, filters);
   }
 
   //Get the list of all requested expense applications
@@ -657,8 +658,9 @@ export class HrService {
   }
 
   //Get the list of all Job Roles
-  public getJobRoles(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/fetchJobListings`, this.requestOptions);
+  public getJobRoles(pageNo?:number, pageSize?:number, searchParam?:string, filters?:any): Observable<any> {
+    const url = `${this.baseUrl}/fetchJobListings`;
+    return this.getPagedData$(url, pageNo, pageSize, searchParam, filters);
   }
 
   //Get job post details

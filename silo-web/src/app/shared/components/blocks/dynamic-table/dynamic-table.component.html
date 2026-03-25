@@ -118,7 +118,7 @@
 
                             <!-- AMOUNT -->
                             <span *ngSwitchCase="'amount'">
-                                {{ row[col.key] | localeString }}
+                                {{currency}} {{ row[col.key] | localeString }}
                             </span>
 
                             <!-- IMAGE CELL -->

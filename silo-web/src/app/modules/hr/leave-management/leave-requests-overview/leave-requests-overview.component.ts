@@ -7,6 +7,7 @@ import { UtilityService } from '@services/utils/utility.service';
 import { LeaveRequestInfoComponent } from '../leave-request-info/leave-request-info.component';
 import { FilterConfig, TableColumn } from '@models/general/table-data';
 import { BehaviorSubject, catchError, combineLatest, debounceTime, of, Subject, switchMap, takeUntil, tap } from 'rxjs';
+import { NotificationService } from '@services/utils/notification.service';
 
 @Component({
   selector: 'app-leave-requests-overview',
@@ -117,6 +118,7 @@ export class LeaveRequestsOverviewComponent implements OnInit {
     private utils: UtilityService,
     private hrService: HrService,
     private modalService: ModalService,
+    private notify: NotificationService
   ) {
 
   }
@@ -208,6 +210,10 @@ export class LeaveRequestsOverviewComponent implements OnInit {
   }
 
   openLeaveModal(modalData?:any) {
+    if(modalData.status !== 'Pending') {
+      this.notify.showInfo('Your request has been actioned. Please reach out to your manager for further information.');
+      return;
+    }
     const modalConfig:any = {
       isExisting: modalData ? true : false,
       width: '35%',

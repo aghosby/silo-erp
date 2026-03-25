@@ -180,6 +180,19 @@
             color: var(--red-theme);
         }
     }
+
+    &-leave {
+        background: linear-gradient(180deg, #ecfeff 0%, #cffafe 100%);
+        border-color: #a5f3fc;
+        color: #155e75;
+
+        .event-chip,
+        &.month-pill {
+            background: rgba(6, 182, 212, 0.12);
+            //color: #0891b2;
+            color: var(--cyan-theme);
+        }
+    }
 }
 
 .event-type-meeting {

@@ -69,6 +69,7 @@ export class UtilityService {
   get statusMap() {
     return {
       // string values
+      'active': 'active',
       'Active': 'active',
       'Approved': 'approved',
       'Pending': 'pending',
