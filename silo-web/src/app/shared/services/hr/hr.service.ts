@@ -552,6 +552,11 @@ export class HrService {
     return this.http.patch<any>(`${this.baseUrl}/updatePayrollEntry/${entryId}`, data, this.requestOptions);
   }
 
+  //Get details of employee expense applications on a graph
+  public getPayrollGraph(year?:number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/payrollGraph/${year}`, this.requestOptions);
+  }
+
   /*************** ATTENDANCE RELATED ACTIONS ***************/
 
   //Get the attendance list

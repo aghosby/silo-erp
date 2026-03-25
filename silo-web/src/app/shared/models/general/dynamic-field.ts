@@ -15,6 +15,7 @@ export interface DynamicField {
     order: number,
     onBlur?: (value: any, field: DynamicField) => void;
 
+    numberMax?:any,
     rangeMin?: number,
     rangeMax?: number,
     rangeStep?: number,

@@ -86,10 +86,7 @@ export class AttendanceLogComponent implements OnInit {
       columnWidth: "10%",
       cellStyle: "width: 100%",
       type: 'status',
-      statusMap: {
-        true: 'active',
-        false: 'pending'
-      },
+      statusMap: this.utils.statusMap,
       sortable: true
     }
   ]

@@ -4,6 +4,7 @@
         .top {
             display: flex;
             align-items: center;
+            flex-wrap: wrap;
             gap: 0.85rem;
 
             .img-wrap {
@@ -35,6 +36,16 @@
                         font-family: var(--font-medium);
                         color: black;
                     }
+                }
+            }
+
+            .event-link {
+                a {
+                    font-size: 0.8rem;
+                    font-family: var(--font-regular);
+                    text-decoration: none;
+                    outline: none;
+                    color: var(--primary);
                 }
             }
         }

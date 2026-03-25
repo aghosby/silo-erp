@@ -23,6 +23,8 @@ export class PayrollOverviewComponent implements OnInit {
 
   chartYear: string = new Date().getFullYear().toString();
   chartYearOptions:any = {};
+  graphDetails!:any;
+  graphValues!:any;
 
   keepOrder = () => 0;
 
@@ -124,6 +126,7 @@ export class PayrollOverviewComponent implements OnInit {
     this.loggedInUser = this.authService.loggedInUser;
     this.currency = this.utils.currency;
     this.chartYearOptions = this.utils.generateYearOptions(Number(this.chartYear));
+    this.getPayrollGraph(Number(this.chartYear))
     this.loggedInUser.isSuperAdmin ? 
     this.tableColumns.push({
       key: "actions",
@@ -183,6 +186,22 @@ export class PayrollOverviewComponent implements OnInit {
   ngOnDestroy() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+  }
+
+  getPayrollGraph(year:any) {
+    this.hrService.getPayrollGraph(Number(year)).subscribe(res => {
+      this.graphDetails = res.data;
+      console.log(this.graphDetails);
+      this.graphValues = this.utils.getMonthlyAreaChartValues(this.graphDetails);
+      console.log(this.graphValues)
+    })
+  }
+
+  onChartYearChange(newYear: string) {
+    console.log('Selected year:', newYear);
+
+    // Call your function to update chart data
+    this.getPayrollGraph(newYear);
   }
 
   // Search input

@@ -53,6 +53,7 @@ export class AppraisalKpisComponent implements OnInit {
     .subscribe(result => {
       if (result.action === 'submit' && result.dirty) {
         //this.search$.next('');
+        this.getKpiGroups();
       }
     });
   }
@@ -71,6 +72,7 @@ export class AppraisalKpisComponent implements OnInit {
     .subscribe(result => {
       if (result.action === 'submit' && result.dirty) {
         //this.search$.next('');
+        this.getKpiGroups();
       }
     });
   }
