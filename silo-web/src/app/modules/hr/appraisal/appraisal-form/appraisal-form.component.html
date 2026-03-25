@@ -13,6 +13,7 @@
                         disableOptionCentering
                         panelClass="compact-dropdown"
                         [(ngModel)]="periodName"
+                        (ngModelChange)="onPeriodChange($event)"
                         style="font-size: 0.7rem;"
                     >
                         <mat-option *ngFor="let option of periodOptions | keyvalue: keepOrder" [value]="option.key">{{option.value}}</mat-option>
