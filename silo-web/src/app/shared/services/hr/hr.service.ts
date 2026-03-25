@@ -348,6 +348,11 @@ export class HrService {
     return this.http.patch<any>(`${this.baseUrl}/expenseAction`, expenseDetails, this.requestOptions);
   }
 
+  //Get details of employee expense applications on a graph
+  public getExpenseGraph(year?:number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/expenseGraph/${year}`, this.requestOptions);
+  }
+
 
   /*************** APPRAISAL PERIODS RELATED ACTIONS ***************/
 

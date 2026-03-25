@@ -17,7 +17,8 @@ import { ExpenseRequestsInfoComponent } from '../expense-requests-info/expense-r
 export class ExpenseManagementOverviewComponent implements OnInit {
   requestedApprovals!: any[];
   approvedRequests!: any[];
-  leaveGraphDetails:any;
+  expenseGraphDetails:any;
+  expenseGraphValues!:any[];
   expenseTypes: any[] = [];
   currency:string = '';
 
@@ -101,11 +102,7 @@ export class ExpenseManagementOverviewComponent implements OnInit {
       columnWidth: "10%",
       cellStyle: "width: 100%",
       type: 'status',
-      statusMap: {
-        'Approved': 'active',
-        'Pending': 'pending',
-        'Declined': 'declined'
-      },
+      statusMap: this.utils.statusMap,
       sortable: true
     },
     {
@@ -134,6 +131,7 @@ export class ExpenseManagementOverviewComponent implements OnInit {
   ngOnInit(): void {
     this.currency = this.utils.currency;
     this.chartYearOptions = this.utils.generateYearOptions(Number(this.chartYear));
+    this.getExpenseGraph(Number(this.chartYear));
     this.hrService.getExpenseTypes().subscribe(res => {
       this.expenseTypes = res.data;
       this.buildFilters();
@@ -173,6 +171,22 @@ export class ExpenseManagementOverviewComponent implements OnInit {
   ngOnDestroy() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+  }
+
+  getExpenseGraph(year:any) {
+    this.hrService.getExpenseGraph(Number(year)).subscribe(res => {
+      this.expenseGraphDetails = res.data;
+      console.log(this.expenseGraphDetails);
+      this.expenseGraphValues = this.utils.getMonthlyAreaChartValues(this.expenseGraphDetails);
+      console.log(this.expenseGraphValues)
+    })
+  }
+
+  onChartYearChange(newYear: string) {
+    console.log('Selected year:', newYear);
+
+    // Call your function to update chart data
+    this.getExpenseGraph(newYear);
   }
 
   // Search input
@@ -233,7 +247,7 @@ export class ExpenseManagementOverviewComponent implements OnInit {
   openApprovalModal(modalData?:any) {
     const modalConfig:any = {
       isExisting: modalData ? true : false,
-      width: '35%',
+      width: '40%',
       data: modalData,
       forApproval: true,
       expenseTypes: this.expenseTypes
