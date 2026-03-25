@@ -24,40 +24,49 @@
     <div class="legend d-flex justify-content-start align-items-center mt-lg-4">
         <span class="desc">Reference :</span>
         <div class="status-hld">
-            <span class="status started light">Applications</span>
-            <span class="status considered light">Screening</span>
-            <span class="status pending light">Interviews</span>
-            <span class="status approved light">Negotiations</span>
+            <span class="started light">Applications</span>
+            <span class="considered light">Screening</span>
+            <span class="pending light">Interviews</span>
+            <span class="approved light">Negotiations</span>
         </div>
     </div>
 
-    <div class="job-wrap">
+    <div class="job-wrap mt-3">
         <div *ngFor="let item of jobRoles" class="job-hld">
-            <div *ngIf="item.status == 'active'" class="active-status"></div>
-            <div *ngIf="item.status == 'inactive' || item.status == 'expired'" class="active-status closed"></div>
+            <div *ngIf="item.jobStatus === 'open'" class="active-status"></div>
+            <div *ngIf="item.jobStatus !== 'open'" class="active-status closed"></div>
             <div class="title">
                 <div class="text">{{item.jobTitle}}</div>
                 <!-- <div class="start">Feb 12, 2023</div> -->
             </div>
-            <div class="dept">{{item.departmentName}}</div>
+            <div class="dept">
+                <div class="hdr">Department</div>
+                <div class="name">{{item.departmentName}}</div>
+            </div>
             <div class="stages">
-                <span class="status started light">{{item.applicants ? item.applicants : 0 }}</span>
-                <span class="status considered light">{{item.shortlisted ? item.applicants : 0}}</span>
-                <span class="status pending light">{{item.interviews ? item.applicants : 0}}</span>
-                <span class="status approved light">{{item.selected ? item.selected : 0}}</span>
+                <span class="started light">{{item.applicants ? item.applicants : 0 }}</span>
+                <span class="considered light">{{item.shortlisted ? item.applicants : 0}}</span>
+                <span class="pending light">{{item.interviews ? item.applicants : 0}}</span>
+                <span class="approved light">{{item.selected ? item.selected : 0}}</span>
             </div>
             <div class="lead">
                 <div class="hdr">Hiring Manager</div>
                 <div class="name">{{item.hiringManager}}</div>
             </div>
-            <div class="publish">
-                <input type="checkbox" value="1" class="switch" />
-                <span>Publish</span>
+            <div class="publish d-flex gap-2">
+                <app-switch [value]="item.jobStatus === 'open'" (valueChange)="onSwitchChange($event, item)"></app-switch>
+                <!-- <input type="checkbox" value="1" class="switch" /> -->
+                <span *ngIf="item.jobStatus === 'draft'">{{'Publish'}}</span>
+                <span *ngIf="item.jobStatus !== 'draft'">{{item.jobStatus === 'open' ? 'Unpublish' : 'Publish'}}</span>
             </div>
             <div class="actions">
-                <span class="edit"><i class="bi bi-pen-fill"></i></span>
-                <span class="delete ms-lg-3"><i class="bi bi-trash3-fill"></i></span>
-                <span class="more ms-lg-2"><i class="bi bi-three-dots-vertical"></i></span>
+                <span (click)="viewRow(item)" class="edit">
+                    <app-icon [iconName]="'view'" [iconStrokeWidth]="2" [iconWidth]="20" [iconHeight]="20"></app-icon>
+                </span>
+                <span (click)="deleteRow(item)" class="delete ms-lg-3">
+                    <app-icon [iconName]="'trash'" [iconStrokeWidth]="2" [iconWidth]="18" [iconHeight]="18"></app-icon>
+                </span>
+                <!-- <span class="more ms-lg-2"><i class="bi bi-three-dots-vertical"></i></span> -->
             </div>
         </div>
     </div>

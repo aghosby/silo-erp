@@ -21,6 +21,9 @@ export class RecruitmentJobInfoComponent implements OnInit {
   employees:any[] = [];
   departments:any[] = [];
 
+  jobInView:any;
+  jobId!:string;
+
   constructor(
     private modalService: ModalService,
     private authService: AuthService,
@@ -32,22 +35,41 @@ export class RecruitmentJobInfoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.data = {
-      isExisting: false,
-    }
+    this.jobId = this.route.snapshot.params["id"];
 
+    if(this.jobId) {
+      this.getJobDetails(this.jobId);
+    }
+    else {
+      this.data = {
+        isExisting: false,
+      }
+    }
+    
     forkJoin({
       departments: this.hrService.getDepartments(),
       employees: this.hrService.getEmployees()
     }).subscribe(({ departments, employees }) => {
       this.departments = departments.data;
       this.employees = employees.data;
-      this.setUpForm();
+      if(!this.jobId) this.setUpForm();
     }); 
   }
 
   goBack() {
     this.utils.goBack();
+  }
+
+  getJobDetails(jobId:string) {
+    this.hrService.getJobPostdetails(jobId).subscribe(res => {
+      this.jobInView = res.data[0];
+      this.data = {
+        isExisting: true,
+        data: this.jobInView
+      }
+      console.log('Job Details', this.jobInView)
+      this.setUpForm();
+    })
   }
 
   setUpForm() {

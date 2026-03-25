@@ -108,7 +108,7 @@
 
                             <!-- DATE -->
                             <span *ngSwitchCase="'date'">
-                                {{ row[col.key] | date: 'mediumDate' }}
+                                {{ row[col.key] | localeDate }}
                             </span>
 
                             <!-- DATE TIME -->

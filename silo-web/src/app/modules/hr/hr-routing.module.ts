@@ -131,6 +131,10 @@ const routes: Routes = [
         component: RecruitmentJobInfoComponent
       },
       {
+        path : 'jobs/:id',
+        component: RecruitmentJobInfoComponent
+      },
+      {
         path : 'master-list',
         component: RecruitmentMasterListComponent
       }

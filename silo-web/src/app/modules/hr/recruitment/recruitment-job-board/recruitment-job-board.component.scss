@@ -1,8 +1,10 @@
 
 .legend {
+    font-family: var(--font-regular);
 
     .desc {
         font-size: 0.85rem;
+        font-family: var(--font-medium);
         letter-spacing: 0.03rem;
     }
 
@@ -11,12 +13,40 @@
         margin-left: 1rem;
         gap: 10px;
 
-        span {
-            font-size: 0.75rem;
-            letter-spacing: 0.03rem;
-            padding: 0.1rem 0.7rem;
-            color: var(--dark);
-        }
+        // span {
+        //     font-size: 0.75rem;
+        //     letter-spacing: 0.03rem;
+        //     padding: 0.3rem 0.7rem;
+        //     color: var(--dark);
+        // }
+    }
+}
+
+.status-hld, .stages {
+
+    span {
+        font-size: 0.75rem;
+        letter-spacing: 0.04rem;
+        line-height: 1;
+        padding: 0.4rem 0.7rem;
+        border-radius: var(--radius-lg);
+        color: var(--dark);
+    }
+
+    .started {
+        background: rgba(66, 133, 244, 0.25);
+    }
+
+    .considered {
+        background: rgba(235, 87, 87, 0.25);
+    }
+
+    .pending {
+        background: rgba(229, 166, 71, 0.25);
+    }
+
+    .approved {
+        background: rgba(54, 171, 104, 0.25);
     }
 }
 
@@ -39,11 +69,11 @@
             width: 0.5rem;
             height: 0.5rem;
             border-radius: 50%;
-            background-color: var(--approved);
+            background-color: var(--green-theme);
             display: inline-block;
             transform: scale(1);
             animation: live-pulse 1.5s infinite;
-            box-shadow: 0 0 0 0 var(--approved);
+            box-shadow: 0 0 0 0 var(--green-theme);
 
             &.closed {
                 background-color: var(--warning);
@@ -54,7 +84,7 @@
 
         .title {
             width: 20%;
-            font-size: 1rem;
+            font-size: 0.85rem;
             margin-left: 3%;
             
             .text {
@@ -70,16 +100,16 @@
 
         .dept {
             width: 18%;
-            font-size: 0.9rem;
-            letter-spacing: 0.03rem;
             margin-left: 0%;
         }
-
-        
 
         .lead {
             width: 15%;
             margin-left: 5%;
+        }
+
+        .dept, .lead {
+            line-height: 1.4;
 
             .hdr {
                 font-size: 0.7rem;
@@ -87,8 +117,9 @@
             }
             
             .name {
-                font-size: 0.9rem;
-                font-weight: 600;
+                font-size: 0.8rem;
+                letter-spacing: 0.03rem;
+                font-family: var(--font-medium);
             }
         }
 
@@ -106,6 +137,14 @@
                 justify-content: center;
                 align-items: center;
                 color: var(--dark);
+            }
+        }
+
+        .publish {
+            span {
+                font-size: 0.8rem;
+                letter-spacing: 0.03rem;
+                font-family: var(--font-regular);
             }
         }
 
@@ -128,5 +167,22 @@
                 font-size: 1rem;
             }
         }
+    }
+}
+
+@keyframes live-pulse {
+    0% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba(54, 171, 104, 0.7);
+    }
+    
+    70% {
+      transform: scale(1);
+      box-shadow: 0 0 0 10px rgba(54, 171, 104, 0);
+    }
+    
+    100% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba(54, 171, 104, 0);
     }
 }

@@ -76,6 +76,7 @@ import { CalendarEventPopupComponent } from './components/blocks/calendar/views/
 import { SwitchComponent } from './components/forms/switch/switch.component';
 import { SliderComponent } from './components/forms/slider/slider.component';
 import { RangeSliderComponent } from './components/forms/range-slider/range-slider.component';
+import { LocaleDatePipe } from './pipes/locale-date.pipe';
 
 const SHARED_COMP = [
   MatFormFieldModule,
@@ -150,6 +151,7 @@ const SHARED_COMP = [
 
     // Pipes
     TruncateWordsPipe,
+    LocaleDatePipe,
     LocaleStringPipe,
     TimeDurationPipe,
 
@@ -212,6 +214,7 @@ const SHARED_COMP = [
     TruncateWordsPipe,
     LocaleStringPipe,
     TimeDurationPipe,
+    LocaleDatePipe,
 
     // Directives
     ModalWrapperDirective,
