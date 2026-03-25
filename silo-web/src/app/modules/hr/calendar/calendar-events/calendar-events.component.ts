@@ -18,6 +18,7 @@ import { HrService } from '@services/hr/hr.service';
 import { FormControl, FormGroup, NonNullableFormBuilder } from '@angular/forms';
 import { combineLatest, debounceTime, distinctUntilChanged, map, shareReplay, startWith } from 'rxjs';
 import { addDays, addHours, endOfDay, isSameDay, toDate } from '@helpers/datetime.helper';
+import { NotificationService } from '@services/utils/notification.service';
 
 type EventType = 'meeting' | 'interview' | 'focus' | 'support' | 'travel' | 'all-day';
 type CalendarCategory =
@@ -239,7 +240,8 @@ export class CalendarEventsComponent implements OnInit {
 
   constructor(
     private hrService: HrService,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private notify: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -361,6 +363,10 @@ export class CalendarEventsComponent implements OnInit {
   }
 
   openMeetingModal(modalData?:any) {
+    if(!this.employees.length) {
+      this.notify.showInfo('Employees to be invited loading. Please try again.');
+      return;
+    }
     const modalConfig:any = {
       isExisting: modalData && modalData.title ? true : false,
       width: '40%',
@@ -484,8 +490,8 @@ export class CalendarEventsComponent implements OnInit {
 
   private mapMeetings(items: MeetingDto[]): CalendarEvent<EventMeta>[] {
     return items.map(item => {
-      const start = toDate(item.start ?? item['date'] ?? new Date());
-      const end = toDate(item.end ?? item.start ?? item['date'] ?? start);
+      const start = toDate(item['meetingStartTime'] ?? item['date'] ?? new Date());
+      const end = toDate(item['meetingEndTime'] ?? item.start ?? item['date'] ?? start);
 
       return {
         id: item._id,
