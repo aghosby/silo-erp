@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FilterConfig, TableColumn } from '@models/general/table-data';
 import { HrService } from '@services/hr/hr.service';
 import { AuthService } from '@services/utils/auth.service';
@@ -150,6 +150,7 @@ export class LeaveManagementOverviewComponent implements OnInit {
   };
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private authService: AuthService,
     private utils: UtilityService,
@@ -239,6 +240,10 @@ export class LeaveManagementOverviewComponent implements OnInit {
   onSelectionChange(event:any) {
     //console.log(event);
     this.selectedRows = event;
+  }
+
+  viewEmployee(employeeId: any) {
+    this.router.navigate([`../employees/${employeeId}`], { relativeTo: this.route });
   }
 
   buildFilters() {
