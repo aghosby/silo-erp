@@ -12,6 +12,11 @@
                 <span *ngIf="eventDetails.meta.type === 'leave'">{{eventDetails.meta.source.fullName}}</span>
                 <span *ngIf="eventDetails.meta.type !== 'leave'">{{eventDetails.title}}</span>
             </div>
+            <div *ngIf="eventDetails.meta.type === 'meeting'" class="event-link w-100">
+                <span>
+                    <a [href]="eventDetails.meta.source.meetLink" target="_blank">Join Meeting Here</a>
+                </span>
+            </div>
         </div>
         
         <div class="event-time justify-content-between">
