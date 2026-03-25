@@ -90,7 +90,7 @@ export class LeaveRequestsOverviewComponent implements OnInit {
       cellStyle: "width: 100%",
       type: 'status',
       statusMap: {
-        'Approved': 'active',
+        'Approved': 'approved',
         'Pending': 'pending',
         'Declined': 'declined'
       },

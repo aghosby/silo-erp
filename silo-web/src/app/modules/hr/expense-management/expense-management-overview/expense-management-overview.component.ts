@@ -151,7 +151,7 @@ export class ExpenseManagementOverviewComponent implements OnInit {
       takeUntil(this.unsubscribe$),
       tap(() => (this.isLoading = true)),
       switchMap(([search, filters, paging]) =>
-        this.hrService.getRequestedLeaveApprovals(paging.page, paging.pageSize, search, filters).pipe(
+        this.hrService.getRequestedExpenseApprovals(paging.page, paging.pageSize, search, filters).pipe(
           catchError(() => of({ data: [], total: 0 })) // fallback if API fails
         )
       )
