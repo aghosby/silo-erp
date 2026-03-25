@@ -168,6 +168,10 @@ export class ExpenseRequestsOverviewComponent implements OnInit {
     this.unsubscribe$.complete();
   }
 
+  getEmployeeDetails() {
+    this.hrService.getEmployeeDetails(this.loggedInUser._id).subscribe(res => this.loggedInUser = res.data);
+  }
+
   // Search input
   onSearchChange(value: string) {
     this.search$.next(value);
@@ -203,6 +207,7 @@ export class ExpenseRequestsOverviewComponent implements OnInit {
     .subscribe(result => {
       if (result.action === 'submit' && result.dirty) {
         this.search$.next('');
+        this.getEmployeeDetails();
       }
     });
   }

@@ -16,9 +16,11 @@
                             <div *ngFor="let item of leaveRequestMatrix" class="summary-hld">
                                 <div class="row-label">{{item.label}} <span>Days</span></div>
                                 <div class="row-details">
-                                    <div class="stacked-items lg ms-lg-4">
-                                        <div class="stack">
-                                            <span *ngFor="let staff of item.staff" style="background-image: url('../../../../../assets/images/illustrations/{{staff.image}}');"></span>
+                                    <div class="scroll-track">
+                                        <div class="stacked-items lg">
+                                            <div class="stack">
+                                                <span (click)="viewEmployee(staff._id)" *ngFor="let staff of item.staff" style="background-image: url('{{staff.employeeImage}}')"></span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

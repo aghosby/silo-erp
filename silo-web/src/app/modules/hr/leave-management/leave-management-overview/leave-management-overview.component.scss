@@ -64,6 +64,22 @@
 
         .row-details {
             flex: 1;
+            max-width: 85%;
+            margin-left: 2%;
+            overflow: hidden;
+
+            .scroll-track {
+                width: 100%;
+                overflow: auto;
+
+                &::-webkit-scrollbar {
+                    display: none;
+                }
+
+                .stacked-items {
+                    width: fit-content;
+                }
+            }
         }
     }
 
