@@ -72,14 +72,23 @@ export class ExpenseRequestsOverviewComponent implements OnInit {
       sortable: true
     },
     {
-      key: "dateRemitted",
-      label: "Date Remitted",
+      key: "dateOfApproval",
+      label: "Date Approved",
       order: 7,
-      columnWidth: "10%",
+      columnWidth: "12%",
       cellStyle: "width: 100%",
       type: 'datetime',
       sortable: true
     },
+    // {
+    //   key: "dateRemitted",
+    //   label: "Date Remitted",
+    //   order: 7,
+    //   columnWidth: "10%",
+    //   cellStyle: "width: 100%",
+    //   type: 'datetime',
+    //   sortable: true
+    // },
     {
       key: "status",
       label: "Status",
@@ -150,6 +159,8 @@ export class ExpenseRequestsOverviewComponent implements OnInit {
       this.paging.total = res.totalRecords;
       this.isLoading = false;
     });
+
+    this.search$.next('');
   }
 
   ngOnDestroy() {

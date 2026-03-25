@@ -7,6 +7,7 @@ import {
   OnInit
 } from '@angular/core';
 import { IPaging, TableColumn } from '@models/general/table-data';
+import { UtilityService } from '@services/utils/utility.service';
 import { debounceTime, Subject } from 'rxjs';
 
 @Component({
@@ -49,11 +50,14 @@ export class DynamicTableComponent implements OnInit {
 
   selectedRows = new Set<any>();
   showFilter = false;
+  currency:any;
 
   searchTerm = '';
   private search$ = new Subject<string>();
 
-  constructor() {
+  constructor(
+    private utils: UtilityService
+  ) {
     // Debounce to prevent API spam
     this.search$.pipe(debounceTime(300)).subscribe(value => {
       this.searchChange.emit(value);
@@ -61,7 +65,7 @@ export class DynamicTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-      
+    this.currency = this.utils.currency;
   }
 
   get showPagination(): boolean {
