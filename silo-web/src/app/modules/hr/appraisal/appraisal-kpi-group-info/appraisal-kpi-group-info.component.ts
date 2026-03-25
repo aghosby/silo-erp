@@ -87,6 +87,7 @@ export class AppraisalKpiGroupInfoComponent implements OnInit {
         controlLabel: 'Weight (%)',
         controlWidth: '48%',
         initialValue: this.data.isExisting ? this.data.data.weight : '',
+        numberMax: 100,
         validators: [Validators.required],
         order: 4
       },

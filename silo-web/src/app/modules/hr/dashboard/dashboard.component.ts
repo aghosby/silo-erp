@@ -16,6 +16,8 @@ export class DashboardComponent implements OnInit {
   loggedInUser:any;
   dateTime!: Date;
   dayStatus: string = '';
+  graphDetails!:any;
+  graphValues!:any;
 
   announcements: any[] = [
     {
@@ -106,6 +108,7 @@ export class DashboardComponent implements OnInit {
   };
   chartData:any = [];
   totalChartData:any = [];
+  chartYear: string = new Date().getFullYear().toString();
 
   constructor(
     private authService: AuthService,
@@ -122,6 +125,8 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     console.log()
     this.loggedInUser = this.authService.loggedInUser;
+    this.payrollYearOptions = this.utilityService.generateYearOptions(Number(this.chartYear));
+    this.getPayrollGraph(Number(this.chartYear))
     this.getPageData();
   }
 
@@ -135,6 +140,21 @@ export class DashboardComponent implements OnInit {
         this.generateUpcomingAnniversaries();
       }
     })
+  }
+
+  getPayrollGraph(year:any) {
+    this.hrService.getPayrollGraph(Number(year)).subscribe(res => {
+      this.graphDetails = res.data;
+      console.log(this.graphDetails);
+      this.graphValues = this.utilityService.getMonthlyAreaChartValues(this.graphDetails);
+      console.log(this.graphValues)
+    })
+  }
+
+  onChartYearChange(newYear: string) {
+
+    // Call your function to update chart data
+    this.getPayrollGraph(newYear);
   }
 
   updateDayStatus() {
