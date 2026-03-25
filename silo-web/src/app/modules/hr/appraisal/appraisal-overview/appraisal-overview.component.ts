@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { HrService } from '@services/hr/hr.service';
 import { ModalService } from '@services/utils/modal.service';
 import { AppraisalPeriodInfoComponent } from '../appraisal-period-info/appraisal-period-info.component';
+import { forkJoin } from 'rxjs';
+import { UtilityService } from '@services/utils/utility.service';
 
 @Component({
   selector: 'app-appraisal-overview',
@@ -11,6 +13,7 @@ import { AppraisalPeriodInfoComponent } from '../appraisal-period-info/appraisal
 export class AppraisalOverviewComponent implements OnInit {
   appraisalRequests!:any[];
   periodName: any;
+  appraisalPeriods!:any[];
   periodOptions:any;
   matrixItems:any[] = [];
   matrixSlots = Array(9).fill(0);
@@ -23,13 +26,30 @@ export class AppraisalOverviewComponent implements OnInit {
 
   constructor(
     private modalService: ModalService,
-    private hrService: HrService
-  ) {
+    private hrService: HrService,
+    private utils: UtilityService
+  ) {}
 
-  }
   ngOnInit(): void {
-    this.hrService.getEmployees().subscribe(res => this.appraisalRequests = res.data)
+    this.hrService.getAppraisalPeriods().subscribe(res => {
+      this.appraisalPeriods = res.data;
+      console.log('Periods', this.appraisalPeriods);
+      this.getAppraisalRequests(this.appraisalPeriods[0]._id);
+      this.periodOptions = this.utils.arrayToObject(this.appraisalPeriods, 'appraisalPeriodName');
+    });
   }
+
+  getAppraisalRequests(periodId:string) {
+    this.hrService.getAppraisalRequests(periodId).subscribe({
+      next: res => {
+        this.appraisalRequests = res.data
+      },
+      error: err => {
+        this.appraisalRequests = [];
+      }
+    });
+  }
+
 
   openPeriodModal(modalData?:any) {
     const modalConfig:any = {
