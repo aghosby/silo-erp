@@ -274,6 +274,11 @@ export class UtilityService {
     return chartYearOptions;
   }
 
+  getMonthlyAreaChartValues(data:any) {
+    const monthOrder = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    return monthOrder.map(month => data[month] || 0);
+  }
+
   //Convert string to camel case
   toCamelCase(str:string){
     return str.split(' ').map(function(word,index){

@@ -31,7 +31,7 @@ export class AppraisalKpiGroupInfoComponent implements OnInit {
     this.loggedInUser = this.authService.loggedInUser;
     this.formFields = [
       {
-        controlName: 'groupName',
+        controlName: 'name',
         controlType: 'text',
         controlLabel: 'Name',
         controlWidth: '100%',
