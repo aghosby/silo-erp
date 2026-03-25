@@ -6,7 +6,7 @@ import { ModalService } from '@services/utils/modal.service';
 import { UtilityService } from '@services/utils/utility.service';
 import { LeaveRequestInfoComponent } from '../leave-request-info/leave-request-info.component';
 import { FilterConfig, TableColumn } from '@models/general/table-data';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, catchError, combineLatest, debounceTime, of, Subject, switchMap, takeUntil, tap } from 'rxjs';
 
 @Component({
   selector: 'app-leave-requests-overview',
@@ -153,6 +153,33 @@ export class LeaveRequestsOverviewComponent implements OnInit {
       }
       return data;
     }) : tempBreakdown;
+
+    // Reactive pipeline
+    const leaveHistory$ = combineLatest([
+      this.search$.pipe(
+        debounceTime(300)
+      ), 
+      this.filters$, 
+      this.paging$
+      ]
+    ).pipe(
+      takeUntil(this.unsubscribe$),
+      tap(() => (this.isLoading = true)),
+      switchMap(([search, filters, paging]) =>
+        this.hrService.getLeaveRequests(paging.page, paging.pageSize, search, filters).pipe(
+          catchError(() => of({ data: [], total: 0 })) // fallback if API fails
+        )
+      )
+    )
+      
+    leaveHistory$.subscribe(res => {
+      console.log('Requests', res)
+      this.leaveRecords = res.data;
+      this.paging.total = res.totalRecords;
+      this.isLoading = false;
+    });
+
+    this.search$.next('');
   }
 
   ngOnDestroy() {

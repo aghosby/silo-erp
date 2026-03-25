@@ -249,8 +249,9 @@ export class HrService {
   }
 
   //Get the list of all leave applications
-  public getLeaveRequests(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/getLeaveRecords`, this.requestOptions);
+  public getLeaveRequests(pageNo?:number, pageSize?:number, searchParam?:string, filters?:any): Observable<any> {
+    const url = `${this.baseUrl}/getLeaveRecords`;
+    return this.getPagedData$(url, pageNo, pageSize, searchParam, filters);
   }
 
   //Get the list of all requested leave applications
