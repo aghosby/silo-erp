@@ -5,11 +5,12 @@
                 <img *ngIf="eventDetails.meta.type === 'meeting'" src="assets/img/project/illustrations/calendar.webp" alt="">
                 <img *ngIf="eventDetails.meta.type === 'holiday'" src="assets/img/project/illustrations/flag.webp" alt="">
                 <img *ngIf="eventDetails.meta.type === 'birthday'" src="assets/img/project/illustrations/gift.webp" alt="">
-                <img *ngIf="eventDetails.meta.type === 'leaveRecord'" src="assets/img/project/illustrations/shield.webp" alt="">
+                <img *ngIf="eventDetails.meta.type === 'leave'" src="assets/img/project/illustrations/stopwatch.webp" alt="">
             </div>
             <div class="event-title">
                 <span class="text-capitalize">{{eventDetails.meta.type}}</span>
-                <span>{{eventDetails.title}}</span>
+                <span *ngIf="eventDetails.meta.type === 'leave'">{{eventDetails.meta.source.fullName}}</span>
+                <span *ngIf="eventDetails.meta.type !== 'leave'">{{eventDetails.title}}</span>
             </div>
         </div>
         

@@ -5,7 +5,7 @@ import { AuthService } from '@services/utils/auth.service';
 import { ModalService } from '@services/utils/modal.service';
 import { UtilityService } from '@services/utils/utility.service';
 import { FilterConfig, TableColumn } from '@models/general/table-data';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, catchError, combineLatest, debounceTime, of, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { ExpenseRequestsInfoComponent } from '../expense-requests-info/expense-requests-info.component';
 
 
@@ -124,6 +124,31 @@ export class ExpenseRequestsOverviewComponent implements OnInit {
     const expenseTypes$ = this.hrService.getExpenseTypes().subscribe(res => {
       this.expenseTypes = res.data;
       this.buildFilters();
+    });
+
+    // Reactive pipeline
+    const tableData$ = combineLatest([
+      this.search$.pipe(
+        debounceTime(300)
+      ), 
+      this.filters$, 
+      this.paging$
+      ]
+    ).pipe(
+      takeUntil(this.unsubscribe$),
+      tap(() => (this.isLoading = true)),
+      switchMap(([search, filters, paging]) =>
+        this.hrService.getExpenseRequests(paging.page, paging.pageSize, search, filters).pipe(
+          catchError(() => of({ data: [], total: 0 })) // fallback if API fails
+        )
+      )
+    )
+      
+    tableData$.subscribe(res => {
+      console.log('Requests', res)
+      this.expenseRecords = res.data;
+      this.paging.total = res.totalRecords;
+      this.isLoading = false;
     });
   }
 
