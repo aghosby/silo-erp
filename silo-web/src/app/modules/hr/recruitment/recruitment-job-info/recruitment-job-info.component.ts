@@ -62,7 +62,7 @@ export class RecruitmentJobInfoComponent implements OnInit {
 
   getJobDetails(jobId:string) {
     this.hrService.getJobPostdetails(jobId).subscribe(res => {
-      this.jobInView = res.data[0];
+      this.jobInView = res.data;
       this.data = {
         isExisting: true,
         data: this.jobInView
@@ -79,7 +79,7 @@ export class RecruitmentJobInfoComponent implements OnInit {
         controlType: 'text',
         controlLabel: 'Job Title',
         controlWidth: '100%',
-        initialValue: this.data.isExisting ? this.data.data.jobTitle : null,
+        initialValue: this.data.isExisting ? this.data?.data?.jobTitle : null,
         validators: [Validators.required],
         order: 1
       },
@@ -97,7 +97,7 @@ export class RecruitmentJobInfoComponent implements OnInit {
         controlType: 'select',
         controlLabel: 'Job Type',
         controlWidth: '48%',
-        initialValue: this.data.isExisting ? this.data.data.jobType : null,
+        initialValue: this.data.isExisting ? this.data.data?.jobType : null,
         selectOptions: {
           fullTime: 'Full Time',
           partTime: 'Part Time',
@@ -111,7 +111,7 @@ export class RecruitmentJobInfoComponent implements OnInit {
         controlType: 'select',
         controlLabel: 'Work Mode',
         controlWidth: '48%',
-        initialValue: this.data.isExisting ? this.data.data.workMode : null,
+        initialValue: this.data.isExisting ? this.data.data?.workMode : null,
         selectOptions: {
           onsite: 'Onsite',
           remote: 'Remote',
@@ -134,7 +134,7 @@ export class RecruitmentJobInfoComponent implements OnInit {
         controlType: 'select',
         controlLabel: 'Department',
         controlWidth: '48%',
-        initialValue: this.data.isExisting ? this.data.data.department : null,
+        initialValue: this.data.isExisting ? this.data.data?.department : null,
         selectOptions: this.utils.arrayToObject(this.departments, 'departmentName'),
         validators: [Validators.required],
         order: 6
@@ -144,7 +144,7 @@ export class RecruitmentJobInfoComponent implements OnInit {
         controlType: 'select',
         controlLabel: 'Hiring Manager',
         controlWidth: '48%',
-        initialValue: this.data.isExisting ? this.data.data.hiringManager : null,
+        initialValue: this.data.isExisting ? this.data.data?.hiringManager : null,
         selectOptions: this.utils.arrayToObject(this.employees, 'fullName'),
         validators: [Validators.required],
         order: 7
@@ -154,7 +154,7 @@ export class RecruitmentJobInfoComponent implements OnInit {
         controlType: 'number',
         controlLabel: 'Number of Openings',
         controlWidth: '48%',
-        initialValue: this.data.isExisting ? this.data.data.noOfOpenings : null,
+        initialValue: this.data.isExisting ? this.data.data?.noOfOpenings : null,
         validators: [],
         order: 8
       },
@@ -163,7 +163,7 @@ export class RecruitmentJobInfoComponent implements OnInit {
         controlType: 'select',
         controlLabel: 'Job Status',
         controlWidth: '48%',
-        initialValue: this.data.isExisting ? this.data.data.jobStatus : 'draft',
+        initialValue: this.data.isExisting ? this.data.data?.jobStatus : 'draft',
         selectOptions: {
           draft: 'Draft',
           open: 'Open',
@@ -178,7 +178,7 @@ export class RecruitmentJobInfoComponent implements OnInit {
         controlType: 'date',
         controlLabel: 'Opening Date',
         controlWidth: '48%',
-        initialValue: this.data.isExisting ? this.data.data.openingDate : null,
+        initialValue: this.data.isExisting ? this.data.data?.openingDate : null,
         validators: [Validators.required],
         order: 10
       },
@@ -187,7 +187,7 @@ export class RecruitmentJobInfoComponent implements OnInit {
         controlType: 'date',
         controlLabel: 'Closing Date',
         controlWidth: '48%',
-        initialValue: this.data.isExisting ? this.data.data.closingDate : null,
+        initialValue: this.data.isExisting ? this.data.data?.closingDate : null,
         validators: [Validators.required],
         order: 11
       },
@@ -196,7 +196,7 @@ export class RecruitmentJobInfoComponent implements OnInit {
         controlType: 'rangeSlider',
         controlLabel: 'Job Salary',
         controlWidth: '100%',
-        initialValue: this.data.isExisting ? this.data.data.jobSalary : null,
+        initialValue: this.data.isExisting ? this.data.data?.jobSalary : null,
         validators: [Validators.required],
         order: 12,
         rangePrefix: this.utils.currency,
@@ -209,7 +209,7 @@ export class RecruitmentJobInfoComponent implements OnInit {
         controlType: 'quillEditor',
         controlLabel: 'Job Description',
         controlWidth: '100%',
-        initialValue: this.data.isExisting ? this.data.data.jobDescription : null,
+        initialValue: this.data.isExisting ? this.data.data?.jobDescription : null,
         validators: [Validators.required],
         order: 13
       }

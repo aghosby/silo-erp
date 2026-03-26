@@ -215,7 +215,7 @@ export class RecruitmentOverviewComponent implements OnInit {
 
   viewRow(row: any) {
     //console.log('View', row);
-    this.router.navigate([row._id], { relativeTo: this.route });
+    this.router.navigate([`../jobs/${row._id}`], { relativeTo: this.route });
     //this.router.navigate(['/app/hr/employees', row._id]);
   }
 

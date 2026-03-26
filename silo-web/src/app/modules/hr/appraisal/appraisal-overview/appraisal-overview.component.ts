@@ -107,9 +107,7 @@ export class AppraisalOverviewComponent implements OnInit {
   }
 
   viewAppraisalInfo(info:any) {
-    //console.log('View', row);
     this.router.navigate([`../${info.employeeId}`], { relativeTo: this.route });
-    //this.router.navigate(['/app/hr/employees', row._id]);
   }
 
   //Delete appraisal period

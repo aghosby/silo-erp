@@ -34,7 +34,7 @@ export class DynamicTableComponent implements OnInit {
     active: { label: 'Active', class: 'table-status status-active' },
     approved: { label: 'Approved', class: 'table-status status-active' },
     checkedIn: { label: 'Checked In', class: 'table-status status-active' },
-    checkedOut: { label: 'Checked Out', class: 'table-status status-active' },
+    checkedOut: { label: 'Checked Out', class: 'table-status status-inactive' },
     declined: { label: 'Declined', class: 'table-status status-inactive' },
     inactive: { label: 'Inactive', class: 'table-status status-inactive' },
     overstay: { label: 'Overstayed', class: 'table-status status-inactive' },
