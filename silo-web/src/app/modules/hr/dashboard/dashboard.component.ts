@@ -5,6 +5,11 @@ import { AuthService } from '@sharedWeb/services/utils/auth.service';
 import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { UtilityService } from '@services/utils/utility.service';
 import { NotificationService } from '@services/utils/notification.service';
+import { Regions } from '@sharedWeb/constants/regions';
+import { forkJoin, map, of, tap } from 'rxjs';
+import { LeaveRequestInfoComponent } from '@hr/leave-management/leave-request-info/leave-request-info.component';
+import { ModalService } from '@services/utils/modal.service';
+import { ExpenseRequestsInfoComponent } from '@hr/expense-management/expense-requests-info/expense-requests-info.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,54 +19,19 @@ import { NotificationService } from '@services/utils/notification.service';
 })
 export class DashboardComponent implements OnInit {
   loggedInUser:any;
+  dashboardData:any;
   dateTime!: Date;
   dayStatus: string = '';
   graphDetails!:any;
   graphValues!:any;
+  currency:any;
 
-  announcements: any[] = [
-    {
-      timestamp: '2026-02-16T09:30:00Z',
-      user: 'Alice Johnson',
-      message: 'Quarterly financial results have been published. Please review the report in the company portal.'
-    },
-    {
-      timestamp: '2026-02-16T11:15:00Z',
-      user: 'Bob Martinez',
-      message: 'Reminder: Team meeting scheduled at 3 PM today in Conference Room B.'
-    },
-    {
-      timestamp: '2026-02-16T13:45:00Z',
-      user: 'Clara Singh',
-      message: 'New health and safety guidelines have been uploaded. All employees are required to acknowledge.'
-    }
-  ];
+  announcements!: any[];
 
   expenseAnalysisColorScheme = {
     domain: ['rgba(54, 171, 104, 0.7)', 'rgba(229, 166, 71, 0.7)', 'rgba(66, 133, 244, 0.7)', 'rgba(235, 87, 87, 0.7)']
   };
-  expenseAnalysisData = [
-    {
-      name: "Transportation",
-      value: 25,
-      status: "complete"
-    },
-    {
-      name: "Accommodation",
-      value: 45,
-      status: "pending"
-    },
-    {
-      name: "Hire Purchase",
-      value: 120,
-      status: "awaiting"
-    },
-    {
-      name: "Legal Fees",
-      value: 30,
-      status: "warning"
-    },
-  ]
+  expenseAnalysisData:any = [];
 
   payrollYear!: number;
   payrollYearOptions:any = {
@@ -74,8 +44,14 @@ export class DashboardComponent implements OnInit {
 
   cardTriggerVal:string = 'birthdays';
   employeeList: any[] = [];
+  employeeCount!: number;
+
+  approvalRequests!:any[];
   birthdays!:any[];
   workAnniversaries!:any[];
+
+  leaveTypes: any[] = [];
+  expenseTypes: any[] = [];
 
   checkedIn: boolean = false;
   userLocation: any;
@@ -114,7 +90,8 @@ export class DashboardComponent implements OnInit {
     private authService: AuthService,
     private hrService: HrService,
     private utilityService: UtilityService,
-    private notifyService: NotificationService
+    private notifyService: NotificationService,
+    private modalService: ModalService,
   ) {
     setInterval(() => {
       this.dateTime = new Date();
@@ -125,21 +102,50 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     console.log()
     this.loggedInUser = this.authService.loggedInUser;
+    this.currency = this.utilityService.currency;
+    console.log(this.currency)
     this.payrollYearOptions = this.utilityService.generateYearOptions(Number(this.chartYear));
     this.getPayrollGraph(Number(this.chartYear))
     this.getPageData();
   }
 
   getPageData() {
+    this.getDahboardStats();
+    this.getNotices();
     this.hrService.getEmployees().subscribe({
       next: res => {
         this.employeeList = res.data;
+        this.employeeCount = res.totalRecords;
         this.setUpMapLocation();
         if(!this.loggedInUser.isSuperAdmin) this.generateLeaveCharts(this.loggedInUser.leaveAssignment);
+        this.getApprovalRequests();
         this.generateUpcomingBithdays();
         this.generateUpcomingAnniversaries();
       }
+    });
+
+    forkJoin({
+      leaveTypes: this.hrService.getLeaveTypes(),
+      expenseTypes: this.hrService.getExpenseTypes()
+    }).subscribe(({ leaveTypes, expenseTypes }) => {
+      this.leaveTypes = leaveTypes.data;
+      this.expenseTypes = expenseTypes.data;
+    });
+  }
+
+  getDahboardStats() {
+    this.hrService.getDashboardStats().subscribe(res => {
+      console.log(res.data);
+      this.dashboardData = res.data
     })
+  }
+
+  getNotices() {
+    this.hrService.getNotices().subscribe(res => {
+      this.announcements = res.data ?? [];
+      console.log(this.announcements);
+      //this.announcements.length ? this.noticeInview = this.announcements[0] : this.newNotice = true;
+    });
   }
 
   getPayrollGraph(year:any) {
@@ -169,6 +175,75 @@ export class DashboardComponent implements OnInit {
     } else {
       this.dayStatus = 'night';
     }
+  }
+
+  // getApprovalRequests() {
+  //   const leaveRequests$ = this.hrService.getRequestedLeaveApprovals();
+  //   const expenseRequests$ = this.loggedInUser.isManager || this.loggedInUser.isSuperAdmin ? this.hrService.getRequestedExpenseApprovals() : of({data:[]});
+  //   forkJoin([leaveRequests$, expenseRequests$]).pipe(
+  //     map((res:any) => {
+  //       console.log(res)
+  //       const reqs = res[0].data.map((x:any) => {return {...x, type:'leave'}}).concat(res[1].data.map((x:any) => {return {...x, type:'expense'}}));
+  //       const pendingReqs = reqs.filter((x:any) => {
+  //         return x
+  //       })
+  //       return this.loggedInUser.isSuperAdmin || this.loggedInUser.isManager ? pendingReqs : reqs
+  //     })
+  //   ).subscribe(res => {
+  //     this.approvalRequests = res
+  //   })
+  // }
+
+  getApprovalRequests() {
+    const leaveRequests$ = this.hrService.getRequestedLeaveApprovals();
+
+    const expenseRequests$ = this.loggedInUser.isManager || this.loggedInUser.isSuperAdmin ? this.hrService.getRequestedExpenseApprovals() : of({ data: [] });
+
+    forkJoin([leaveRequests$, expenseRequests$]).pipe(
+      tap((res: any) => {
+        const expenseRequests = res[1].data;
+
+        // ✅ Build expenseAnalysisData using expenseTypes
+        this.expenseAnalysisData = this.expenseTypes.map((type: any) => {
+          const matchingRequests = expenseRequests.filter(
+            (req: any) => req.expenseTypeName === type.expenseType
+          );
+
+          const total = matchingRequests.reduce((sum: number, req: any) => sum + Number(req.amount || 0), 0);
+
+          // Optional: smarter status logic
+          const statusPriority = ['pending', 'warning', 'awaiting', 'complete'];
+
+          const status = statusPriority.find(s => matchingRequests.some((r: any) => r.status === s)) || 'pending';
+
+          return {
+            name: type.expenseType,
+            value: total,
+            status
+          };
+        })
+        // Optional: remove empty ones
+        //.filter((item: any) => item.value > 0);
+      }),
+
+      map((res: any) => {
+        // ✅ ORIGINAL FUNCTIONALITY (unchanged)
+        const reqs = res[0].data
+          .map((x: any) => ({ ...x, type: 'leave' }))
+          .concat(
+            res[1].data.map((x: any) => ({ ...x, type: 'expense' }))
+          );
+
+        const pendingReqs = reqs.filter((x: any) => x);
+
+        return this.loggedInUser.isSuperAdmin || this.loggedInUser.isManager
+          ? pendingReqs
+          : reqs;
+      })
+    )
+    .subscribe(res => {
+      this.approvalRequests = res;
+    });
   }
 
   generateUpcomingBithdays() {
@@ -330,5 +405,56 @@ export class DashboardComponent implements OnInit {
       { name: 'Days Left', value: leaveDaysLeft, status: 'awaiting' }
     ];
   }
+
+  actionRequest(details: any, actionType:string) {
+    if(details.status !== 'Pending') return;
+    if(this.loggedInUser.isSuperAdmin || this.loggedInUser.isManager) {
+      if(actionType == 'leave') {
+        this.openLeaveApprovalModal(details);
+      }
+      else {
+        this.openExpenseApprovalModal(details)
+      }
+    }    
+  }
+
+  openLeaveApprovalModal(modalData?:any) {
+    const modalConfig:any = {
+      isExisting: modalData ? true : false,
+      width: '35%',
+      data: modalData,
+      forApproval: true,
+      leaveTypes: this.leaveTypes
+    }
+    this.modalService.open(
+      LeaveRequestInfoComponent, 
+      modalConfig
+    )
+    .subscribe(result => {
+      if (result.action === 'submit' && result.dirty) {
+        this.getApprovalRequests();
+      }
+    });
+  }
+
+  openExpenseApprovalModal(modalData?:any) {
+    const modalConfig:any = {
+      isExisting: modalData ? true : false,
+      width: '40%',
+      data: modalData,
+      forApproval: true,
+      expenseTypes: this.expenseTypes
+    }
+    this.modalService.open(
+      ExpenseRequestsInfoComponent, 
+      modalConfig
+    )
+    .subscribe(result => {
+      if (result.action === 'submit' && result.dirty) {
+        this.getApprovalRequests();
+      }
+    });
+  }
+
 
 }

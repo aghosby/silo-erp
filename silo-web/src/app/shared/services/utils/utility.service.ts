@@ -15,6 +15,8 @@ export class UtilityService {
 
   navMenuData:MenuItem[] = navMenuData;
 
+  regions = Regions;
+
   constructor(
     private location: Location,
     private notify: NotificationService,
@@ -38,12 +40,28 @@ export class UtilityService {
     return null;
   }
 
-  get currency() {
-    const currency = sessionStorage.getItem('currency');
+  get currency(): any {
+    let currency = sessionStorage.getItem('currency');
+
     if (currency) {
-      return JSON.parse(currency);
+      // Try to parse JSON if it's an object
+      try {
+        const parsed = JSON.parse(currency);
+        // Adjust according to stored structure
+        currency = parsed.code || parsed.currencyCode || currency;
+      } catch {
+        // Not JSON, leave as is
+      }
+
+      const normalizedCurrency = currency?.trim().toUpperCase();
+      const region = Regions.find(x => x.currencyCode.toUpperCase() === normalizedCurrency);
+
+      //console.log('Currency:', currency, 'Matched region:', region);
+
+      return region?.currencySymbol || '$';
     }
-    return 'NGN';
+
+    return '$';
   }
 
   get userRoles() {
@@ -132,7 +150,7 @@ export class UtilityService {
     }, {})
     return reqObj;
   }
-
+  
   /** Helper: format date as yyyy-MM-dd */
   formatDate(d: Date): string {
     // Use local date portion only
