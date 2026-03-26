@@ -97,7 +97,7 @@ export class AppraisalOverviewComponent implements OnInit {
 
   getCurrentPeriodDetails() {
     this.hrService.getAppraisalDetails(this.periodInView._id).subscribe(res => {
-      this.periodInView = res.data[0];
+      this.periodInView = res.data;
       this.getAppraisalRequests(this.periodInView._id);
       this.periodOptions = this.utils.arrayToObject(this.appraisalPeriods, 'appraisalPeriodName');
       this.periodName = this.periodInView._id;
