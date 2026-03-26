@@ -275,6 +275,7 @@ export class AppraisalFormComponent implements OnInit {
       this.appraisalPeriods = res.data;
       if(this.appraisalPeriods.length > 0) {
         this.currentPeriodId = this.appraisalPeriods[0]._id;
+        this.periodName = this.currentPeriodId;
         if(this.currentPeriodId) this.getPageData();
         this.periodOptions = this.utils.arrayToObject(this.appraisalPeriods, 'appraisalPeriodName');
       } 

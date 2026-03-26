@@ -1,7 +1,7 @@
 <div class="row-section d-flex justify-content-between align-items-center">
     <div class="page-header">Appraisal Management</div>
-    <div class="main-actions d-flex justify-content-start align-items-center gap-3">
-        <mat-form-field class="field compact-field lg no-base" appearance="outline" [style.width]="'15rem'">
+    <div *ngIf="periodInView" class="main-actions d-flex justify-content-start align-items-center gap-3">
+        <mat-form-field class="field compact-field lg no-base" appearance="outline" [style.width]="'12rem'">
             <mat-label>Select Period</mat-label>
             <mat-select
                 class="selectField"
@@ -14,7 +14,30 @@
                 <mat-option *ngFor="let option of periodOptions | keyvalue: keepOrder" [value]="option.key">{{option.value}}</mat-option>
             </mat-select>
         </mat-form-field>
-        <div (click)="openPeriodModal()" class="cta cta-primary icon lg">
+
+        <mat-form-field *hasRole="['superAdmin']" class="field compact-field lg no-base" appearance="outline" [style.width]="'12rem'">
+            <mat-label>Change Period Status</mat-label>
+            <mat-select
+                class="selectField"
+                disableOptionCentering
+                panelClass="compact-dropdown"
+                [(ngModel)]="periodStatus"
+                (ngModelChange)="onPeriodStatusChange($event)"
+                style="font-size: 0.7rem;"
+            >
+                <mat-option *ngFor="let option of periodStatusOptions | keyvalue: keepOrder" [value]="option.key">{{option.value}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <div *hasRole="['superAdmin']" (click)="openPeriodModal(periodInView)" class="cta cta-primary icon lg">
+            <app-icon [iconName]="'calendarClock'" [iconStrokeWidth]="2" [iconWidth]="20" [iconHeight]="20"></app-icon>
+        </div>
+
+        <div *hasRole="['superAdmin']" (click)="deleteAppraisalPeriod(periodInView)" class="cta cta-warning icon lg">
+            <app-icon [iconName]="'trash'" [iconStrokeWidth]="2" [iconWidth]="20" [iconHeight]="20"></app-icon>
+        </div>
+
+        <div *hasRole="['superAdmin']" (click)="openPeriodModal()" class="cta cta-primary icon lg">
             <app-icon [iconName]="'calendarPlus'" [iconStrokeWidth]="2" [iconWidth]="20" [iconHeight]="20"></app-icon> New Period
         </div>
     </div>
@@ -40,7 +63,7 @@
                     ></app-no-data>
                 </div>
                 <div *ngIf="!isLoading && appraisalRequests && appraisalRequests.length" class="request-wrap">
-                    <div *ngFor="let employee of appraisalRequests" class="request-hld">
+                    <div (click)="viewAppraisalInfo(employee)" *ngFor="let employee of appraisalRequests" class="request-hld">
                         <div class="inner pending"
                             [ngClass]="{
                                 'inReview': employee.status == 'Awaiting Manager Review',
