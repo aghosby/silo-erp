@@ -11,9 +11,9 @@
             <div class="top">
                 <span class="card-title color-theme-primary">Billing Card</span>
                 <span class="grp-btn ms-lg-4" style="font-weight: 400;">
-                    <div class="cta cta-primary xs">Add New Card</div>
-                    <div class="cta cta-primary xs ms-lg-1">Make Payment</div>
-                    <div class="cta cta-warning xs ms-lg-1">Remove Card</div>
+                    <div (click)="manageSubscription()" class="cta cta-primary xs">Manage Card{{userSubscription.authorizations.length > 1 ? '' : 's'}}</div>
+                    <!-- <div class="cta cta-primary xs ms-lg-1">Make Payment</div>
+                    <div class="cta cta-warning xs ms-lg-1">Remove Card</div> -->
                 </span>
             </div>
 
@@ -24,8 +24,8 @@
                             <div class="card-bg"></div>
                             <div class="card-glow"></div>
                             <div class="card-balance">
-                                <div class="hdr">Current Balance</div>
-                                <!-- <div class="amount">{{currency}} {{loggedInUser.expenseDetails.cardBalance | localeString}}</div> -->
+                                <div class="hdr">Renewal Payment</div>
+                                <div class="amount mt-1">{{currency}} {{ !userSubscription?.activeSubscription?.isNonRenewing ? userSubscription.activeSubscription.amount : 0 | localeString}}</div>
                             </div>
                             <div class="card-circles"></div>
                             <div class="card-contactless">

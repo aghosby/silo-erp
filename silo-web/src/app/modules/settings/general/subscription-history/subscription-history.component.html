@@ -20,7 +20,7 @@
                     <div class="title">{{currentPlan.name}}</div>
                 </div>
             </div>
-            <div class="auto-renew">
+            <div *ngIf="!subscriptionDetails?.activeSubscription?.isNonRenewing" class="auto-renew">
                 <div class="label">Auto Renewal</div>
                 <app-switch [(ngModel)]="autoRenew"></app-switch>
             </div>
@@ -30,37 +30,37 @@
             <div class="info">
                 <div class="label">
                     <span><app-icon [iconName]="'layers'" [iconStrokeWidth]="2" [iconWidth]="20" [iconHeight]="20"></app-icon></span>
-                    <span>Annual Price</span>
+                    <span class="text-capitalize">{{currentPlan.interval === 'monthly' ? 'Monthly' : 'Annual'}} Price</span>
                 </div>
-                <div class="value">${{currentPlan.amount | localeString}}/yr</div>
+                <div class="value">{{ getSubscriptionCurrency() }} {{(currentPlan.interval === 'monthly' ? currentPlan.amountPerMonth : currentPlan.amountPerYear).toLocaleString()}}/{{currentPlan.interval === 'monthly' ? 'month' : 'yr'}}</div>
             </div>
             <div class="info">
                 <div class="label">
                     <span><app-icon [iconName]="'recycle'" [iconStrokeWidth]="2" [iconWidth]="20" [iconHeight]="20"></app-icon></span>
                     <span>Billing Cycle</span>
                 </div>
-                <div class="value">Yearly</div>
+                <div class="value">{{currentPlan.interval === 'monthly' ? 'Monthly' : 'Annually'}}</div>
             </div>
             <div class="info">
                 <div class="label">
                     <span><app-icon [iconName]="'users'" [iconStrokeWidth]="2" [iconWidth]="20" [iconHeight]="20"></app-icon></span>
                     <span>Users</span>
                 </div>
-                <div class="value">{{loggedInUser.companySize}}</div>
+                <div class="value">{{currentPlan.min}} - {{currentPlan.max}}</div>
             </div>
             <div class="info">
                 <div class="label">
                     <span><app-icon [iconName]="'calendarSync'" [iconStrokeWidth]="2" [iconWidth]="20" [iconHeight]="20"></app-icon></span>
                     <span>{{autoRenew ? 'Renewal Date' : 'Expiry Date'}}</span>
                 </div>
-                <div class="value">{{currentPlan.next_payment_date | date: 'd MMM, yyyy'}}</div>
+                <div class="value">{{subscriptionDetails?.activeSubscription.accessExpiresAt | date: 'd MMM, yyyy'}}</div>
             </div>
-            <div class="info">
+            <div *ngIf="!subscriptionDetails?.activeSubscription?.isNonRenewing" class="info">
                 <!-- <div class="label">
                     <span>Actions</span>
                 </div> -->
                 <div class="value">
-                    <div class="cta cta-warning icon md"><app-icon [iconName]="'circlex'" [iconStrokeWidth]="2" [iconWidth]="20" [iconHeight]="20"></app-icon>Cancel Subscription</div>
+                    <div (click)="cancelSubscription()" class="cta cta-warning icon md"><app-icon *ngIf="!cancelingSubscription" [iconName]="'circlex'" [iconStrokeWidth]="2" [iconWidth]="20" [iconHeight]="20"></app-icon> <span *ngIf="cancelingSubscription" class="loader"></span> Cancel Subscription</div>
                 </div>
             </div>
         </div>

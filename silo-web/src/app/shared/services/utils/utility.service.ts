@@ -73,6 +73,7 @@ export class UtilityService {
       Active: 'active',
       Approved: 'approved',
       Pending: 'pending',
+      pending: 'pending',
       Declined: 'declined',
       checkedIn: 'checkedIn',
       checkedOut: 'checkedOut',

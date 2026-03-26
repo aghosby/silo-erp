@@ -25,10 +25,12 @@ export class SubscriptionHistoryComponent implements OnInit {
   //subscriptionPlans:any = [];
   regions = Regions;
 
-  selectedRegion:string = 'nigeria';
+  selectedRegion!:string;
   regionOptions: any;
   keepOrder = () => 0;
   subscriptionPlans:any;
+  subscriptionDetails:any;
+  cancelingSubscription:boolean = false;
 
   // subscriptionPlans: any = [
   //   {
@@ -243,6 +245,7 @@ export class SubscriptionHistoryComponent implements OnInit {
   ngOnInit(): void {
     this.loggedInUser = this.authService.loggedInUser;
     this.regionOptions = this.utils.createRegionOptions();
+    this.selectedRegion = <string>Regions.find(region => region.label === this.loggedInUser.country)?._id ?? 'nigeria';
     
     this.getSubscriptionPlans();
     this.getUserSubscription();
@@ -259,8 +262,10 @@ export class SubscriptionHistoryComponent implements OnInit {
 
   getUserSubscription() {
     this.settingsService.getUserSubscription(this.loggedInUser.email).subscribe(res => {
-      console.log('Response', res)
-      this.currentPlan = res.data.subscriptions[0];
+      console.log('Response', res);
+      this.subscriptionDetails = res.data;
+      this.currentPlan = this.subscriptionDetails.currentPlan;
+      this.autoRenew = this.subscriptionDetails.subscriptionStatus.recurringPayment;
     })
   }
 
@@ -331,6 +336,25 @@ export class SubscriptionHistoryComponent implements OnInit {
         window.location.href = res.data.authorization_url;
       },
       error: err => {}
+    })
+  }
+
+  cancelSubscription() {
+    this.cancelingSubscription = true;
+    const payload = {
+      code: this.subscriptionDetails.activeSubscription.subscriptionCode,
+      token: this.subscriptionDetails.activeSubscription.emailToken
+    }
+    this.settingsService.cancelSubscription(payload).subscribe({
+      next: res => {
+        this.getUserSubscription();
+        this.cancelingSubscription = false; 
+        this.notifyService.showSuccess('Your subscription has been cancelled succesfully');
+      },
+      error: err => {
+        this.cancelingSubscription = false; 
+        this.notifyService.showError('Your subscription cacellation has failed. please try again.');
+      }
     })
   }
 
