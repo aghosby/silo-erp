@@ -683,6 +683,4 @@ export class HrService {
     return this.http.patch<any>(`${this.baseUrl}/publishJob/${jobId}`, info, this.requestOptions);
   }
 
-
-
 }

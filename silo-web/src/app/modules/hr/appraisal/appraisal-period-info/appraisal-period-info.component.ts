@@ -58,7 +58,7 @@ export class AppraisalPeriodInfoComponent implements OnInit {
         controlType: 'date',
         controlLabel: 'Active Date',
         controlWidth: '48%',
-        initialValue: this.data.isExisting ? this.data.modalInfo.activeDate : null,
+        initialValue: this.data.isExisting ? this.data.data.activeDate : null,
         validators: [Validators.required],
         order: 4
       },
@@ -67,7 +67,7 @@ export class AppraisalPeriodInfoComponent implements OnInit {
         controlType: 'date',
         controlLabel: 'Inactive Date',
         controlWidth: '48%',
-        initialValue: this.data.isExisting ? this.data.modalInfo.inactiveDate : null,
+        initialValue: this.data.isExisting ? this.data.data.inactiveDate : null,
         validators: [Validators.required],
         order: 5
       },

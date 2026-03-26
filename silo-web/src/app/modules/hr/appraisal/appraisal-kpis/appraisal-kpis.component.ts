@@ -100,7 +100,6 @@ export class AppraisalKpisComponent implements OnInit {
           },
           error: err => {
             console.log(err)
-            this.notifyService.showError(err.error.error);
           } 
         })
       }
@@ -126,7 +125,6 @@ export class AppraisalKpisComponent implements OnInit {
           },
           error: err => {
             console.log(err)
-            this.notifyService.showError(err.error.error);
           } 
         })
       }
