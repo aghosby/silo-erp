@@ -1,11 +1,11 @@
 <div class="row-section d-flex justify-content-between align-items-center">
     <div class="page-header">Account Information</div>
-    <div class="main-actions d-flex justify-content-start align-items-center">
-        <div class="cta cta-primary icon lg"><i class="bi bi-hdd-fill"></i>Save Changes</div>
+    <div (click)="updateCompanyInfo()" class="main-actions d-flex justify-content-start align-items-center">
+        <div class="cta cta-primary icon lg"><i *ngIf="!isLoading" class="bi bi-hdd-fill"></i> <span *ngIf="isLoading" class="loader"></span> Save Changes</div>
     </div>
 </div>
 
-<div class="row-section d-flex justify-content-between mt-4">
+<div *ngIf="companyInfo" class="row-section d-flex justify-content-between mt-4">
     <div class="col-card form-cont anim-item card-xmlg pe-4 d-flex flex-column justify-content-between">
         <form class="settings-form card-xxl" [formGroup]="companyInfoForm" novalidate autocomplete="off">
             <div class="form-wrap d-flex flex-wrap justify-content-between w-100">

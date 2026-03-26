@@ -19,6 +19,7 @@ export class RolesPermissionManagementComponent implements OnInit {
   systemModules: any[] = [];
   companyRoles: any[] = [];
   permissionsForm: FormGroup = new FormGroup({});
+  isLoading:boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -110,6 +111,7 @@ export class RolesPermissionManagementComponent implements OnInit {
   }
 
   saveChanges(): void {
+    this.isLoading = true;
     console.log('BEFORE TRANSFORMATION', this.permissionsForm.value);
 
     const formValue = this.permissionsForm.value;
@@ -151,10 +153,11 @@ export class RolesPermissionManagementComponent implements OnInit {
         if (res.success) {
           this.notifyService.showSuccess('Your permissions have been updated successfully');
           this.loadPageData();
+          this.isLoading = false;
         }
       },
       error: (err) => {
-        console.error(err);
+        this.isLoading = false;
       }
     });
   }

@@ -6,7 +6,7 @@ import { SettingsService } from '@services/settings/settings.service';
 import { AuthService } from '@services/utils/auth.service';
 import { NotificationService } from '@services/utils/notification.service';
 import { UtilityService } from '@services/utils/utility.service';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, catchError, combineLatest, debounceTime, of, Subject, switchMap, takeUntil, tap } from 'rxjs';
 
 @Component({
   selector: 'app-billing-overview',
@@ -38,7 +38,7 @@ export class BillingOverviewComponent implements OnInit {
 
   tableColumns: TableColumn[] = [
     {
-      key: "invoiceNo",
+      key: "invoiceNumber",
       label: "Invoice No",
       order: 1,
       columnWidth: "10%",
@@ -46,7 +46,7 @@ export class BillingOverviewComponent implements OnInit {
       sortable: true
     },
     {
-      key: "dateIssued",
+      key: "createdAt",
       label: "Date Issued",
       order: 2,
       columnWidth: "12%",
@@ -54,14 +54,14 @@ export class BillingOverviewComponent implements OnInit {
       type: 'datetime',
       sortable: true
     },
-    {
-      key: "plan",
-      label: "Plan",
-      order: 3,
-      columnWidth: "10%",
-      cellStyle: "width: 100%",
-      sortable: true
-    },
+    // {
+    //   key: "plan",
+    //   label: "Plan",
+    //   order: 3,
+    //   columnWidth: "10%",
+    //   cellStyle: "width: 100%",
+    //   sortable: true
+    // },
     {
       key: "amount",
       label: "Amount",
@@ -70,6 +70,15 @@ export class BillingOverviewComponent implements OnInit {
       cellStyle: "width: 100%",
       type: 'amount',
       sortable: false
+    },
+    {
+      key: "dueDate",
+      label: "Due Date",
+      order: 5,
+      columnWidth: "12%",
+      cellStyle: "width: 100%",
+      type: 'datetime',
+      sortable: true
     },
     {
       key: "datePaid",
@@ -87,11 +96,7 @@ export class BillingOverviewComponent implements OnInit {
       columnWidth: "10%",
       cellStyle: "width: 100%",
       type: 'status',
-      statusMap: {
-        'Approved': 'active',
-        'Pending': 'pending',
-        'Declined': 'declined'
-      },
+      statusMap: this.utils.statusMap,
       sortable: true
     },
     // {
@@ -122,7 +127,33 @@ export class BillingOverviewComponent implements OnInit {
     
     //this.getSubscriptionPlans();
     this.getUserSubscription();
-    this.tableData = [];
+    
+    // Reactive pipeline
+    const tableData$ = combineLatest([
+      this.search$.pipe(
+        debounceTime(300)
+      ), 
+      this.filters$, 
+      this.paging$
+      ]
+    ).pipe(
+      takeUntil(this.unsubscribe$),
+      tap(() => (this.isLoading = true)),
+      switchMap(([search, filters, paging]) =>
+        this.settingsService.getInvoices(paging.page, paging.pageSize, search, filters).pipe(
+          catchError(() => of({ data: [], total: 0 })) // fallback if API fails
+        )
+      )
+    )
+      
+    tableData$.subscribe(res => {
+      console.log('Requests', res)
+      this.tableData = res.data;
+      this.paging.total = res.totalRecords;
+      this.isLoading = false;
+    });
+
+    this.search$.next('');
   }
 
   getUserSubscription() {
@@ -156,5 +187,16 @@ export class BillingOverviewComponent implements OnInit {
       ...newPaging
     };
     this.paging$.next(newPaging);
+  }
+
+  manageSubscription() {
+    this.settingsService.manageUserSubscription(this.userSubscription?.activeSubscription.subscriptionCode).subscribe({
+      next: res => {
+        console.log('Manage', res);
+        // Open URL in a new tab
+        window.open(res.data.link, '_blank');
+      },
+      error: err => {}
+    })
   }
 }

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { environment } from '@env/environment';
 import { BehaviorSubject, forkJoin, Observable, tap } from 'rxjs';
 import { AuthService } from '../utils/auth.service';
+import { buildUrlWithParams } from '@helpers/query-params.helper';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +27,25 @@ export class SettingsService {
     private authService: AuthService
   ) {}
 
+  public getPagedData$(
+    endpoint: string,
+    pageNo?: number,
+    pageSize?: number,
+    searchParam?: string,
+    filters?: any
+  ): Observable<any> {
+    // Build query params
+    const params: { [k: string]: any } = { page: pageNo ?? 1, limit: pageSize ?? 10 };
+    if (searchParam) params['search'] = searchParam;
+    Object.assign(params, filters || {});
+
+    // Build full URL
+    const url = buildUrlWithParams(`${endpoint}`, params);
+
+    // Return Observable from HTTP GET
+    return this.http.get<any>(url, this.requestOptions);
+  }
+
 
   //Get subscription plans
   public getSubscriptionPlans(): Observable<any> {
@@ -42,9 +62,25 @@ export class SettingsService {
     return this.http.post<any>(`${this.baseUrl}/subscription/initiate`, payload, this.requestOptions);
   }
 
+  //Initiate Subscription
+  public cancelSubscription(payload: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/subscription/disable`, payload, this.requestOptions);
+  }
+
   //Verify Subscription
   public verifySubscription(refNo: any): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/subscription/verify?reference=${refNo}`, this.requestOptions);
+  }
+
+  //Manage User Subscription
+  public manageUserSubscription(subscriptionCode:string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/subscription/${subscriptionCode}/manage/link`, this.requestOptions);
+  }
+
+  //Get subscription invoices
+  public getInvoices(pageNo?:number, pageSize?:number, searchParam?:string, filters?:any): Observable<any> {
+    const url = `${this.baseUrl}/payment/invoices`;
+    return this.getPagedData$(url, pageNo, pageSize, searchParam, filters);
   }
 
   //Create Role
@@ -60,5 +96,20 @@ export class SettingsService {
   //Get company roles
   public getCompanyRoles(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/roles`, this.requestOptions);
+  }
+
+  //Get company information
+  public getCompanyInfo(companyId:string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/fetchCompany/${companyId}`, this.requestOptions);
+  }
+
+  //Update Company Info
+  public updateCompanyInfo(payload: any): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/updateAccountInfo`, payload, this.requestOptions);
+  }
+
+  //Update Company Logo
+  public updateCompanyLogo(payload: any, companyId:string): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/updateCompanyLogo/${companyId}`, payload, this.requestOptions);
   }
 }

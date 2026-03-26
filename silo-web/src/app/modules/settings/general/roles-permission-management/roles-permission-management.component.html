@@ -6,7 +6,7 @@
         </div>
 
         <div (click)="saveChanges()" class="cta cta-primary icon lg">
-            <i class="bi bi-hdd-fill"></i> Save Changes
+            <i *ngIf="!isLoading" class="bi bi-hdd-fill"></i> <span *ngIf="isLoading" class="loader"></span> Save Changes
         </div>
     </div>
 </div>

@@ -2,6 +2,7 @@ export const Regions = [
     {
         _id: 'nigeria',
         name: '🇳🇬  Nigeria',
+        label: 'Nigeria',
         flag: '🇳🇬',
         currencyCode: 'NGN',
         currencySymbol: '₦',
@@ -11,6 +12,7 @@ export const Regions = [
     {
         _id: 'canada',
         name: '🇨🇦  Canada',
+        label: 'Canada',
         flag: '🇨🇦',
         currencyCode: 'CAD',
         currencySymbol: '$',
@@ -20,6 +22,7 @@ export const Regions = [
     {
         _id: 'uk',
         name: '🇬🇧  United Kingdom',
+        label: 'United Kingdom',
         flag: '🇬🇧',
         currencyCode: 'GBP',
         currencySymbol: '£',
@@ -29,6 +32,7 @@ export const Regions = [
     {
         _id: 'us',
         name: '🇺🇸  United States',
+        label: 'United States',
         flag: '🇺🇸',
         currencyCode: 'USD',
         currencySymbol: '$',
@@ -38,6 +42,7 @@ export const Regions = [
     {
         _id: 'other',
         name: '🌍  Other',
+        label: 'Other',
         flag: '🌍',
         currencyCode: 'USD',
         currencySymbol: '$',
