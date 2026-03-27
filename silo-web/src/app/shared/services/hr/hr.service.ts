@@ -77,6 +77,11 @@ export class HrService {
     return this.http.get<any>(`${this.baseUrl}/company/${companyId}/modules`, this.requestOptions);
   }
 
+  //Get dashboard stats
+  public getDashboardStats(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/dashboardStats`, this.requestOptions);
+  }
+
   //Update Employee
   // public updateEmployee(data: any): Observable<any> {
   //   return this.http.patch<any>(`${this.baseUrl}/updateEmployee`, data, this.requestOptions);

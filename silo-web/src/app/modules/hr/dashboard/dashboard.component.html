@@ -22,13 +22,13 @@
                     <div class="card-cont d-flex d-flex flex-column">
                         <div class="top d-flex align-items-end">
                             <div class="card-title">Employees</div>
-                            <span class="percent-diff increase"><i class="bi bi-arrow-up-right"></i> 10%</span>
+                            <!-- <span class="percent-diff increase"><i class="bi bi-arrow-up-right"></i> 10%</span> -->
                         </div>
                         <div class="btm d-flex justify-content-between align-items-end mt-auto">
                             <div class="card-icon">
                                 <app-icon [iconName]="'users'" [iconStrokeWidth]="2" [iconWidth]="25" [iconHeight]="25"></app-icon>
                             </div>
-                            <div class="card-count ms-auto">120 <span>Staff</span></div>
+                            <div class="card-count ms-auto">{{dashboardData?.employees.total}} <span>Staff</span></div>
                         </div>
                     </div>
                 </div>
@@ -38,13 +38,13 @@
                         <div class="card-title">Invite Employees</div>
                         <div class="stacked-items d-flex justify-content-between align-items-center mt-auto">
                             <div class="stack">
-                                <span style="background-image: url('assets/img/project/home/employee1.webp');"></span>
-                                <span style="background-image: url('assets/img/project/home/employee2.webp');"></span>
+                                <span *ngFor="let employee of employeeList | slice:0:6" style="background-image: url('{{employee?.profilePic}}');"></span>
+                                <!-- <span style="background-image: url('assets/img/project/home/employee2.webp');"></span>
                                 <span style="background-image: url('assets/img/project/home/employee3.webp');"></span>
                                 <span style="background-image: url('assets/img/project/home/employee4.webp');"></span>
                                 <span style="background-image: url('assets/img/project/home/employee5.webp');"></span>
-                                <span style="background-image: url('assets/img/project/home/employee6.webp');"></span>
-                                <span>+9</span>
+                                <span style="background-image: url('assets/img/project/home/employee6.webp');"></span> -->
+                                <span *ngIf="employeeCount > 6" style="font-size: 0.8rem; font-family: var(--font-medium);">+{{employeeCount - 6}}</span>
                             </div>
 
                             <div class="card-add-btn" role="button"><i class="bi bi-plus-square-fill"></i></div>
@@ -60,13 +60,13 @@
                     <div class="card-cont d-flex flex-column">
                         <div class="top d-flex align-items-end">
                             <div class="card-title">Today's Attendance</div>
-                            <span class="percent-diff increase"><i class="bi bi-arrow-up-right"></i> 10%</span>
+                            <!-- <span class="percent-diff increase"><i class="bi bi-arrow-up-right"></i> 10%</span> -->
                         </div>
                         <div class="btm d-flex justify-content-between align-items-end mt-auto">
                             <div class="card-icon">
                                 <app-icon [iconName]="'bookUser'" [iconStrokeWidth]="2" [iconWidth]="25" [iconHeight]="25"></app-icon>
                             </div>
-                            <div class="card-count ms-auto">70 <span>Employees</span></div>
+                            <div class="card-count ms-auto">{{dashboardData?.attendance.today}} <span>Employees</span></div>
                         </div>
                     </div>
                 </div>
@@ -74,13 +74,13 @@
                     <div class="card-cont d-flex flex-column">
                         <div class="top d-flex align-items-end">
                             <div class="card-title">Net Salary</div>
-                            <span class="percent-diff decrease"><i class="bi bi-arrow-down-right"></i> 4%</span>
+                            <!-- <span class="percent-diff decrease"><i class="bi bi-arrow-down-right"></i> 4%</span> -->
                         </div>
                         <div class="btm d-flex justify-content-between align-items-end mt-auto">
                             <div class="card-icon">
                                 <app-icon [iconName]="'layers'" [iconStrokeWidth]="2" [iconWidth]="25" [iconHeight]="25"></app-icon>
                             </div>
-                            <div class="card-count ms-auto">$ {{350000 | localeString}}</div>
+                            <div class="card-count ms-auto">{{currency}} {{dashboardData?.netSalary.amount | localeString}}</div>
                         </div>
                     </div>
                 </div>
@@ -123,13 +123,13 @@
                             <div class="card-title sm color-theme-red">Notice Board</div>
                         </div>
                         <div class="btm mt-2">
-                            <div class="listed-items">
-                                <div *ngFor="let notice of announcements" class="item">
+                            <div *ngIf="announcements" class="listed-items">
+                                <div *ngFor="let notice of announcements | slice:0:4" class="item">
                                     <!-- <div class="icon"><i class="bi bi-rocket-takeoff"></i></div> -->
                                     <div class="content">
                                         <div class="det">
-                                            <div class="minor">{{notice.timestamp | timeDuration}}</div>
-                                            <div class="major lg">{{notice.message}}</div>
+                                            <div class="minor">{{notice.createdAt | timeDuration}}</div>
+                                            <div class="major lg">{{notice.content | truncateWords}}</div>
                                         </div>
                                         <!-- <div class="det">
                                             <div class="status sm approved">Approved</div>
@@ -165,84 +165,31 @@
                         <div class="card-title sm color-theme-blue">Recent Approval Requests</div>
                     </div>
                     <div class="btm">
-                        <div class="listed-items mt-3">
-                            <div class="item">
-                                <div class="icon"><i class="bi bi-rocket-takeoff"></i></div>
-                                <div class="content">
-                                    <div class="det">
-                                        <div class="major">Leave Request</div>
-                                        <div class="minor">Ibrahim Babatunde</div>
-                                    </div>
-                                    <div class="det">
-                                        <div class="status sm approved">Approved</div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="item">
-                                <div class="icon"><i class="bi bi-coin"></i></div>
-                                <div class="content">
-                                    <div class="det">
-                                        <div class="major">Expense Request</div>
-                                        <div class="minor">Matthew Reynolds</div>
-                                    </div>
-                                    <div class="det">
-                                        <div class="status sm pending">Pending</div>
-                                    </div>
-                                </div>
-                            </div>
+                        <app-no-data 
+                            *ngIf="!approvalRequests?.length"
+                            [height]="'15rem'"
+                            [message]="'You have no approval records'" 
+                            [imageUrl]="'assets/img/project/illustrations/user.webp'" 
+                            [messageFontSize]="'1rem'"
+                        ></app-no-data>
 
-                            <div class="item">
-                                <div class="icon"><i class="bi bi-stars"></i></div>
+                        <div *ngIf="approvalRequests?.length" class="listed-items mt-3">
+                            <div (click)="actionRequest(request, request.type)" *ngFor="let request of approvalRequests | slice:0:5" class="item" [attr.role]="request.status !=='Pending' ? 'text' : 'button'">
+                                <div *ngIf="request.type === 'leave'" class="icon"><i class="bi bi-rocket-takeoff"></i></div>
+                                <div *ngIf="request.type !== 'leave'" class="icon"><i class="bi bi-coin"></i></div>
                                 <div class="content">
                                     <div class="det">
-                                        <div class="major">Appraisal Request</div>
-                                        <div class="minor">Greg Buntler</div>
+                                        <div class="major">{{request.type == 'leave' ? request.fullName : request.employeeDetails?.employeeName}}</div>
+                                        <div *ngIf="request.type == 'leave'" class="minor">{{request.leaveStartDate | date : 'd MMM, yyyy'}} - {{request.leaveEndDate | date : 'd MMM, yyyy'}}</div>
+                                        <div *ngIf="request.type == 'expense'" class="minor">{{currency}} {{request.amount | localeString}} - {{request.expenseTypeName}}</div>
                                     </div>
                                     <div class="det">
-                                        <div class="status sm pending">Pending</div>
+                                        <div *ngIf="request.status == 'Approved'" class="status sm approved">Approved</div>
+                                        <div *ngIf="request.status == 'Pending'" class="status sm pending">Pending</div>
+                                        <div *ngIf="request.status == 'Declined'" class="status sm declined">Rejected</div>
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="item">
-                                <div class="icon"><i class="bi bi-rocket-takeoff"></i></div>
-                                <div class="content">
-                                    <div class="det">
-                                        <div class="major">Leave Request</div>
-                                        <div class="minor">Ibrahim Babatunde</div>
-                                    </div>
-                                    <div class="det">
-                                        <div class="status sm approved">Approved</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="item">
-                                <div class="icon"><i class="bi bi-stars"></i></div>
-                                <div class="content">
-                                    <div class="det">
-                                        <div class="major">Appraisal Request</div>
-                                        <div class="minor">Gartley Romart</div>
-                                    </div>
-                                    <div class="det">
-                                        <div class="status sm approved">Reviewed</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- <div class="item">
-                                <div class="icon"><i class="bi bi-coin"></i></div>
-                                <div class="content">
-                                    <div class="det">
-                                        <div class="major">Reimbursement</div>
-                                        <div class="minor">Matthew Reynolds</div>
-                                    </div>
-                                    <div class="det">
-                                        <div class="status sm pending">Pending</div>
-                                    </div>
-                                </div>
-                            </div> -->
                         </div>
                     </div>
                 </div>

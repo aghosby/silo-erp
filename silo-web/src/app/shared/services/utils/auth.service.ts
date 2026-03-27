@@ -84,7 +84,7 @@ export class AuthService {
         console.log('Login Token', this.token);
         sessionStorage.setItem('loggedInUser', JSON.stringify(res.data));
         sessionStorage.setItem('userCheckedIn', JSON.stringify(false));
-        sessionStorage.setItem('currency', JSON.stringify('$'));
+        sessionStorage.setItem('currency', res.data.currency);
         this.setUserRolesPermissions(res.data);
       })
     );
