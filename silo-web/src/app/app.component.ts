@@ -4,6 +4,7 @@ import { OnInit }           from '@angular/core';
 
 // External modules
 import { TranslateService } from '@ngx-translate/core';
+import { BehaviorSubject }  from 'rxjs';
 
 @Component({
   selector    : 'app-root',
@@ -12,6 +13,18 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class AppComponent implements OnInit
 {
+  // ───────────────────────────────────────────────────────────────────────
+  // NOTE Zera Copilot: User context for role-based access
+  // ───────────────────────────────────────────────────────────────────────
+  
+  public companyId$ = new BehaviorSubject<string | null>(
+    localStorage.getItem('companyId')
+  );
+  
+  public userId$ = new BehaviorSubject<string | null>(
+    localStorage.getItem('userId')
+  );
+
   constructor
   (
     private translateService : TranslateService,
