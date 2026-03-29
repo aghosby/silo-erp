@@ -15,9 +15,9 @@ const path   = '/api/v1';
 
 // const baseUrl = scheme + host + port + path;
 //const baseUrl = "https://erp-bk-766078353087.us-central1.run.app/api/v1" 
-// const baseUrl = 'https://erp-bk-staging-766078353087.us-central1.run.app/api/v1'
-const baseUrl = 'http://localhost:1000/api/v1'
-const aiUrl = 'http://localhost:1000/api'
+const baseUrl = 'https://erp-bk-staging-766078353087.us-central1.run.app/api/v1'
+// const baseUrl = 'http://localhost:1000/api/v1'
+const aiUrl = 'https://erp-bk-staging-766078353087.us-central1.run.app/api'
 
 
 

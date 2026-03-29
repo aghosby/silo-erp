@@ -138,7 +138,6 @@ export class ZeraCopilotComponent implements OnInit, AfterViewChecked, OnDestroy
 
       // Priority 1: Use loggedInUser from AuthService
       if (this.loggedInUser) {
-        // For super_admin - use companyId (could be their own company ID)
         if (this.loggedInUser.isSuperAdmin) {
           body.companyId = this.loggedInUser._id;
         } else {
@@ -146,7 +145,7 @@ export class ZeraCopilotComponent implements OnInit, AfterViewChecked, OnDestroy
         }
       }
 
-      // Priority 2: Fallback to component @Input properties if loggedInUser not available
+      // Priority 2: Fallback to component @Input properties
       if (!body.companyId && this.companyId) {
         body.companyId = this.companyId;
       }
@@ -154,53 +153,42 @@ export class ZeraCopilotComponent implements OnInit, AfterViewChecked, OnDestroy
         body.userId = this.userId;
       }
 
-      // Validation - at least one identifier must be present
+      // Validation
       if (!body.companyId && !body.userId) {
         throw new Error('User identification failed. Please log in again.');
       }
-
-      console.log('Sending payload:', body);
 
       const response = await this.http
         .post<CopilotResponse>(`${environment.aiBaseUrl}/copilot/chat`, body)
         .toPromise();
 
       if (response?.reply) {
-        // Store conversation ID for follow-ups
         if (response.conversationId) {
           this.conversationId = response.conversationId;
         }
 
-        // Add assistant response
         this.messages.push({ role: 'assistant', content: response.reply });
         this.shouldScroll = true;
 
-        // Handle download link with proper label based on reportType
+        // Handle download link
         if (response.downloadUrl) {
-            let fullUrl = response.downloadUrl;
-          
-            if (!fullUrl.startsWith('http')) {
-              const base = environment.aiBaseUrl.replace(/\/$/, ''); // remove trailing slash
-              const path = fullUrl.replace(/^\/api/, ''); // remove leading /api
-          
-              fullUrl = `${base}${path}`;
-            }
-          
-            const reportType = response.reportType || 'Report';
-            const label = this.generateDownloadLabel(reportType);
-          
-            this.downloadLink = {
-              url: fullUrl,
-              label: label,
-            };
+          let fullUrl = response.downloadUrl;
+          if (!fullUrl.startsWith('http')) {
+            const base = environment.aiBaseUrl.replace(/\/$/, '');
+            const path = fullUrl.replace(/^\/api/, '');
+            fullUrl = `${base}${path}`;
           }
-
-        // Handle automatic navigation based on intent
-        if (response.intent?.primary) {
-          this.handleIntentNavigation(response.intent.primary);
+          const reportType = response.reportType || 'Report';
+          const label = this.generateDownloadLabel(reportType);
+          this.downloadLink = { url: fullUrl, label };
         }
 
-        // Trigger refetch if it was a mutation
+        // Handle navigation based on intent
+        if (response.intent?.primary) {
+          this.handleIntentNavigation(response.intent.primary, message);
+        }
+
+        // Trigger refetch if mutation
         if (response.mutation?.action) {
           this.handleMutation(response.mutation, response.result);
         }
@@ -223,28 +211,17 @@ export class ZeraCopilotComponent implements OnInit, AfterViewChecked, OnDestroy
 
   downloadCSV(): void {
     if (this.downloadLink) {
-      // Construct the full URL if it's relative
       let downloadUrl = this.downloadLink.url;
       if (!downloadUrl.startsWith('http')) {
         downloadUrl = `${environment.aiBaseUrl}${downloadUrl}`;
       }
-
-      console.log({downloadUrl})
-
-      // Create a temporary anchor to trigger download
       const link = document.createElement('a');
       link.href = downloadUrl;
       link.download = this.generateFileName(this.downloadLink.label);
       link.setAttribute('target', '_blank');
       document.body.appendChild(link);
-
-      console.log(`Downloading: ${link.download} from ${downloadUrl}`);
       link.click();
-
-      // Clean up
-      setTimeout(() => {
-        document.body.removeChild(link);
-      }, 100);
+      setTimeout(() => document.body.removeChild(link), 100);
     }
   }
 
@@ -253,24 +230,14 @@ export class ZeraCopilotComponent implements OnInit, AfterViewChecked, OnDestroy
   // ───────────────────────────────────────────────────────────────
 
   private generateDownloadLabel(reportType: string): string {
-    // Clean up the report type
-    const cleaned = reportType
-      .trim()
-      .replace(/CSV$/i, '') // Remove trailing CSV
-      .trim();
-
-    // Capitalize first letter
+    const cleaned     = reportType.trim().replace(/CSV$/i, '').trim();
     const capitalized = cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
-
     return `Download ${capitalized} CSV`;
   }
 
   private generateFileName(label: string): string {
-    // Extract report type from label: "Download {Type} CSV" -> "{Type}.csv"
     const match = label.match(/Download\s+(.+?)\s+CSV/i);
-    if (match && match[1]) {
-      return `${match[1].replace(/\s+/g, '_')}.csv`;
-    }
+    if (match?.[1]) return `${match[1].replace(/\s+/g, '_')}.csv`;
     return 'download.csv';
   }
 
@@ -278,34 +245,94 @@ export class ZeraCopilotComponent implements OnInit, AfterViewChecked, OnDestroy
   // Intent-based Navigation
   // ───────────────────────────────────────────────────────────────
 
-  private handleIntentNavigation(primary: string): void {
+  private handleIntentNavigation(primary: string, userMessage: string = ''): void {
     const intent = primary.toLowerCase().trim();
+    const msg    = userMessage.toLowerCase();
 
-    // Map intent to route
-    const intentRoutes: { [key: string]: string } = {
-      employees: 'app/hr/employees',
-      employee: 'app/hr/employees',
-      payroll: 'app/hr/payroll',
-      salary: 'app/hr/payroll',
-      absences: 'app/hr/leave-management',
-      absence: 'app/hr/leave-management',
-      leave: '/app/hr/leave-management',
-      expenses: '/app/hr/expense-management',
-      expense: '/app/hr/expense-management',
-      reports: '/app/hr/reports',
-      report: '/app/hr/reports',
-      appraisals: '/app/hr/appraisals',
-      appraisal: '/app/hr/appraisals',
-      meetings: '/app/hr/calender',
-      meeting: '/app/hr/calender',
-      recruitment: '/app/hr/recruitment',
-      recruitments: '/app/hr/recruitment',
-      applications: '/app/hr/recruitment',
-      application: '/app/hr/recruitment',
-      announcements: '/app/hr/notice-board',
-      announcement: '/app/hr/notice-board',
-      notice: '/app/hr/notice-board',
+    // ── HR Settings sub-routing ──────────────────────────────────────────────
+    // When the intent is hr_settings, check the message for more specific context
+    // so we land on the right settings page instead of the generic one.
+    if (intent === 'hr_settings' || intent === 'settings') {
+      const settingsRoute = this.resolveSettingsRoute(msg);
+      console.log(`Navigating to ${settingsRoute} based on intent: ${primary}`);
+      this.router.navigate([settingsRoute]);
+      return;
+    }
 
+    // ── Primary intent → route map ───────────────────────────────────────────
+    const intentRoutes: Record<string, string> = {
+      // ── People & Work ──────────────────────────────────────────────────────
+      employees:          'app/hr/employees',
+      employee:           'app/hr/employees',
+
+      // ── Payroll ────────────────────────────────────────────────────────────
+      payroll:            'app/hr/payroll',
+      salary:             'app/hr/payroll',
+
+      // ── Leave / Absence ────────────────────────────────────────────────────
+      absence:            'app/hr/leave-management',
+      absences:           'app/hr/leave-management',
+      leave:              'app/hr/leave-management',
+
+      // ── Expenses ───────────────────────────────────────────────────────────
+      expense:            'app/hr/expense-management',
+      expenses:           'app/hr/expense-management',
+
+      // ── Performance ────────────────────────────────────────────────────────
+      appraisal:          'app/hr/appraisals',
+      appraisals:         'app/hr/appraisals',
+      appraisal_period:   'app/hr/appraisals',
+      kpi:                'app/hr/appraisals',
+
+      // ── Calendar & Meetings ─────────────────────────────────────────────────
+      meetings:           'app/hr/calender',
+      meeting:            'app/hr/calender',
+      calendar:           'app/hr/calender',
+
+      // ── Reports ────────────────────────────────────────────────────────────
+      reports:            'app/hr/reports',
+      report:             'app/hr/reports',
+
+      // ── Recruitment ────────────────────────────────────────────────────────
+      recruitment:        'app/hr/recruitment',
+      recruitments:       'app/hr/recruitment',
+      application:        'app/hr/recruitment',
+      applications:       'app/hr/recruitment',
+
+      // ── Notice board ───────────────────────────────────────────────────────
+      announcement:       'app/hr/notice-board',
+      announcements:      'app/hr/notice-board',
+      notice:             'app/hr/notice-board',
+
+      // ── Attendance ─────────────────────────────────────────────────────────
+      attendance:         'app/hr/attendance',
+
+      // ── Visitors ───────────────────────────────────────────────────────────
+      visitors:           'app/hr/visitor-management',
+      visitor:            'app/hr/visitor-management',
+
+      // ── Learning ───────────────────────────────────────────────────────────
+      learning:           'app/hr/learning',
+
+      // ── HR Settings (generic fallback — specific sub-pages handled above) ──
+      hr_settings:        'app/settings/hr-settings',
+      setup:              'app/settings/hr-settings',
+
+      // ── Roles & Permissions ─────────────────────────────────────────────────
+      roles:              'app/settings/general-settings/roles-permissions',
+      permissions:        'app/settings/general-settings/roles-permissions',
+      modules:            'app/settings/general-settings/roles-permissions',
+
+      // ── Subscription ───────────────────────────────────────────────────────
+      subscription:       'app/settings/general-settings/subscription/history',
+      subscriptions:      'app/settings/general-settings/subscription/history',
+      plan:               'app/settings/general-settings/subscription/history',
+      plans:              'app/settings/general-settings/subscription/history',
+      invoice:            'app/settings/general-settings/subscription/history',
+      invoices:           'app/settings/general-settings/subscription/history',
+
+      // ── Billing ────────────────────────────────────────────────────────────
+      billing:            'app/settings/general-settings/billing',
     };
 
     const route = intentRoutes[intent];
@@ -313,6 +340,50 @@ export class ZeraCopilotComponent implements OnInit, AfterViewChecked, OnDestroy
       console.log(`Navigating to ${route} based on intent: ${primary}`);
       this.router.navigate([route]);
     }
+  }
+
+  /**
+   * Resolves the correct settings sub-page from the user's message text.
+   *
+   * Priority order (most specific first):
+   *   1. Roles / Permissions / Modules
+   *   2. Subscription / Plans / Invoices
+   *   3. Billing / Payment methods
+   *   4. HR Settings sub-sections (leave types, expense types, designations, etc.)
+   *   5. Generic HR Settings fallback
+   */
+  private resolveSettingsRoute(msg: string): string {
+    // ── Roles, Permissions, Modules ─────────────────────────────────────────
+    if (
+      /\b(role|roles|permission|permissions|module|modules|access\s+control|access\s+level)\b/i.test(msg)
+    ) {
+      return 'app/settings/general-settings/roles-permissions';
+    }
+
+    // ── Subscription, Plans, Invoices ────────────────────────────────────────
+    if (
+      /\b(subscription|subscriptions|plan|plans|invoice|invoices|upgrade|downgrade|pricing)\b/i.test(msg)
+    ) {
+      return 'app/settings/general-settings/subscription/history';
+    }
+
+    // ── Billing ───────────────────────────────────────────────────────────────
+    if (
+      /\b(billing|bill|payment\s+method|card|bank\s+details|billing\s+history)\b/i.test(msg)
+    ) {
+      return 'app/settings/general-settings/billing';
+    }
+
+    // ── HR Settings sub-sections ──────────────────────────────────────────────
+    // All of these live under app/settings/hr-settings
+    if (
+      /\b(leave\s+type|expense\s+type|department|designation|branch|holiday|salary\s+scale|payroll\s+(credit|debit)|account\s+set.?up|hr\s+set.?up|configure\s+hr|initial\s+setup|set\s+up\s+account)\b/i.test(msg)
+    ) {
+      return 'app/settings/hr-settings';
+    }
+
+    // ── Generic settings fallback ─────────────────────────────────────────────
+    return 'app/settings/hr-settings';
   }
 
   // ───────────────────────────────────────────────────────────────
@@ -327,8 +398,7 @@ export class ZeraCopilotComponent implements OnInit, AfterViewChecked, OnDestroy
         next: (response) => {
           this.suggestions = response.suggestions.slice(0, 4);
         },
-        error: (err) => {
-          console.warn('Failed to load copilot suggestions:', err);
+        error: () => {
           this.suggestions = [
             'How many employees do we have?',
             'Show all pending leave requests',
@@ -348,26 +418,19 @@ export class ZeraCopilotComponent implements OnInit, AfterViewChecked, OnDestroy
     result?: { ok: boolean; message: string; count?: number }
   ): void {
     if (result?.ok) {
-      console.log(
-        `✓ Mutation success: ${mutation.action} ${mutation.entity}`,
-        result
-      );
+      console.log(`✓ Mutation success: ${mutation.action} ${mutation.entity}`, result);
     }
   }
 
   // ───────────────────────────────────────────────────────────────
-  // Scroll to bottom (only when needed)
+  // Scroll to bottom
   // ───────────────────────────────────────────────────────────────
 
   private scrollToBottom(): void {
     try {
       const container = this.messagesContainer?.nativeElement;
-      if (container) {
-        container.scrollTop = container.scrollHeight;
-      }
-    } catch (err) {
-      // ignore
-    }
+      if (container) container.scrollTop = container.scrollHeight;
+    } catch (_) {}
   }
 
   // ───────────────────────────────────────────────────────────────
