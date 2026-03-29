@@ -32,6 +32,7 @@ import { ToastrModule } from 'ngx-toastr';
 import 'highlight.js';
 import 'quill/modules/syntax';
 import { QuillModule } from 'ngx-quill';
+import { ZeraCopilotModule } from './shared/components/zera-copilot/zera-copilot.module';
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import { QuillModule } from 'ngx-quill';
     // Angular modules
     BrowserAnimationsModule,
     BrowserModule,
+    ZeraCopilotModule, 
 
     // External modules
     TranslateModule.forRoot({

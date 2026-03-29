@@ -1,0 +1,524 @@
+// Zera Copilot Styles
+
+// ─────────────────────────────────────────────────────────────
+// Floating Action Button (FAB)
+// ─────────────────────────────────────────────────────────────
+
+.zera-fab {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--primary, rgb(65, 202, 200));
+    color: white;
+    border: none;
+    box-shadow: 0 4px 12px rgba(65, 202, 200, 0.3);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    transition: all var(--transition-norm, 0.3s ease);
+    z-index: 999;
+  
+    &:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(65, 202, 200, 0.4);
+    }
+  
+    &:active {
+      transform: scale(0.95);
+    }
+  
+    &.open {
+      background: rgb(65, 202, 200);
+      box-shadow: 0 4px 12px rgba(30, 35, 85, 0.3);
+    }
+  
+    .fab-icon {
+      display: block;
+      line-height: 1;
+      width: 28px;
+      height: 28px;
+    }
+  }
+  
+  // ─────────────────────────────────────────────────────────────
+  // Drawer / Modal
+  // ─────────────────────────────────────────────────────────────
+  
+  .zera-drawer {
+    position: fixed;
+    bottom: 120px;
+    right: 2rem;
+    width: 420px;
+    max-width: 90vw;
+    height: 600px;
+    max-height: 80vh;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    z-index: 998;
+  
+    &.open {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+  
+    @media (max-width: 600px) {
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
+      bottom: 0;
+      right: 0;
+      border-radius: 16px 16px 0 0;
+    }
+  }
+  
+  // ─────────────────────────────────────────────────────────────
+  // Header
+  // ─────────────────────────────────────────────────────────────
+  
+  .zera-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem;
+    border-bottom: 1px solid var(--border-2, #e0e6eb);
+    background: linear-gradient(135deg, var(--primary, rgb(65, 202, 200)) 0%);
+    border-radius: 16px 16px 0 0;
+  }
+  
+  .zera-title {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .zera-brand {
+    font-size: 1.125rem;
+    font-weight: bold;
+    color: white;
+    font-family: var(--font-bold, 'PB');
+    letter-spacing: 0.5px;
+  }
+  
+  .zera-tagline {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-family: var(--font-regular, 'PR');
+    text-transform: capitalize;
+    letter-spacing: 0.3px;
+  }
+  
+  .zera-close {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    border-radius: 8px;
+  
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  
+    &:hover {
+      transform: scale(1.1);
+      background: rgba(255, 255, 255, 0.3);
+    }
+  
+    &:active {
+      transform: scale(0.9);
+    }
+  }
+  
+  // ─────────────────────────────────────────────────────────────
+  // Messages Container
+  // ─────────────────────────────────────────────────────────────
+  
+  .zera-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background: var(--bkg-2, #f9fafe);
+  
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+  
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+  
+    &::-webkit-scrollbar-thumb {
+      background: var(--primary, rgb(65, 202, 200));
+      border-radius: 3px;
+  
+      &:hover {
+        background: var(--primary-dark, rgb(35, 150, 150));
+      }
+    }
+  }
+  
+  // ─────────────────────────────────────────────────────────────
+  // Welcome / Initial State
+  // ─────────────────────────────────────────────────────────────
+  
+  .zera-welcome {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 0.5rem;
+  }
+  
+  .zera-welcome-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .zera-welcome-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--dark-2, #252525);
+    font-family: var(--font-bold, 'PB');
+    line-height: 1.4;
+    margin: 0;
+  }
+  
+  .zera-welcome-subtitle {
+    font-size: 0.8rem;
+    color: var(--text-dark-4, #8b8b8b);
+    font-family: var(--font-regular, 'PR');
+    margin: 0;
+  }
+  
+  // ─────────────────────────────────────────────────────────────
+  // Suggestion Chips
+  // ─────────────────────────────────────────────────────────────
+  
+  .zera-suggestions-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .zera-suggestion-chip {
+    padding: 0.875rem 1rem;
+    background: white;
+    border: 1px solid var(--primary, rgb(65, 202, 200));
+    border-radius: 12px;
+    color: var(--primary, rgb(65, 202, 200));
+    font-size: 0.875rem;
+    font-family: var(--font-regular, 'PR');
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+    line-height: 1.4;
+  
+    &:hover:not(:disabled) {
+      background: var(--primary, rgb(65, 202, 200));
+      color: white;
+      transform: translateX(4px);
+    }
+  
+    &:active:not(:disabled) {
+      transform: scale(0.98);
+    }
+  
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+  
+  // ─────────────────────────────────────────────────────────────
+  // Messages
+  // ─────────────────────────────────────────────────────────────
+  
+  .zera-message {
+    display: flex;
+    gap: 0.5rem;
+    animation: fadeIn 0.3s ease;
+  
+    &.user {
+      justify-content: flex-end;
+    }
+  
+    &.assistant {
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
+  
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  }
+  
+  .zera-message-content {
+    max-width: 85%;
+    padding: 0.875rem 1.125rem;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    font-family: var(--font-regular, 'PR');
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    word-break: break-word;
+  
+    .user & {
+      background: var(--primary, rgb(65, 202, 200));
+      color: white;
+      border-radius: 12px 4px 12px 12px;
+    }
+  
+    .assistant & {
+      background: rgba(65, 202, 200, 0.08);
+      color: var(--dark-2, #252525);
+      border: 1px solid rgba(65, 202, 200, 0.15);
+      border-radius: 4px 12px 12px 12px;
+      text-align: left;
+      display: inline-block;
+    }
+  }
+  
+  // ─────────────────────────────────────────────────────────────
+  // ✅ Typing / Loading Animation
+  // Three bouncing dots shown while AI is generating a response.
+  // Applied via .zera-typing on the .zera-message-content element.
+  // ─────────────────────────────────────────────────────────────
+  
+  @keyframes zeraBounce {
+    0%, 60%, 100% {
+      opacity: 0.35;
+      transform: translateY(0);
+    }
+    30% {
+      opacity: 1;
+      transform: translateY(-6px);
+    }
+  }
+  
+  .zera-typing {
+    // Override the default padding/background so only the dots show
+    display: flex !important;
+    align-items: center;
+    gap: 5px;
+    padding: 0.75rem 1rem !important;
+    min-width: 56px;
+  
+    // Each dot
+    span {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--primary, rgb(65, 202, 200));
+      animation: zeraBounce 1.2s ease-in-out infinite;
+  
+      &:nth-child(1) {
+        animation-delay: 0s;
+      }
+  
+      &:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+  
+      &:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+    }
+  }
+  
+  // ─────────────────────────────────────────────────────────────
+  // Download Link
+  // ─────────────────────────────────────────────────────────────
+  
+  .zera-download-row {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .zera-download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.875rem 1.625rem;
+    // ✅ Fixed: was background: "#000000" (invalid — CSS doesn't use quotes)
+    background: #12a366;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-family: var(--font-bold, 'PB');
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+  
+    .download-icon {
+      width: 18px;
+      height: 18px;
+    }
+  
+    &:hover {
+      background: #0e8355;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(18, 163, 102, 0.3);
+    }
+  
+    &:active {
+      transform: translateY(0);
+    }
+  }
+  
+  // ─────────────────────────────────────────────────────────────
+  // Input Area
+  // ─────────────────────────────────────────────────────────────
+  
+  .zera-input-row {
+    display: flex;
+    gap: 0.75rem;
+    padding: 1.25rem;
+    border-top: 1px solid var(--border-2, #e0e6eb);
+    background: white;
+    border-radius: 0 0 16px 16px;
+  }
+  
+  .zera-input {
+    flex: 1;
+    padding: 0.875rem 1.125rem;
+    border: 1px solid var(--border-2, #e0e6eb);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-family: var(--font-regular, 'PR');
+    color: var(--dark-2, #252525);
+    transition: border-color 0.3s ease;
+  
+    &:focus {
+      outline: none;
+      border-color: var(--primary, rgb(65, 202, 200));
+      box-shadow: 0 0 0 2px rgba(65, 202, 200, 0.15);
+    }
+  
+    &::placeholder {
+      color: var(--text-dark-4, #8b8b8b);
+    }
+  
+    &:disabled {
+      background: var(--bkg-4, #f1f5f9);
+      cursor: not-allowed;
+    }
+  }
+  
+  .zera-send-btn {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    background: var(--primary, rgb(65, 202, 200));
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+  
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  
+    &:hover:not(:disabled) {
+      background: var(--primary-dark, rgb(35, 150, 150));
+      transform: scale(1.05);
+    }
+  
+    &:active:not(:disabled) {
+      transform: scale(0.95);
+    }
+  
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+  
+  // ─────────────────────────────────────────────────────────────
+  // Responsive
+  // ─────────────────────────────────────────────────────────────
+  
+  @media (max-width: 768px) {
+    .zera-fab {
+      bottom: 1.5rem;
+      right: 1.5rem;
+      width: 56px;
+      height: 56px;
+      font-size: 20px;
+    }
+  
+    .zera-drawer {
+      bottom: 100px;
+    }
+  
+    .zera-message-content {
+      max-width: 90%;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .zera-fab {
+      bottom: 1rem;
+      right: 1rem;
+    }
+  
+    .zera-drawer {
+      bottom: 80px;
+      right: 1rem;
+      width: calc(100% - 2rem);
+    }
+  
+    .zera-message-content {
+      font-size: 0.85rem;
+      max-width: 100%;
+    }
+  
+    .zera-input-row {
+      gap: 0.5rem;
+      padding: 1rem;
+    }
+  
+    .zera-messages {
+      padding: 1rem;
+    }
+  }

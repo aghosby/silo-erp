@@ -7,3 +7,9 @@
 </div>
 
 <app-toast aria-live="polite" aria-atomic="true"></app-toast>
+
+<!-- Add Zera Copilot FAB and drawer -->
+<app-zera-copilot 
+  [companyId]="companyId$ | async"
+  [userId]="userId$ | async">
+</app-zera-copilot>
