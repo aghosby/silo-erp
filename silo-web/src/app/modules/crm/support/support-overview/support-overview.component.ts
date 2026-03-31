@@ -16,6 +16,7 @@ import { TicketInfoComponent } from '../ticket-info/ticket-info.component';
 export class SupportOverviewComponent implements OnInit {
   agentsList:any[] = [];
   industriesList:any[] = [];
+  ticketStatuses: any[] = [];
   selectedRows:any[] = [];
   tableData!: any[];
   isLoading = false;
@@ -149,8 +150,10 @@ export class SupportOverviewComponent implements OnInit {
     this.search$.next('');
 
     forkJoin({
+      statuses: this.crmService.getTicketStatuses(),
       agents: this.crmService.getAgents(),
-    }).subscribe(({ agents }) => {
+    }).subscribe(({ statuses, agents }) => {
+      this.ticketStatuses = statuses.data;
       this.agentsList = agents.data;
       this.buildFilters();
     });
@@ -206,15 +209,16 @@ export class SupportOverviewComponent implements OnInit {
         key: 'status', 
         label: 'Ticket Status', 
         type: 'select', 
-        options: {
-          New: 'New',
-          Triaged: 'Triaged',
-          Assigned: 'Assigned',
-          Investigating: 'Investigating',
-          Progress: 'In progress',
-          Waiting: 'Awaiting Customer Response',
-          Resolved: 'Resolved'
-        }, 
+        options: this.utils.arrayToObject(this.ticketStatuses, 'name'), 
+        // options: {
+        //   New: 'New',
+        //   Triaged: 'Triaged',
+        //   Assigned: 'Assigned',
+        //   Investigating: 'Investigating',
+        //   Progress: 'In progress',
+        //   Waiting: 'Awaiting Customer Response',
+        //   Resolved: 'Resolved'
+        // }, 
         includeIfEmpty: false 
       }
     ];
@@ -301,7 +305,8 @@ export class SupportOverviewComponent implements OnInit {
       isExisting: modalData ? true : false,
       width: '40%',
       data: modalData,
-      agents: this.agentsList
+      agents: this.agentsList,
+      ticketStatuses: this.ticketStatuses
     }
     this.modalService.open(
       TicketInfoComponent, 
