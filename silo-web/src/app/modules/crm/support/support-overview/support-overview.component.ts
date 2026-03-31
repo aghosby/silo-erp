@@ -87,13 +87,12 @@ export class SupportOverviewComponent implements OnInit {
       sortable: true
     },
     {
-      key: "status",
+      key: "stage",
       label: "Status",
       order: 10,
       columnWidth: "10%",
       cellStyle: "width: 100%",
-      type: 'status',
-      statusMap: this.utils.statusMap ,
+      type: 'colorStatus',
       sortable: true
     },
     {
@@ -121,6 +120,15 @@ export class SupportOverviewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    forkJoin({
+      statuses: this.crmService.getTicketStatuses(),
+      agents: this.crmService.getAgents(),
+    }).subscribe(({ statuses, agents }) => {
+      this.ticketStatuses = statuses.data;
+      this.agentsList = agents.data;
+      this.buildFilters();
+    });
+
     // Reactive pipeline
     const tableData$ = combineLatest([
       this.search$.pipe(
@@ -142,6 +150,7 @@ export class SupportOverviewComponent implements OnInit {
     tableData$.subscribe(res => {
       //console.log('Employees', res)
       this.tableData = res.data;
+      this.tableData = this.ticketStatuses.length > 0 ? this.utils.mapThemeToData(this.tableData, this.ticketStatuses, 'stage') : this.tableData;
       this.paging.total = res.totalRecords;
       this.isLoading = false;
     });
@@ -149,14 +158,7 @@ export class SupportOverviewComponent implements OnInit {
     // Trigger initial load
     this.search$.next('');
 
-    forkJoin({
-      statuses: this.crmService.getTicketStatuses(),
-      agents: this.crmService.getAgents(),
-    }).subscribe(({ statuses, agents }) => {
-      this.ticketStatuses = statuses.data;
-      this.agentsList = agents.data;
-      this.buildFilters();
-    });
+    
   }
 
   ngOnDestroy() {

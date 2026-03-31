@@ -326,8 +326,7 @@ export class SalesPipelineComponent implements OnInit {
       order: 10,
       columnWidth: "10%",
       cellStyle: "width: 100%",
-      type: 'status',
-      statusMap: this.utils.statusMap,
+      type: 'colorStatus',
       sortable: true
     },
     {
@@ -379,7 +378,7 @@ export class SalesPipelineComponent implements OnInit {
       this.leadsList = leads.data;
       this.contactsList = contacts.data;
 
-      //console.log('Deal Statuses', this.stages)
+      console.log('Deal Statuses', this.stages)
       //this.buildFilters();
     });
 
@@ -403,7 +402,8 @@ export class SalesPipelineComponent implements OnInit {
       
     tableData$.subscribe(res => {
       this.tableData = res.data;
-      //console.log('Table Data', this.tableData);
+      this.tableData = this.utils.mapThemeToData(this.tableData, this.stages, 'stage');
+      console.log('Table Data', this.tableData);
       this.paging.total = res.totalRecords;
       this.kanbanItems = this.utils.transformKanbanItems(this.tableData, this.stages);
       console.log('Kanban', this.kanbanItems);

@@ -398,6 +398,25 @@ export class UtilityService {
     window.URL.revokeObjectURL(url);
   }
 
+  //Add Color Status Theme
+  mapThemeToData(
+    dataArray: any,
+    stages: any[],
+    targetProp: string,
+  ): any[] {
+    // Create a quick lookup map: stageKey -> themeKey
+    const themeMap: Record<string, any> = {};
+    stages.forEach(stage => {
+      themeMap[stage.name] = stage.theme;
+    });
+
+    // Return a new array with the new property added
+    return dataArray.map((item:any) => ({
+      ...item,
+      colorStatusTheme: themeMap[item[targetProp]] || 'default' // fallback if no match
+    }));
+  }
+
   //Generate Kanban board items
   transformKanbanItems(items: any[], stages: any[]) {
     return items.map((item, index) => {
