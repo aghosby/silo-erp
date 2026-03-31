@@ -398,4 +398,19 @@ export class UtilityService {
     window.URL.revokeObjectURL(url);
   }
 
+  //Generate Kanban board items
+  transformKanbanItems(items: any[], stages: any[]) {
+    return items.map((item, index) => {
+      // Find matching stage
+      const stage = stages.find(s => s.name === item.stage);
+
+      return {
+        id: item._id || String(index + 1),
+        stageId: stage ? String(stage._id) : '',
+        theme: stage ? stage.theme : 'blue',
+        data: item // ✅ keep original object unchanged
+      };
+    });
+  }
+
 }

@@ -15,10 +15,11 @@ import { LeadsInfoComponent } from '../leads-info/leads-info.component';
   styleUrl: './leads-overview.component.scss'
 })
 export class LeadsOverviewComponent implements OnInit {
+  leadsStats:any;
   agentsList:any[] = [];
   industriesList:any[] = [];
   selectedRows:any[] = [];
-  tableData!: any[];
+  currency!: string;
   isLoading = false;
 
   bulkActions = [
@@ -49,6 +50,7 @@ export class LeadsOverviewComponent implements OnInit {
     // },
   ]
 
+  tableData!: any[];
   tableFilters!: FilterConfig[];
   private search$ = new Subject<string>();
   private filters$ = new BehaviorSubject<any>({});
@@ -206,6 +208,8 @@ export class LeadsOverviewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.currency = this.utils.currency;
+
     // Reactive pipeline
     const tableData$ = combineLatest([
       this.search$.pipe(
@@ -235,9 +239,13 @@ export class LeadsOverviewComponent implements OnInit {
     this.search$.next('');
 
     forkJoin({
+      stats: this.crmService.getLeadStats(),
       agents: this.crmService.getAgents(),
-    }).subscribe(({ agents }) => {
+    }).subscribe(({ stats, agents }) => {
+      this.leadsStats = stats.data;
       this.agentsList = agents.data;
+
+      console.log('Stats', this.leadsStats)
       this.buildFilters();
     });
   }
