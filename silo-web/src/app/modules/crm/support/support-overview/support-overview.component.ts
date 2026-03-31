@@ -15,6 +15,7 @@ import { TicketInfoComponent } from '../ticket-info/ticket-info.component';
 })
 export class SupportOverviewComponent implements OnInit {
   agentsList:any[] = [];
+  contactsList:any[] = [];
   industriesList:any[] = [];
   ticketStatuses: any[] = [];
   selectedRows:any[] = [];
@@ -122,9 +123,11 @@ export class SupportOverviewComponent implements OnInit {
   ngOnInit(): void {
     forkJoin({
       statuses: this.crmService.getTicketStatuses(),
+      contacts: this.crmService.getContacts(),
       agents: this.crmService.getAgents(),
-    }).subscribe(({ statuses, agents }) => {
+    }).subscribe(({ statuses, contacts, agents }) => {
       this.ticketStatuses = statuses.data;
+      this.contactsList = contacts.data;
       this.agentsList = agents.data;
       this.buildFilters();
     });
@@ -308,6 +311,7 @@ export class SupportOverviewComponent implements OnInit {
       width: '40%',
       data: modalData,
       agents: this.agentsList,
+      contacts: this.contactsList,
       ticketStatuses: this.ticketStatuses
     }
     this.modalService.open(

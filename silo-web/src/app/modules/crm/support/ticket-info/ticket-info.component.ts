@@ -46,7 +46,7 @@ export class TicketInfoComponent implements OnInit {
         controlLabel: 'Contact',
         controlWidth: '48%',
         initialValue: this.data.isExisting ? this.data.data.contactId : null,
-        selectOptions: this.utils.arrayToObject(this.contactsList, 'firstName'),
+        selectOptions: this.utils.arrayToObject(this.data.contacts, 'name'),
         validators: [Validators.required],
         order: 2
       },
